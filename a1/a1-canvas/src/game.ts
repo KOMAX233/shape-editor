@@ -4,7 +4,8 @@ import { Card } from "./card";
 export class Game {
   constructor(
     public level: number,
-    public playMode: boolean,
+    public mode: string,
+    public randomized: boolean,
     public decks: Card[] = [  
       new Card(100, 100, 80, "Card5star", "white", "black", 2),
       new Card(200, 100, 80, "Card7star", "white", "black", 2),
@@ -67,22 +68,40 @@ export class Game {
     const leftX = (this.x - cardsWidth) / 2;
     const leftY = (this.y - cardsHeight) / 2;
     // console.log(rowNum, maxCardNumRow, cardsWidth, cardsHeight, leftX, leftY);
-    for (let i = 0; i < cardsNum; i++) {
-      const row = Math.floor(i / maxCardNumRow);
-      const col = i % maxCardNumRow;
-      this.cards[i].x = leftX + col * (spacing + cardSize);
-      this.cards[i].y = leftY + row * (spacing + cardSize);
-      this.cards[i].draw(gc);
+    if (this.mode === "start") {
+      for (let i = 0; i < cardsNum; i++) {
+        const row = Math.floor(i / maxCardNumRow);
+        const col = i % maxCardNumRow;
+        this.cards[i].x = leftX + col * (spacing + cardSize);
+        this.cards[i].y = leftY + row * (spacing + cardSize);
+      }
     }
-  }
-  enterPlayMode(gc: CanvasRenderingContext2D) {
+
     this.cards.forEach(card => {
-      // console.log(card);
-      card.drawing = "";
-      card.fill = "white";
-      this.drawLightBlueSquare(gc, card.x, card.y);
+      card.draw(gc);
+    });
+
+    if (this.mode === "play") {
+      this.cards.forEach(card => {
+        // this.drawLightBlueSquare(gc, card.x, card.y);
+      });
+    }
+
+  }
+
+  randomizeCards() {
+    this.randomized = true;
+    this.cards.forEach(card => {
+      let randnum = Math.floor(random(0, this.cards.length));
+      let tempX = this.cards[randnum].x;
+      let tempY = this.cards[randnum].y;
+      this.cards[randnum].x = card.x;
+      this.cards[randnum].y = card.y;
+      card.x = tempX;
+      card.y = tempY;
     });
   }
+
   drawLightBlueSquare(gc: CanvasRenderingContext2D, x: number, y: number) {
     gc.save()
     gc.fillStyle = "lightblue";
