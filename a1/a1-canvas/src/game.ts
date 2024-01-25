@@ -21,7 +21,9 @@ export class Game {
       new Card(400, 300, 80, "Bullseye4OrangeYellow", "white", "black", 2),
       new Card(500, 300, 80, "Bullseye3GreenYellow", "white", "black", 2)
     ],
-    public cards: Card[] = []
+    public cards: Card[] = [],
+    public x?: number,
+    public y?: number
   ) {}
   
   getNRandom(gc: CanvasRenderingContext2D) {
@@ -30,17 +32,45 @@ export class Game {
     for (let i = 0; i < this.level && i < 15; i++) {
       let randnum = Math.floor(random(0, tempdecks.length));
       let randcard = tempdecks[randnum];
-      randcard.x = gc.canvas.width / 2 - randcard.size - 10;
-      randcard.y = gc.canvas.height / 2;
       let index = tempdecks.indexOf(randcard);
       tempdecks.splice(index, 1);
       currCards.push(randcard);
       currCards.push(randcard);
     }
     this.cards = currCards;
-    console.log(this.cards);
+    // console.log(this.cards);
   }
+
   displayLevel(gc: CanvasRenderingContext2D) {
-    this.cards.forEach((card) => card.draw(gc));
+    const spacing = 10;
+    const cardSize = this.cards[0].size;
+    const cardsNum = this.cards.length;
+    const hborder = 50;
+    if (this.x == undefined || this.y == undefined) {
+      this.x = gc.canvas.width;
+      this.y = gc.canvas.height;
+    }
+    console.log(this.x, this.y);
+    const rowNum = Math.ceil(cardsNum / this.x);
+    const maxCardNumRow = Math.floor((this.x - hborder * 2) / (cardSize + spacing));
+    // only one row
+    let cardsWidth: number;
+    if (cardsNum < maxCardNumRow) {
+      cardsWidth =  cardsNum * cardSize + (cardsNum - 1) * spacing;
+    } else { // more than one row
+      cardsWidth = maxCardNumRow * cardSize + (maxCardNumRow - 1) * spacing;
+    }
+    const cardsHeight = rowNum * cardSize + (rowNum - 1) *cardSize;
+    const leftX = (this.x - cardsWidth) / 2;
+    const leftY = (this.y - cardsHeight) / 2;
+    // console.log(rowNum, maxCardNumRow, cardsWidth, cardsHeight, leftX, leftY);
+    for (let i = 0; i < cardsNum; i++) {
+      const row = Math.floor(i / maxCardNumRow);
+      const col = i % maxCardNumRow;
+      this.cards[i].x = leftX + col * (spacing + cardSize);
+      this.cards[i].y = leftY + row * (spacing + cardSize);
+      this.cards[i].draw(gc);
+      // console.log(this.cards[i]);
+    }
   }
 }

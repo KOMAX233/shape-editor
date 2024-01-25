@@ -2,6 +2,7 @@ import {
   SKEvent,
   SKKeyboardEvent,
   SKMouseEvent,
+  SKResizeEvent,
   setSKDrawCallback,
   setSKEventListener,
   startSimpleKit,
@@ -39,6 +40,14 @@ function handleEvent(e: SKEvent) {
         game.cards = [];
       }
         console.log(key);
+      break;
+    case "resize":
+      const re = e as SKResizeEvent;
+      // update local canvas size state
+      // (SimpleKit always sends resize event before first draw)
+      game.x = re.width;
+      game.y = re.height;
+      // resize game.cards
       break;
   }
 }
