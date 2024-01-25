@@ -91,6 +91,8 @@ export class Card {
         bullseye = new Bullseye(this.x, this.y, 30, 3, "black", ["green", "yellow"]);
         bullseye.draw(gc);
         break;
+      default:
+        break;
     }
   }
 

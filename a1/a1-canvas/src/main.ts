@@ -33,6 +33,7 @@ function handleEvent(e: SKEvent) {
     case "keypress":
       const { key } = e as SKKeyboardEvent;
       if (key === " ") {
+        game.playMode = true;
       } else if (key === "+") {
         if (game.level < 15) game.level++;
       } else if (key === "-") {
@@ -56,13 +57,19 @@ setSKEventListener(handleEvent);// set the draw callback (using function express
 setSKDrawCallback((gc: CanvasRenderingContext2D) => {
   gc.fillStyle = "darkgrey";
   gc.fillRect(0, 0, gc.canvas.width, gc.canvas.height);
-  gc.fillStyle = "white";
-  gc.font = "24px sans-serif";
-  gc.textAlign = "center";
-  gc.fillText(`${game.level} pair${(game.level > 1)? "s": ""}: Press SPACE to play`, gc.canvas.width / 2, 50);
+  if (!game.playMode) {
+    gc.fillStyle = "white";
+    gc.font = "24px sans-serif";
+    gc.textAlign = "center";
+    gc.fillText(`${game.level} pair${(game.level > 1)? "s": ""}: Press SPACE to play`, gc.canvas.width / 2, 50);
+  }
 
   if (game.cards.length < game.level*2) game.getNRandom(gc);
   game.displayLevel(gc);
+  if (game.playMode) {
+    game.enterPlayMode(gc);
+    // game.playMode = false;
+  }
 });
 
 // start SimpleKit
