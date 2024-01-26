@@ -35,13 +35,20 @@ function handleEvent(e: SKEvent) {
     case "click":
       game.cards.forEach((c) => {
         if (c.hit) {
-          // face up
-          if (!c.selected) {
-            c.selected = true;
-          } else {
-            c.selected = false;
+          if (!c.matched) {
+            // face up
+            if (!c.selected) {
+              if (game.selectedCards.length < 2) {
+                c.selected = true;
+                game.selectedCards.push(c);
+              }
+            } else {
+              c.selected = false;
+              let index = game.selectedCards.indexOf(c);
+              game.selectedCards.splice(index, 1);
+            }            
           }
-          
+          console.log(game.selectedCards);
         }
       });
       break;
@@ -55,11 +62,22 @@ function handleEvent(e: SKEvent) {
       const { key } = e as SKKeyboardEvent;
       if (key === " ") {
         game.mode = "play";
-      } else if (key === "+") {
+      } else if (key === "+" && game.mode === "start") {
         if (game.level < 15) game.level++;
-      } else if (key === "-") {
+        game.selectedCards = [];
+        game.randomized = false;
+        game.cards.forEach((c) => {
+          c.selected = false;
+          c.matched = false;
+        });
+      } else if (key === "-" && game.mode === "start") {
         if (game.level > 1) game.level--;
         game.cards = [];
+        game.randomized = false;
+        game.cards.forEach((c) => {
+          c.selected = false;
+          c.matched = false;
+        });
       } else if (key === "q") {
         game.mode = "start";
       }
@@ -88,6 +106,7 @@ setSKDrawCallback((gc: CanvasRenderingContext2D) => {
     game.cards.forEach((c) => {
       c.selected = false;
     });
+    game.displayLevel(gc);
   } else if (game.mode === "play") {
     if (!game.randomized) game.randomizeCards();
     console.log(game.randomized);
@@ -97,8 +116,9 @@ setSKDrawCallback((gc: CanvasRenderingContext2D) => {
         c.hitOutline(gc);
       }
     });
+    if (game.checkMatch()) game.selectedCards = [];
+    game.displayLevel(gc);
   }
-  game.displayLevel(gc);
 });
 
 // start SimpleKit

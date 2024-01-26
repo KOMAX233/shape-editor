@@ -24,6 +24,8 @@ export class Game {
       new Card(500, 300, 80, "Bullseye3GreenYellow", false, false, false, "white", "black", 2)
     ],
     public cards: Card[] = [],
+    public selectedCards: Card[] = [],
+    public win: boolean = false,
     public x?: number,
     public y?: number
   ) {}
@@ -45,7 +47,10 @@ export class Game {
 
   displayLevel(gc: CanvasRenderingContext2D) {
     const spacing = 10;
-    const cardSize = this.cards[0].size;
+    let cardSize = 0;
+    if (this.cards.length > 0) {
+      cardSize = this.cards[0].size;
+    }
     const cardsNum = this.cards.length;
     const hborder = 50;
     if (this.x == undefined || this.y == undefined) {
@@ -83,6 +88,9 @@ export class Game {
     if (this.mode === "play") {
       this.cards.forEach(card => {
         if (!card.selected) this.drawLightBlueSquare(gc, card.x, card.y);
+        if (card.matched) {
+          card.drawLighterRect(gc);
+        }
       });
     }
 
@@ -106,5 +114,18 @@ export class Game {
     gc.rect(x - squareSize / 2, y - squareSize / 2, squareSize, squareSize);
     gc.fill();
     gc.restore();
+  }
+
+  checkMatch() {
+    let ret = false;
+    // set to matched
+    if (this.selectedCards.length == 2) {
+      if (this.selectedCards[0].drawing == this.selectedCards[1].drawing) {
+        this.selectedCards[0].matched = true;
+        this.selectedCards[1].matched = true;
+        ret = true;
+      }
+    }
+    return ret;
   }
 }
