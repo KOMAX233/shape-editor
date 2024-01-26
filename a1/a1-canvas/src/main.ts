@@ -11,6 +11,9 @@ import {
 import { Game } from "./game";
 import { Card } from "./card";
 
+// to-do: fix text and message center resize step 22
+// to-do: fix randomize card drawing duplicate (fixed, shuffle)
+// to-do: fix game and card property reset or keep after mode change
 const game = new Game(1, "start", false);
 
 // mouse position
@@ -61,11 +64,25 @@ function handleEvent(e: SKEvent) {
     case "keypress":
       const { key } = e as SKKeyboardEvent;
       if (key === " ") {
-        game.mode = "play";
+        if (game.win && game.level < 15) {
+          game.mode = "start";
+          game.level++;
+          game.cards = [];
+          game.randomized = false;
+          game.win = false;
+        } else {
+          game.mode = "play";
+        }
+        game.selectedCards = [];
+        game.cards.forEach((c) => {
+          c.selected = false;
+          c.matched = false;
+        });
       } else if (key === "+" && game.mode === "start") {
         if (game.level < 15) game.level++;
-        game.selectedCards = [];
         game.randomized = false;
+        game.selectedCards = [];
+        game.win = false;
         game.cards.forEach((c) => {
           c.selected = false;
           c.matched = false;
@@ -74,6 +91,8 @@ function handleEvent(e: SKEvent) {
         if (game.level > 1) game.level--;
         game.cards = [];
         game.randomized = false;
+        game.selectedCards = [];
+        game.win = false;
         game.cards.forEach((c) => {
           c.selected = false;
           c.matched = false;
@@ -97,19 +116,20 @@ setSKEventListener(handleEvent);// set the draw callback (using function express
 setSKDrawCallback((gc: CanvasRenderingContext2D) => {
   gc.fillStyle = "darkgrey";
   gc.fillRect(0, 0, gc.canvas.width, gc.canvas.height);
+  if (game.win) game.mode = "win";
+  gc.fillStyle = "white";
+  gc.font = "24px sans-serif";
+  gc.textAlign = "center";
   if (game.mode === "start") {
-    gc.fillStyle = "white";
-    gc.font = "24px sans-serif";
-    gc.textAlign = "center";
-    gc.fillText(`${game.level} pair${(game.level > 1)? "s": ""}: Press SPACE to play`, gc.canvas.width / 2, 50);
     if (game.cards.length < game.level*2) game.getNRandom();
     game.cards.forEach((c) => {
       c.selected = false;
+      c.matched = false;
     });
     game.displayLevel(gc);
   } else if (game.mode === "play") {
+    game.win = false;
     if (!game.randomized) game.randomizeCards();
-    console.log(game.randomized);
     game.cards.forEach((c) => {
       if (c.hit && !c.matched) {
         // yellow outline 
@@ -117,6 +137,9 @@ setSKDrawCallback((gc: CanvasRenderingContext2D) => {
       }
     });
     if (game.checkMatch()) game.selectedCards = [];
+    game.displayLevel(gc);
+    // check win condition: all cards matched
+  } else if (game.mode === "win") {
     game.displayLevel(gc);
   }
 });

@@ -36,9 +36,10 @@ export class Game {
     for (let i = 0; i < this.level && i < 15; i++) {
       let randnum = Math.floor(random(0, tempdecks.length));
       let randcard = tempdecks[randnum];
-      let clonecard = new Card(randcard.x, randcard.y, randcard.size, randcard.drawing, randcard.hit, randcard.selected, randcard.matched, randcard.fill, randcard.stroke, randcard.lineWidth);
-      let index = tempdecks.indexOf(randcard);
-      tempdecks.splice(index, 1);
+      let clonecard = new Card(randcard.x, randcard.y, randcard.size, 
+        randcard.drawing, randcard.hit, randcard.selected, randcard.matched, 
+        randcard.fill, randcard.stroke, randcard.lineWidth);
+      tempdecks.splice(randnum, 1);
       currCards.push(randcard);
       currCards.push(clonecard);
     }
@@ -78,7 +79,9 @@ export class Game {
         const col = i % maxCardNumRow;
         this.cards[i].x = leftX + col * (spacing + cardSize);
         this.cards[i].y = leftY + row * (spacing + cardSize);
-      }
+      }    
+      // to-do: step 9: message center in the window and top of top of cards
+      gc.fillText(`${this.level} pair${(this.level > 1)? "s": ""}: Press SPACE to play`, gc.canvas.width / 2, (gc.canvas.height - (this.cards[0].y + this.cards[0].size / 2)) / 2 - 12);
     }
 
     this.cards.forEach(card => {
@@ -86,26 +89,32 @@ export class Game {
     });
 
     if (this.mode === "play") {
-      this.cards.forEach(card => {
+      this.cards.forEach((card) => {
         if (!card.selected) this.drawLightBlueSquare(gc, card.x, card.y);
         if (card.matched) {
           card.drawLighterRect(gc);
         }
+        
       });
+      // check if all cards matched
+      for (const card of this.cards) {
+        if (!card.matched) {
+          this.win = false;
+          break;
+        }
+        this.win = true
+      }
+    } else if (this.mode === "win") {
+      gc.fillText("you finished! press SPACE to continue", gc.canvas.width / 2, (gc.canvas.height - this.cards[0].y) / 2 - 12);  
     }
-
   }
 
   randomizeCards() {
     this.randomized = true;
-    this.cards.forEach(c => {
-      let randnum = Math.floor(random(0, this.cards.length));
-      let tempdrawing = this.cards[randnum].drawing;
-      this.cards[randnum].drawing = c.drawing;
-      c.drawing = tempdrawing;
-    });
+    // fisher-yates shuffle
+    // rand: neg ab, pos ba, 0 no change
+    this.cards.sort(() => random(0, 1) - 0.5);
   }
-
   drawLightBlueSquare(gc: CanvasRenderingContext2D, x: number, y: number) {
     gc.save()
     gc.fillStyle = "lightblue";
