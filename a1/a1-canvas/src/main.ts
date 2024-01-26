@@ -34,9 +34,14 @@ function handleEvent(e: SKEvent) {
       break;
     case "click":
       game.cards.forEach((c) => {
-        if (c.hit && !c.selected) {
+        if (c.hit) {
           // face up
-          c.selected = true;
+          if (!c.selected) {
+            c.selected = true;
+          } else {
+            c.selected = false;
+          }
+          
         }
       });
       break;
