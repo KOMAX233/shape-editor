@@ -90,14 +90,11 @@ export class Game {
 
   randomizeCards() {
     this.randomized = true;
-    this.cards.forEach(card => {
+    this.cards.forEach(c => {
       let randnum = Math.floor(random(0, this.cards.length));
-      let tempX = this.cards[randnum].x;
-      let tempY = this.cards[randnum].y;
-      this.cards[randnum].x = card.x;
-      this.cards[randnum].y = card.y;
-      card.x = tempX;
-      card.y = tempY;
+      let tempdrawing = this.cards[randnum].drawing;
+      this.cards[randnum].drawing = c.drawing;
+      c.drawing = tempdrawing;
     });
   }
 

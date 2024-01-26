@@ -60,6 +60,8 @@ function handleEvent(e: SKEvent) {
       } else if (key === "-") {
         if (game.level > 1) game.level--;
         game.cards = [];
+      } else if (key === "q") {
+        game.mode = "start";
       }
         console.log(key);
       break;
@@ -83,21 +85,20 @@ setSKDrawCallback((gc: CanvasRenderingContext2D) => {
     gc.textAlign = "center";
     gc.fillText(`${game.level} pair${(game.level > 1)? "s": ""}: Press SPACE to play`, gc.canvas.width / 2, 50);
     if (game.cards.length < game.level*2) game.getNRandom();
-    game.displayLevel(gc);
+    game.cards.forEach((c) => {
+      c.selected = false;
+    });
   } else if (game.mode === "play") {
     if (!game.randomized) game.randomizeCards();
-    game.displayLevel(gc);
+    console.log(game.randomized);
     game.cards.forEach((c) => {
       if (c.hit && !c.matched) {
         // yellow outline 
         c.hitOutline(gc);
       }
-      // if (c.selected) {
-      //   c.faceup(gc);
-      // }
     });
   }
-
+  game.displayLevel(gc);
 });
 
 // start SimpleKit
