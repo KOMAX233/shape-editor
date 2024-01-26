@@ -13,16 +13,32 @@ import { Card } from "./card";
 
 const game = new Game(1, "start", false);
 
+// mouse position
+let mx = 0;
+let my = 0;
+
 function handleEvent(e: SKEvent) {
   switch (e.type) {
     case "mousemove":
-      // const { x, y } = e as SKMouseEvent;
-      // star.x = x;
-      // star.y = y;
+      ({ x: mx, y: my } = e as SKMouseEvent);
+      if (game.mode === "play") {
+        game.cards.forEach((c) => {
+          if (c.hitTest(mx, my)) {
+            // yellow outline 
+            c.hit = true;
+          } else {
+            c.hit = false;
+          }
+        });
+      }
       break;
     case "click":
-      // const fill = `hsl(${Math.random() * 360} 100% 50%)`;
-      // star.fill = fill;
+      game.cards.forEach((c) => {
+        if (c.hit && !c.selected) {
+          // face up
+          c.selected = true;
+        }
+      });
       break;
     case "drag":
       // star.size += 2;
@@ -48,7 +64,6 @@ function handleEvent(e: SKEvent) {
       // (SimpleKit always sends resize event before first draw)
       game.x = re.width;
       game.y = re.height;
-      // resize game.cards
       break;
   }
 }
@@ -62,11 +77,20 @@ setSKDrawCallback((gc: CanvasRenderingContext2D) => {
     gc.font = "24px sans-serif";
     gc.textAlign = "center";
     gc.fillText(`${game.level} pair${(game.level > 1)? "s": ""}: Press SPACE to play`, gc.canvas.width / 2, 50);
-    if (game.cards.length < game.level*2) game.getNRandom(gc);
+    if (game.cards.length < game.level*2) game.getNRandom();
     game.displayLevel(gc);
   } else if (game.mode === "play") {
     if (!game.randomized) game.randomizeCards();
     game.displayLevel(gc);
+    game.cards.forEach((c) => {
+      if (c.hit && !c.matched) {
+        // yellow outline 
+        c.hitOutline(gc);
+      }
+      // if (c.selected) {
+      //   c.faceup(gc);
+      // }
+    });
   }
 
 });

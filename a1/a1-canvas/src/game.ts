@@ -7,41 +7,40 @@ export class Game {
     public mode: string,
     public randomized: boolean,
     public decks: Card[] = [  
-      new Card(100, 100, 80, "Card5star", "white", "black", 2),
-      new Card(200, 100, 80, "Card7star", "white", "black", 2),
-      new Card(300, 100, 80, "Card6star", "white", "black", 2),
-      new Card(400, 100, 80, "Card10star", "white", "black", 2),
-      new Card(500, 100, 80, "Card4star", "white", "black", 2),
-      new Card(100, 200, 80, "CatMidBrown", "white", "black", 2),
-      new Card(200, 200, 80, "CatLeftOrange", "white", "black", 2),
-      new Card(300, 200, 80, "CatRightBlue", "white", "black", 2),
-      new Card(400, 200, 80, "CatMidGreen", "white", "black", 2),
-      new Card(500, 200, 80, "CatMidGrey", "white", "black", 2),
-      new Card(100, 300, 80, "Bullseye3RedBlue", "white", "black", 2),
-      new Card(200, 300, 80, "Bullseye4Black", "white", "black", 2),
-      new Card(300, 300, 80, "Bullseye5BlueRed", "white", "black", 2),
-      new Card(400, 300, 80, "Bullseye4OrangeYellow", "white", "black", 2),
-      new Card(500, 300, 80, "Bullseye3GreenYellow", "white", "black", 2)
+      new Card(100, 100, 80, "Card5star", false, false, false, "white", "black", 2),
+      new Card(200, 100, 80, "Card7star", false, false, false, "white", "black", 2),
+      new Card(300, 100, 80, "Card6star", false, false, false, "white", "black", 2),
+      new Card(400, 100, 80, "Card10star", false, false, false, "white", "black", 2),
+      new Card(500, 100, 80, "Card4star", false, false, false, "white", "black", 2),
+      new Card(100, 200, 80, "CatMidBrown", false, false, false, "white", "black", 2),
+      new Card(200, 200, 80, "CatLeftOrange", false, false, false, "white", "black", 2),
+      new Card(300, 200, 80, "CatRightBlue", false, false, false, "white", "black", 2),
+      new Card(400, 200, 80, "CatMidGreen", false, false, false, "white", "black", 2),
+      new Card(500, 200, 80, "CatMidGrey", false, false, false, "white", "black", 2),
+      new Card(100, 300, 80, "Bullseye3RedBlue", false, false, false, "white", "black", 2),
+      new Card(200, 300, 80, "Bullseye4Black", false, false, false, "white", "black", 2),
+      new Card(300, 300, 80, "Bullseye5BlueRed", false, false, false, "white", "black", 2),
+      new Card(400, 300, 80, "Bullseye4OrangeYellow", false, false, false, "white", "black", 2),
+      new Card(500, 300, 80, "Bullseye3GreenYellow", false, false, false, "white", "black", 2)
     ],
     public cards: Card[] = [],
     public x?: number,
     public y?: number
   ) {}
   
-  getNRandom(gc: CanvasRenderingContext2D) {
+  getNRandom() {
     let currCards: Card[] = [];
     let tempdecks: Card[] = this.decks.slice();
     for (let i = 0; i < this.level && i < 15; i++) {
       let randnum = Math.floor(random(0, tempdecks.length));
       let randcard = tempdecks[randnum];
-      let clonecard = Object.create(randcard);
+      let clonecard = new Card(randcard.x, randcard.y, randcard.size, randcard.drawing, randcard.hit, randcard.selected, randcard.matched, randcard.fill, randcard.stroke, randcard.lineWidth);
       let index = tempdecks.indexOf(randcard);
       tempdecks.splice(index, 1);
       currCards.push(randcard);
       currCards.push(clonecard);
     }
     this.cards = currCards;
-    // console.log(this.cards);
   }
 
   displayLevel(gc: CanvasRenderingContext2D) {
@@ -83,7 +82,7 @@ export class Game {
 
     if (this.mode === "play") {
       this.cards.forEach(card => {
-        // this.drawLightBlueSquare(gc, card.x, card.y);
+        if (!card.selected) this.drawLightBlueSquare(gc, card.x, card.y);
       });
     }
 

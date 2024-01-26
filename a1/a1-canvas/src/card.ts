@@ -1,6 +1,7 @@
 import { Cat } from "./cat";
 import { Star } from "./star";
 import { Bullseye } from "./bullseye";
+import { insideHitTestRectangle } from "./hittest"
 
 export class Card {
   constructor(
@@ -8,10 +9,40 @@ export class Card {
     public y: number,
     public size: number,
     public drawing: string,
+    public hit: boolean,
+    public selected: boolean,
+    public matched: boolean,
     public fill?: string, // optional parameters
     public stroke?: string,
     public lineWidth?: number
   ) {}
+
+  hitTest(mx: number, my: number) {
+    let hit = false;
+    hit ||= insideHitTestRectangle(
+      mx,
+      my,
+      this.x - this.size / 2,
+      this.y - this.size / 2,
+      this.size,
+      this.size
+    );
+    // console.log(mx, this.x - this.size / 2, my, this.y - this.size / 2, this.size, this.size);
+    return hit;
+  }
+
+  hitOutline(gc: CanvasRenderingContext2D) {
+    gc.strokeStyle = "yellow";
+    gc.lineWidth = 2;
+    let spacing = 4;
+    gc.beginPath();
+    gc.moveTo(this.x - this.size / 2 - spacing, this.y - this.size / 2 - spacing);
+    gc.lineTo(this.x + this.size / 2 + spacing, this.y - this.size / 2 - spacing);
+    gc.lineTo(this.x + this.size / 2 + spacing, this.y + this.size / 2 + spacing);
+    gc.lineTo(this.x - this.size / 2 - spacing, this.y + this.size / 2 + spacing);
+    gc.closePath(); // try commenting out
+    gc.stroke();
+  }
 
   draw(gc: CanvasRenderingContext2D) {
     gc.beginPath();
