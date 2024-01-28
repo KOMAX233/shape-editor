@@ -10,6 +10,7 @@ import {
 
 import { Game } from "./game";
 import { Card } from "./card";
+import { dragTranslator } from "./translators.ts";
 
 // to-do: fix text and message center resize step 22
 // to-do: step 23, 24, 
@@ -56,12 +57,18 @@ function handleEvent(e: SKEvent) {
       });
       break;
     case "drag":
-      // star.size += 2;
       break;
     case "dblclick":
-      // star.size = 50;
       break;
     case "keypress":
+    case "resize":
+      const re = e as SKResizeEvent;
+      // update local canvas size state
+      // (SimpleKit always sends resize event before first draw)
+      game.x = re.width;
+      game.y = re.height;
+      break;
+    case "keydown":
       const { key } = e as SKKeyboardEvent;
       if (key === " ") {
         if (game.win && game.level < 15) {
@@ -100,23 +107,12 @@ function handleEvent(e: SKEvent) {
         if (game.mode === "play") {
           game.mode = "start";
         }
-      }
-      console.log(key);
-      break;
-    case "resize":
-      const re = e as SKResizeEvent;
-      // update local canvas size state
-      // (SimpleKit always sends resize event before first draw)
-      game.x = re.width;
-      game.y = re.height;
-      break;
-    case "keydown":
-      const { key: keydown } = e as SKKeyboardEvent;
-      if (keydown === "x") {
+      } else if (key === "x") {
         if (game.mode === "play") {
           game.cheat = true;
         }
       }
+      console.log(key);
       break;
     case "keyup":
       const { key: keyup } = e as SKKeyboardEvent;
@@ -126,6 +122,16 @@ function handleEvent(e: SKEvent) {
         }
       }
       break;
+    // case "gesture":
+    //   ({ x: mx, y: my } = e as SKMouseEvent);
+    //   if (game.mode === "play") {
+    //     game.cards.forEach((c) => {
+    //       if (c.hitTest(mx, my)) {
+    //         // face up
+    //       }
+    //     });
+    //   }
+    //   break;
   }
 }
 
