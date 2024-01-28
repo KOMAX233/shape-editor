@@ -12,8 +12,9 @@ import { Game } from "./game";
 import { Card } from "./card";
 
 // to-do: fix text and message center resize step 22
-// to-do: fix randomize card drawing duplicate (fixed, shuffle)
+// to-do: step 23, 24, 
 // to-do: fix game and card property reset or keep after mode change
+
 const game = new Game(1, "start", false);
 
 // mouse position
@@ -51,7 +52,6 @@ function handleEvent(e: SKEvent) {
               game.selectedCards.splice(index, 1);
             }            
           }
-          console.log(game.selectedCards);
         }
       });
       break;
@@ -67,7 +67,6 @@ function handleEvent(e: SKEvent) {
         if (game.win && game.level < 15) {
           game.mode = "start";
           game.level++;
-          game.cards = [];
           game.randomized = false;
           game.win = false;
         } else {
@@ -98,9 +97,11 @@ function handleEvent(e: SKEvent) {
           c.matched = false;
         });
       } else if (key === "q") {
-        game.mode = "start";
+        if (game.mode === "play") {
+          game.mode = "start";
+        }
       }
-        console.log(key);
+      console.log(key);
       break;
     case "resize":
       const re = e as SKResizeEvent;
@@ -108,6 +109,22 @@ function handleEvent(e: SKEvent) {
       // (SimpleKit always sends resize event before first draw)
       game.x = re.width;
       game.y = re.height;
+      break;
+    case "keydown":
+      const { key: keydown } = e as SKKeyboardEvent;
+      if (keydown === "x") {
+        if (game.mode === "play") {
+          game.cheat = true;
+        }
+      }
+      break;
+    case "keyup":
+      const { key: keyup } = e as SKKeyboardEvent;
+      if (keyup === "x") {
+        if (game.mode === "play") {
+          game.cheat = false;
+        }
+      }
       break;
   }
 }
@@ -121,7 +138,11 @@ setSKDrawCallback((gc: CanvasRenderingContext2D) => {
   gc.font = "24px sans-serif";
   gc.textAlign = "center";
   if (game.mode === "start") {
-    if (game.cards.length < game.level*2) game.getNRandom();
+    if (game.cards.length < game.level*2) {
+      game.getNRandom();
+      game.randomized = false;
+    }
+    game.cheat = false;
     game.cards.forEach((c) => {
       c.selected = false;
       c.matched = false;
@@ -129,7 +150,9 @@ setSKDrawCallback((gc: CanvasRenderingContext2D) => {
     game.displayLevel(gc);
   } else if (game.mode === "play") {
     game.win = false;
-    if (!game.randomized) game.randomizeCards();
+    if (!game.randomized) {
+      game.shuffle(game.cards);
+    }
     game.cards.forEach((c) => {
       if (c.hit && !c.matched) {
         // yellow outline 
