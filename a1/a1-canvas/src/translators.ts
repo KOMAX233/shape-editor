@@ -96,22 +96,22 @@ export const dragTranslator = {
           } as SKMouseEvent;
         } else if (fe.type == "mouseup") {
           this.state = "IDLE";
-          // if (fe.x && fe.y && distance(fe.x, fe.y, this.startX, this.startY) >
-          // this.movementThreshold) {
-          //   return {
-          //     type: "gesture",
-          //     timeStamp: fe.timeStamp,
-          //     x: fe.x,
-          //     y: fe.y,
-          //   } as SKMouseEvent;
-          // } else {
+          if (fe.x && fe.y && distance(fe.x, fe.y, this.startX, this.startY) >
+          this.movementThreshold) {
+            return {
+              type: "gesture",
+              timeStamp: fe.timeStamp,
+              x: fe.x,
+              y: fe.y,
+            } as SKMouseEvent;
+          } else {
             return {
               type: "dragend",
               timeStamp: fe.timeStamp,
               x: fe.x,
               y: fe.y,
             } as SKMouseEvent;
-          // }
+          }
         }
 
         break;

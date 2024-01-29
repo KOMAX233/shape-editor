@@ -7,21 +7,21 @@ export class Game {
     public mode: string,
     public randomized: boolean,
     public decks: Card[] = [
-      new Card(100, 100, 80, "Card5star", false, false, false, "white", "black", 2),
-      new Card(200, 100, 80, "Card7star", false, false, false, "white", "black", 2),
-      new Card(300, 100, 80, "Card6star", false, false, false, "white", "black", 2),
-      new Card(400, 100, 80, "Card10star", false, false, false, "white", "black", 2),
-      new Card(500, 100, 80, "Card4star", false, false, false, "white", "black", 2),
-      new Card(100, 200, 80, "CatMidBrown", false, false, false, "white", "black", 2),
-      new Card(200, 200, 80, "CatLeftOrange", false, false, false, "white", "black", 2),
-      new Card(300, 200, 80, "CatRightBlue", false, false, false, "white", "black", 2),
-      new Card(400, 200, 80, "CatMidGreen", false, false, false, "white", "black", 2),
-      new Card(500, 200, 80, "CatMidGrey", false, false, false, "white", "black", 2),
-      new Card(100, 300, 80, "Bullseye3RedBlue", false, false, false, "white", "black", 2),
-      new Card(200, 300, 80, "Bullseye4Black", false, false, false, "white", "black", 2),
-      new Card(300, 300, 80, "Bullseye5BlueRed", false, false, false, "white", "black", 2),
-      new Card(400, 300, 80, "Bullseye4OrangeYellow", false, false, false, "white", "black", 2),
-      new Card(500, 300, 80, "Bullseye3GreenYellow", false, false, false, "white", "black", 2)
+      new Card(100, 100, 80, "Card5star", false, false, false, false, "white", "black", 2),
+      new Card(200, 100, 80, "Card7star", false, false, false, false, "white", "black", 2),
+      new Card(300, 100, 80, "Card6star", false, false, false, false, "white", "black", 2),
+      new Card(400, 100, 80, "Card10star", false, false, false, false, "white", "black", 2),
+      new Card(500, 100, 80, "Card4star", false, false, false, false, "white", "black", 2),
+      new Card(100, 200, 80, "CatMidBrown", false, false, false, false, "white", "black", 2),
+      new Card(200, 200, 80, "CatLeftOrange", false, false, false, false, "white", "black", 2),
+      new Card(300, 200, 80, "CatRightBlue", false, false, false, false, "white", "black", 2),
+      new Card(400, 200, 80, "CatMidGreen", false, false, false, false, "white", "black", 2),
+      new Card(500, 200, 80, "CatMidGrey", false, false, false, false, "white", "black", 2),
+      new Card(100, 300, 80, "Bullseye3RedBlue", false, false, false, false, "white", "black", 2),
+      new Card(200, 300, 80, "Bullseye4Black", false, false, false, false, "white", "black", 2),
+      new Card(300, 300, 80, "Bullseye5BlueRed", false, false, false, false, "white", "black", 2),
+      new Card(400, 300, 80, "Bullseye4OrangeYellow", false, false, false, false, "white", "black", 2),
+      new Card(500, 300, 80, "Bullseye3GreenYellow", false, false, false, false, "white", "black", 2)
     ],
     public cards: Card[] = [],
     public selectedCards: Card[] = [],
@@ -36,28 +36,28 @@ export class Game {
     // make a new copy of decks with functions in Cards working
     // structuredClone(this.decks) not card.draw() working
     let tempdecks = [
-      new Card(100, 100, 80, "Card5star", false, false, false, "white", "black", 2),
-      new Card(200, 100, 80, "Card7star", false, false, false, "white", "black", 2),
-      new Card(300, 100, 80, "Card6star", false, false, false, "white", "black", 2),
-      new Card(400, 100, 80, "Card10star", false, false, false, "white", "black", 2),
-      new Card(500, 100, 80, "Card4star", false, false, false, "white", "black", 2),
-      new Card(100, 200, 80, "CatMidBrown", false, false, false, "white", "black", 2),
-      new Card(200, 200, 80, "CatLeftOrange", false, false, false, "white", "black", 2),
-      new Card(300, 200, 80, "CatRightBlue", false, false, false, "white", "black", 2),
-      new Card(400, 200, 80, "CatMidGreen", false, false, false, "white", "black", 2),
-      new Card(500, 200, 80, "CatMidGrey", false, false, false, "white", "black", 2),
-      new Card(100, 300, 80, "Bullseye3RedBlue", false, false, false, "white", "black", 2),
-      new Card(200, 300, 80, "Bullseye4Black", false, false, false, "white", "black", 2),
-      new Card(300, 300, 80, "Bullseye5BlueRed", false, false, false, "white", "black", 2),
-      new Card(400, 300, 80, "Bullseye4OrangeYellow", false, false, false, "white", "black", 2),
-      new Card(500, 300, 80, "Bullseye3GreenYellow", false, false, false, "white", "black", 2)
+      new Card(100, 100, 80, "Card5star", false, false, false, false, "white", "black", 2),
+      new Card(200, 100, 80, "Card7star", false, false, false, false, "white", "black", 2),
+      new Card(300, 100, 80, "Card6star", false, false, false, false, "white", "black", 2),
+      new Card(400, 100, 80, "Card10star", false, false, false, false, "white", "black", 2),
+      new Card(500, 100, 80, "Card4star", false, false, false, false, "white", "black", 2),
+      new Card(100, 200, 80, "CatMidBrown", false, false, false, false, "white", "black", 2),
+      new Card(200, 200, 80, "CatLeftOrange", false, false, false, false, "white", "black", 2),
+      new Card(300, 200, 80, "CatRightBlue", false, false, false, false, "white", "black", 2),
+      new Card(400, 200, 80, "CatMidGreen", false, false, false, false, "white", "black", 2),
+      new Card(500, 200, 80, "CatMidGrey", false, false, false, false, "white", "black", 2),
+      new Card(100, 300, 80, "Bullseye3RedBlue", false, false, false, false, "white", "black", 2),
+      new Card(200, 300, 80, "Bullseye4Black", false, false, false, false, "white", "black", 2),
+      new Card(300, 300, 80, "Bullseye5BlueRed", false, false, false, false, "white", "black", 2),
+      new Card(400, 300, 80, "Bullseye4OrangeYellow", false, false, false, false, "white", "black", 2),
+      new Card(500, 300, 80, "Bullseye3GreenYellow", false, false, false, false, "white", "black", 2)
     ];
     // console.log('Original Deck:', this.decks);
     this.shuffle(tempdecks);
     // console.log('Shuffled Deck:', tempdecks);
     for (let i = 0; i < this.level && i < 15; i++) {
       let clonecard = new Card(tempdecks[i].x, tempdecks[i].y, tempdecks[i].size, 
-        tempdecks[i].drawing, tempdecks[i].hit, tempdecks[i].selected, tempdecks[i].matched, 
+        tempdecks[i].drawing, tempdecks[i].hit, tempdecks[i].selected, tempdecks[i].matched, tempdecks[i].peeked,
         tempdecks[i].fill, tempdecks[i].stroke, tempdecks[i].lineWidth);
       currCards.push(tempdecks[i]);
       currCards.push(clonecard);
@@ -110,9 +110,11 @@ export class Game {
 
     if (this.mode === "play") {
       this.cards.forEach((card) => {
-        if (!card.selected) {
-          if (!this.cheat) {
-            this.drawLightBlueSquare(gc, card.x, card.y);
+        if (!card.peeked) {
+          if (!card.selected) {
+            if (!this.cheat) {
+              this.drawLightBlueSquare(gc, card.x, card.y);
+            }
           }
         }
         if (card.matched) {

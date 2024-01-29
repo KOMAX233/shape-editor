@@ -12,6 +12,7 @@ export class Card {
     public hit: boolean,
     public selected: boolean,
     public matched: boolean,
+    public peeked: boolean = false,
     public fill?: string, // optional parameters
     public stroke?: string,
     public lineWidth?: number

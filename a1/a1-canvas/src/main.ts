@@ -5,11 +5,11 @@ import {
   SKResizeEvent,
   setSKDrawCallback,
   setSKEventListener,
+  addSKEventTranslator,
   startSimpleKit,
  } from "simplekit/canvas-mode";
 
 import { Game } from "./game";
-import { Card } from "./card";
 import { dragTranslator } from "./translators.ts";
 
 // to-do: fix text and message center resize step 22
@@ -122,20 +122,27 @@ function handleEvent(e: SKEvent) {
         }
       }
       break;
-    // case "gesture":
-    //   ({ x: mx, y: my } = e as SKMouseEvent);
-    //   if (game.mode === "play") {
-    //     game.cards.forEach((c) => {
-    //       if (c.hitTest(mx, my)) {
-    //         // face up
-    //       }
-    //     });
-    //   }
-    //   break;
+    case "gesture":
+      ({ x: mx, y: my } = e as SKMouseEvent);
+      if (game.mode === "play") {
+        game.cards.forEach((c) => {
+          if (c.hitTest(mx, my)) {
+            // face up
+            
+            // peek
+            console.log("peek");
+          }
+        });
+      }
+      break;
   }
 }
 
+// add custom event translator
+addSKEventTranslator(dragTranslator);
+
 setSKEventListener(handleEvent);// set the draw callback (using function expression)
+
 setSKDrawCallback((gc: CanvasRenderingContext2D) => {
   gc.fillStyle = "darkgrey";
   gc.fillRect(0, 0, gc.canvas.width, gc.canvas.height);
