@@ -128,7 +128,7 @@ function handleEvent(e: SKEvent) {
         game.cards.forEach((c) => {
           if (c.hitTest(mx, my)) {
             // face up
-            
+            c.peeked = true;
             // peek
             console.log("peek");
           }

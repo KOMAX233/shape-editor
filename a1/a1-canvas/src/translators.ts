@@ -113,7 +113,6 @@ export const dragTranslator = {
             } as SKMouseEvent;
           }
         }
-
         break;
     }
     return;
