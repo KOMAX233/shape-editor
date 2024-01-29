@@ -7,16 +7,21 @@ import {
   setSKEventListener,
   addSKEventTranslator,
   startSimpleKit,
+  setSKAnimationCallback,
+  skTime,
  } from "simplekit/canvas-mode";
 
 import { Game } from "./game";
+import { Card } from "./card.ts";
 import { dragTranslator } from "./translators.ts";
+import { CallbackTimer } from "./timer";
 
 // to-do: fix text and message center resize step 22
 // to-do: step 23, 24, 
 // to-do: fix game and card property reset or keep after mode change
 
 const game = new Game(1, "start", false);
+let peekCard: Card;
 
 // mouse position
 let mx = 0;
@@ -129,6 +134,7 @@ function handleEvent(e: SKEvent) {
           if (c.hitTest(mx, my)) {
             // face up
             c.peeked = true;
+            peekCard = c;
             // peek
             console.log("peek");
           }
@@ -179,6 +185,32 @@ setSKDrawCallback((gc: CanvasRenderingContext2D) => {
     game.displayLevel(gc);
   }
 });
+
+callbackTimer();
+
+function callbackTimer() {
+  let timeText = "";
+
+  // the animation callback
+  setSKAnimationCallback((time) => {
+    timer.update(time);
+    timeText = `${(time / 1000).toFixed(1)}`;
+  });
+
+  // set in displaylevel
+  // if isVisible
+
+  if (peekCard) peekCard.peeked = true;
+
+  // create a 500ms timer and start it
+  const timer = new CallbackTimer(500, (t) => {
+    // console.log(`time up at ${t}!`);
+    if (peekCard) peekCard.peeked = false;
+    timer.start(t);
+  });
+  // skTime is time in ms since SimpleKit started
+  timer.start(skTime);
+}
 
 // start SimpleKit
 startSimpleKit();
