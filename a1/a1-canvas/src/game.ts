@@ -28,6 +28,7 @@ export class Game {
     public win: boolean = false,
     public cheat: boolean = false,
     public addcentered: boolean = false,
+    public cardsTop: number = 100,
     public x?: number,
     public y?: number
   ) {}
@@ -90,7 +91,7 @@ export class Game {
       // need to fix: when more than one row, cards not in center???
       cardsWidth = maxCardNumRow * cardSize + (maxCardNumRow - 1) * spacing;
     }
-    const cardsHeight = rowNum * cardSize + (rowNum - 1) *cardSize;
+    const cardsHeight = rowNum * cardSize + (rowNum - 1) *spacing;
     const leftX = (this.x - cardsWidth) / 2;
     const leftY = (this.y - cardsHeight) / 2;
     const lastRow = rowNum - 1;
@@ -110,9 +111,7 @@ export class Game {
         }
         // console.log(row, lastRow, rowNum);
       }    
-      // to-do: step 9: message center in the window and top of top of cards
-      // gc.fillText(`${this.level} pair${(this.level > 1)? "s": ""}: Press SPACE to play`, gc.canvas.width / 2, (gc.canvas.height - (this.cards[0].y + this.cards[0].size / 2)) / 2 - 12);
-      gc.fillText(`${this.level} pair${(this.level > 1)? "s": ""}: Press SPACE to play`, gc.canvas.width / 2, (gc.canvas.height / 4));
+      gc.fillText(`${this.level} pair${(this.level > 1)? "s": ""}: Press SPACE to play`, gc.canvas.width / 2, (this.cards[0].y - this.cards[0].size / 2) / 2);
     }
 
     this.cards.forEach(card => {
@@ -142,8 +141,7 @@ export class Game {
         this.win = true
       }
     } else if (this.mode === "win") {
-      // gc.fillText("you finished! press SPACE to continue", gc.canvas.width / 2, (gc.canvas.height - this.cards[0].y) / 2 - 12);  
-      gc.fillText("you finished! press SPACE to continue", gc.canvas.width / 2, (gc.canvas.height / 4));  
+      gc.fillText("you finished! press SPACE to continue", gc.canvas.width / 2, (this.cardsTop - this.cards[0].size / 2) / 2);  
     }
   }
 

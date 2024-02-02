@@ -22,8 +22,6 @@ import {
   easeOut,
 } from "./animationManager";
 
-// to-do: fix text and message center resize step 22
-// to-do: step 24
 // to-do: fix game and card property reset or keep after mode change
 // to-do: 29 center animation
 
@@ -194,6 +192,7 @@ setSKDrawCallback((gc: CanvasRenderingContext2D) => {
       c.selected = false;
       c.matched = false;
     });
+    game.cardsTop = game.cards[0].y;
     // step 29 not working yet
     // console.log(game.addcentered);
     if (!game.addcentered) {
