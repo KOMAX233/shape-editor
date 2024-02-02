@@ -23,7 +23,7 @@ import {
 } from "./animationManager";
 
 // to-do: fix text and message center resize step 22
-// to-do: step 23, 24, 
+// to-do: step 24
 // to-do: fix game and card property reset or keep after mode change
 // to-do: 29 center animation
 

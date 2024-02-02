@@ -80,8 +80,8 @@ export class Game {
       this.y = gc.canvas.height;
     }
     // console.log(this.x, this.y);
-    const rowNum = Math.ceil(cardsNum / this.x);
     const maxCardNumRow = Math.floor((this.x - hborder * 2) / (cardSize + spacing));
+    const rowNum = Math.ceil(cardsNum / maxCardNumRow);
     // only one row
     let cardsWidth: number;
     if (cardsNum < maxCardNumRow) {
@@ -93,22 +93,22 @@ export class Game {
     const cardsHeight = rowNum * cardSize + (rowNum - 1) *cardSize;
     const leftX = (this.x - cardsWidth) / 2;
     const leftY = (this.y - cardsHeight) / 2;
-    const lastRow = Math.ceil(cardsNum / maxCardNumRow) - 1;
-    const lastRowCardNum = cardsNum % maxCardNumRow;
+    const lastRow = rowNum - 1;
+    const lastRowCardNum = (cardsNum % maxCardNumRow != 0)? cardsNum % maxCardNumRow: maxCardNumRow;
     const lastCardsWidth = lastRowCardNum * cardSize + (lastRowCardNum - 1) * spacing;
     // console.log(rowNum, maxCardNumRow, cardsWidth, cardsHeight, leftX, leftY);
     if (this.mode === "start") {
       for (let i = 0; i < cardsNum; i++) {
         const row = Math.floor(i / maxCardNumRow);
         const col = i % maxCardNumRow;
-        // if (row != lastRow || lastRowCardNum == maxCardNumRow) {
+        if (row != lastRow || lastRowCardNum == maxCardNumRow) {
           this.cards[i].x = leftX + col * (spacing + cardSize);
           this.cards[i].y = leftY + row * (spacing + cardSize);
-        // } else {
-        //   this.cards[i].x = (this.x - lastCardsWidth) / 2 + col * (spacing + cardSize);
-        //   this.cards[i].y = leftY + row * (spacing + cardSize);
-        // }
-        console.log(row, lastRow);
+        } else {
+          this.cards[i].x = (this.x - lastCardsWidth) / 2 + col * (spacing + cardSize);
+          this.cards[i].y = leftY + row * (spacing + cardSize);
+        }
+        // console.log(row, lastRow, rowNum);
       }    
       // to-do: step 9: message center in the window and top of top of cards
       // gc.fillText(`${this.level} pair${(this.level > 1)? "s": ""}: Press SPACE to play`, gc.canvas.width / 2, (gc.canvas.height - (this.cards[0].y + this.cards[0].size / 2)) / 2 - 12);
