@@ -97,8 +97,9 @@ export class Game {
     const lastRow = rowNum - 1;
     const lastRowCardNum = (cardsNum % maxCardNumRow != 0)? cardsNum % maxCardNumRow: maxCardNumRow;
     const lastCardsWidth = lastRowCardNum * cardSize + (lastRowCardNum - 1) * spacing;
-    // console.log(rowNum, maxCardNumRow, cardsWidth, cardsHeight, leftX, leftY);
-    if (this.mode === "start") {
+  
+    if (this.mode === "start") {    
+      // resize
       for (let i = 0; i < cardsNum; i++) {
         const row = Math.floor(i / maxCardNumRow);
         const col = i % maxCardNumRow;
@@ -110,7 +111,7 @@ export class Game {
           this.cards[i].y = leftY + row * (spacing + cardSize);
         }
         // console.log(row, lastRow, rowNum);
-      }    
+      }
       gc.fillText(`${this.level} pair${(this.level > 1)? "s": ""}: Press SPACE to play`, gc.canvas.width / 2, (this.cards[0].y - this.cards[0].size / 2) / 2);
     }
 
@@ -118,12 +119,14 @@ export class Game {
       card.draw(gc);
     });
 
-    if (this.mode === "play") {
+    if (this.mode === "play") {    
       this.cards.forEach((card) => {
         if (!card.peeked) {
           if (!card.selected) {
             if (!this.cheat) {
+              if (card.beforeX && card.beforeY) {
               this.drawLightBlueSquare(gc, card.x, card.y);
+              }
             }
           }
         }
@@ -182,9 +185,9 @@ export class Game {
   }
 
   drawLightBlueSquare(gc: CanvasRenderingContext2D, x: number, y: number) {
+    const squareSize = 70;
     gc.save()
     gc.fillStyle = "lightblue";
-    const squareSize = 70;
     gc.beginPath();
     gc.rect(x - squareSize / 2, y - squareSize / 2, squareSize, squareSize);
     gc.fill();

@@ -95,6 +95,7 @@ function handleEvent(e: SKEvent) {
           game.randomized = false;
           game.win = false;
           game.addcentered = false;
+          if (!game.addcentered) game.addcentered = true;
         } else {
           game.mode = "play";
         }
@@ -195,9 +196,9 @@ setSKDrawCallback((gc: CanvasRenderingContext2D) => {
     game.cardsTop = game.cards[0].y;
     // step 29 not working yet
     // console.log(game.addcentered);
-    if (!game.addcentered) {
+    // if (!game.addcentered) {
       // animateCenter();
-    }  
+    // }  
     game.displayLevel(gc);
   } else if (game.mode === "play") {
     game.win = false;
@@ -253,21 +254,6 @@ setSKAnimationCallback((time) => {
 // start SimpleKit
 startSimpleKit();
 
-// add animation from the center to position
-function animateCenter() {
-  game.cards.forEach(c => {
-    animationManager.add(
-      new Animator(canvasW / 2, c.x, 1000,
-        (p) => {c.x = p})
-    );
-    animationManager.add(
-      new Animator(canvasH / 2, c.y, 1000,
-        (p) => {c.y = p})
-    );
-  });
-  game.addcentered = true;
-}
-
 function animateJiggle() {
   const frequency = 2;
   const amplitude = 5;
@@ -281,4 +267,19 @@ function animateJiggle() {
       )
     );
   });
+}
+
+// add animation from the center to position
+function animateCenter() {
+  game.cards.forEach(c => {
+    animationManager.add(
+      new Animator(canvasW / 2, c.x, 1000,
+        (p) => {c.x = p})
+    );
+    animationManager.add(
+      new Animator(canvasH / 2, c.y, 1000,
+        (p) => {c.y = p})
+    );
+  });
+  game.addcentered = true;
 }
