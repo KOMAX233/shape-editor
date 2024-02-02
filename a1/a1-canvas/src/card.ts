@@ -13,9 +13,12 @@ export class Card {
     public selected: boolean,
     public matched: boolean,
     public peeked: boolean = false,
+    public r: number = 0,
     public fill?: string, // optional parameters
     public stroke?: string,
-    public lineWidth?: number
+    public lineWidth?: number,
+    public beforeX?: number,
+    public beforeY?: number
   ) {}
 
   hitTest(mx: number, my: number) {
@@ -46,10 +49,14 @@ export class Card {
   }
 
   draw(gc: CanvasRenderingContext2D) {
+    gc.save();
     gc.beginPath();
     if (this.fill) gc.fillStyle = this.fill;
     if (this.stroke) gc.strokeStyle = this.stroke;
     if (this.lineWidth) gc.lineWidth = this.lineWidth;
+    gc.translate(this.x - this.size / 2 + this.size / 2, this.y - this.size / 2 + this.size / 2);
+    gc.rotate((Math.PI / 180) * this.r);
+    gc.translate(-(this.x - this.size / 2 + this.size / 2), -(this.y - this.size / 2 + this.size / 2));
     gc.rect(
       this.x - this.size / 2,
       this.y - this.size / 2,
@@ -126,15 +133,21 @@ export class Card {
       default:
         break;
     }
+    gc.restore();
   }
   drawLighterRect(gc: CanvasRenderingContext2D) {
+    gc.save();
     // if matched, keep as lighter alpha and face up
     gc.fillStyle = "rgb(255 255 255 / 80%)";
+    gc.translate(this.x - this.size / 2 + this.size / 2, this.y - this.size / 2 + this.size / 2);
+    gc.rotate((Math.PI / 180) * this.r);
+    gc.translate(-(this.x - this.size / 2 + this.size / 2), -(this.y - this.size / 2 + this.size / 2));
     gc.fillRect(
       this.x - this.size / 2,
       this.y - this.size / 2,
       this.size,
       this.size
     );
+    gc.restore();
   }
 }

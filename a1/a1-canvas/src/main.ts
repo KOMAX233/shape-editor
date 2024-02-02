@@ -15,13 +15,28 @@ import { Game } from "./game";
 import { Card } from "./card.ts";
 import { dragTranslator } from "./translators.ts";
 import { CallbackTimer } from "./timer";
+import {
+  animationManager,
+  Animator,
+  easeIn,
+  easeOut,
+} from "./animationManager";
 
 // to-do: fix text and message center resize step 22
 // to-do: step 23, 24, 
 // to-do: fix game and card property reset or keep after mode change
+// to-do: 29 center animation
 
 const game = new Game(1, "start", false);
+let canvasW: number;
+let canvasH: number;
+
 let peekCard: Card;
+const timer = new CallbackTimer(500, (t) => {
+  // console.log(`time up at ${t}!`);
+  if (peekCard) peekCard.peeked = false;
+  timer.start(t);
+});
 
 // mouse position
 let mx = 0;
@@ -81,6 +96,7 @@ function handleEvent(e: SKEvent) {
           game.level++;
           game.randomized = false;
           game.win = false;
+          game.addcentered = false;
         } else {
           game.mode = "play";
         }
@@ -98,6 +114,7 @@ function handleEvent(e: SKEvent) {
           c.selected = false;
           c.matched = false;
         });
+        // game.addcentered = false;
       } else if (key === "-" && game.mode === "start") {
         if (game.level > 1) game.level--;
         game.cards = [];
@@ -108,9 +125,11 @@ function handleEvent(e: SKEvent) {
           c.selected = false;
           c.matched = false;
         });
+        // game.addcentered = false;
       } else if (key === "q") {
         if (game.mode === "play") {
           game.mode = "start";
+          game.addcentered = false;
         }
       } else if (key === "x") {
         if (game.mode === "play") {
@@ -136,7 +155,13 @@ function handleEvent(e: SKEvent) {
             c.peeked = true;
             peekCard = c;
             // peek
-            console.log("peek");
+            // console.log("peek");
+            
+            // timer
+            if (peekCard) peekCard.peeked = true;
+            // skTime is time in ms since SimpleKit started
+            timer.start(skTime);
+            
           }
         });
       }
@@ -150,6 +175,9 @@ addSKEventTranslator(dragTranslator);
 setSKEventListener(handleEvent);// set the draw callback (using function expression)
 
 setSKDrawCallback((gc: CanvasRenderingContext2D) => {
+  canvasW = gc.canvas.width;
+  canvasH = gc.canvas.height;
+  gc.clearRect(0, 0, gc.canvas.width, gc.canvas.height);
   gc.fillStyle = "darkgrey";
   gc.fillRect(0, 0, gc.canvas.width, gc.canvas.height);
   if (game.win) game.mode = "win";
@@ -166,11 +194,31 @@ setSKDrawCallback((gc: CanvasRenderingContext2D) => {
       c.selected = false;
       c.matched = false;
     });
+    // step 29 not working yet
+    // console.log(game.addcentered);
+    if (!game.addcentered) {
+      // animateCenter();
+    }  
     game.displayLevel(gc);
   } else if (game.mode === "play") {
     game.win = false;
     if (!game.randomized) {
       game.shuffle(game.cards);
+      game.cards.forEach(c => {
+        console.log("before: ", c.beforeX, c.beforeY, ", after: ", c.x, c.y);
+        if (c.beforeX && c.beforeY) {
+          animationManager.add(
+            new Animator(c.beforeX as number, c.x, 1000,
+              (p) => {c.x = p})
+          );
+          if (game.cards.length > 2) {
+            animationManager.add(
+              new Animator(c.beforeY as number, c.y, 1000,
+                (p) => {c.y = p})
+            );
+          }
+        }
+      });
     }
     game.cards.forEach((c) => {
       if (c.hit && !c.matched) {
@@ -178,39 +226,60 @@ setSKDrawCallback((gc: CanvasRenderingContext2D) => {
         c.hitOutline(gc);
       }
     });
-    if (game.checkMatch()) game.selectedCards = [];
+    if (game.checkMatch()) {
+      // add match rotation 360 animation step 30
+      game.selectedCards.forEach(c => {
+        animationManager.add(
+          new Animator(0, 360, 1000,
+            (p) => {c.r = p})
+        );
+      });
+      game.selectedCards = [];
+    }
     game.displayLevel(gc);
     // check win condition: all cards matched
   } else if (game.mode === "win") {
+    animateJiggle();
     game.displayLevel(gc);
   }
 });
 
-callbackTimer();
 
-function callbackTimer() {
-  let timeText = "";
-
-  // the animation callback
-  setSKAnimationCallback((time) => {
-    timer.update(time);
-    timeText = `${(time / 1000).toFixed(1)}`;
-  });
-
-  // set in displaylevel
-  // if isVisible
-
-  if (peekCard) peekCard.peeked = true;
-
-  // create a 500ms timer and start it
-  const timer = new CallbackTimer(500, (t) => {
-    // console.log(`time up at ${t}!`);
-    if (peekCard) peekCard.peeked = false;
-    timer.start(t);
-  });
-  // skTime is time in ms since SimpleKit started
-  timer.start(skTime);
-}
+// set animation callback
+setSKAnimationCallback((time) => {
+  animationManager.update(time);
+  timer.update(time);
+});
 
 // start SimpleKit
 startSimpleKit();
+
+// add animation from the center to position
+function animateCenter() {
+  game.cards.forEach(c => {
+    animationManager.add(
+      new Animator(canvasW / 2, c.x, 1000,
+        (p) => {c.x = p})
+    );
+    animationManager.add(
+      new Animator(canvasH / 2, c.y, 1000,
+        (p) => {c.y = p})
+    );
+  });
+  game.addcentered = true;
+}
+
+function animateJiggle() {
+  const frequency = 2;
+  const amplitude = 5;
+  game.cards.forEach((c) => {
+    // Use sine function for vertical jiggle
+    animationManager.add(
+      new Animator(c.y, c.y + amplitude * Math.sin(skTime / 100 * frequency), 100,
+        (p) => {
+          c.y = p;
+        }
+      )
+    );
+  });
+}
