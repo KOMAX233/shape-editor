@@ -83,26 +83,30 @@ export class SKSquare extends SKElement {
     // normal background
     gc.beginPath();
     gc.rect(this.x, this.y, size, size);
-    gc.fillStyle =
-      this.state == "down" ? Style.highlightColour : `hsl(${this.hue}deg 100% 50%)`;
+    // gc.fillStyle =
+    //   this.state == "down" ? Style.focusColour : `hsl(${this.hue}deg 100% 50%)`;
+    gc.fillStyle = `hsl(${this.hue}deg 100% 50%)`;
     gc.strokeStyle = "black";
     // change fill to show down state
-    gc.lineWidth = this.state == "down" ? 4 : 2;
+    // gc.lineWidth = this.state == "down" ? 4 : 2;
+    gc.lineWidth = 2;
     gc.fill();
     gc.stroke();
-    gc.clip(); // clip text if it's wider than text area
+    // gc.clip(); // clip text if it's wider than text area
 
     // checked state
-    // if (this.checked === true) {
-    //   gc.beginPath();
-    //   gc.moveTo(this.x + 5, this.y + 5);
-    //   gc.lineTo(this.x + size - 5, this.y + size - 5);
-    //   gc.moveTo(this.x + size - 5, this.y + 5);
-    //   gc.lineTo(this.x + 5, this.y + size - 5);
-    //   gc.strokeStyle = "black";
-    //   gc.lineWidth = 2;
-    //   gc.stroke();
-    // }
+    if (this.checked) {
+      console.log(this.checked)
+      gc.beginPath();
+      gc.rect(this.x-3, this.y-3, size+6, size+6);
+      // gc.moveTo(this.x + 5, this.y + 5);
+      // gc.lineTo(this.x + size - 5, this.y + size - 5);
+      // gc.moveTo(this.x + size - 5, this.y + 5);
+      // gc.lineTo(this.x + 5, this.y + size - 5);
+      gc.strokeStyle = Style.focusColour;
+      gc.lineWidth = 2;
+      gc.stroke();
+    }
 
     gc.restore();
 
