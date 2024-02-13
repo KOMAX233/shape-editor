@@ -13,10 +13,14 @@ import { ListView } from "./listView";
 import { StatusView } from "./statusView";
 import { makeStackColLayout } from "./stackCol";
 import { InfoView } from "./infoView";
-import { SKCheckbox } from "./checkbox";
+import { SKSquare } from "./square";
 
 // data
 const model = new Model();
+for (let i = 0; i < 8; i++) {
+  model.create("!");
+}
+
 
 // user interface
 
@@ -32,12 +36,18 @@ left.layoutMethod = makeStackColLayout();
 
 // add views to left (will be stacked vertically)
 left.addChild(new FormView(model));
+
 left.addChild(new ListView(model));
 left.addChild(new StatusView(model));
 
 // add views to root (will be left and right areas)
 root.addChild(left);
 // root.addChild(new InfoView(model));
+
+// const Square = new SKSquare();
+// Square.margin = 10;
+// left.addChild(Square);
+
 
 const right = new SKContainer();
 right.margin = 10;
@@ -50,9 +60,6 @@ right.border = "1px solid grey";
 right.addChild(new InfoView(model));
 root.addChild(right);
 
-// const checkbox = new SKCheckbox();
-// checkbox.margin = 10;
-// root.addChild(checkbox);
 
 setSKRoot(root);
 

@@ -6,15 +6,17 @@ import {
   Style,
 } from "simplekit/imperative-mode";
 
-export type SKCheckboxProps = SKElementProps & { checked?: boolean };
+export type SKSquareProps = SKElementProps & { checked?: boolean } & {hue?: number};
 
-export class SKCheckbox extends SKElement {
+export class SKSquare extends SKElement {
   constructor({
     checked = false,
+    hue = 0,
     ...elementProps
-  }: SKCheckboxProps = {}) {
+  }: SKSquareProps = {}) {
     super(elementProps);
     this.checked = checked;
+    this.hue = hue;
     this.width = Style.minElementSize - 10;
     this.height = Style.minElementSize - 10;
     this.calculateBasis();
@@ -24,6 +26,8 @@ export class SKCheckbox extends SKElement {
   state: "idle" | "hover" | "down" = "idle";
 
   checked: boolean;
+
+  hue: number;
 
   handleMouseEvent(me: SKMouseEvent) {
     switch (me.type) {
@@ -58,39 +62,51 @@ export class SKCheckbox extends SKElement {
 
     gc.save();
 
-    const w = this.paddingBox.width;
-    const h = this.paddingBox.height;
+
+    // const w = this.paddingBox.width;
+    // const h = this.paddingBox.height;
+    const size = 50;
 
     gc.translate(this.margin, this.margin);
+    gc.beginPath();
+    gc.fillStyle = `hsl(${this.hue}deg 100% 50%)`; 
+    console.log(this.hue);
+    gc.strokeStyle = "black";
+    gc.lineWidth = 1;
+    gc.rect(this.x, this.y, size, size);
+    gc.fill();
+    gc.stroke();
+
 
     // thick highlight rect
     if (this.state == "hover" || this.state == "down") {
       gc.beginPath();
-      gc.rect(this.x, this.y, w, h);
+      gc.rect(this.x, this.y, size, size);
       gc.strokeStyle = Style.highlightColour;
       gc.lineWidth = 8;
+      gc.fill();
       gc.stroke();
     }
 
     // normal background
-    gc.beginPath();
-    gc.rect(this.x, this.y, w, h);
-    gc.fillStyle =
-      this.state == "down" ? Style.highlightColour : "whitesmoke";
-    gc.strokeStyle = "black";
-    // change fill to show down state
-    gc.lineWidth = this.state == "down" ? 4 : 2;
-    gc.fill();
-    gc.stroke();
-    gc.clip(); // clip text if it's wider than text area
+    // gc.beginPath();
+    // gc.rect(this.x, this.y, w, h);
+    // gc.fillStyle =
+    //   this.state == "down" ? Style.highlightColour : "whitesmoke";
+    // gc.strokeStyle = "black";
+    // // change fill to show down state
+    // gc.lineWidth = this.state == "down" ? 4 : 2;
+    // gc.fill();
+    // gc.stroke();
+    // gc.clip(); // clip text if it's wider than text area
 
     // checked state
     if (this.checked === true) {
       gc.beginPath();
       gc.moveTo(this.x + 5, this.y + 5);
-      gc.lineTo(this.x + w - 5, this.y + h - 5);
-      gc.moveTo(this.x + w - 5, this.y + 5);
-      gc.lineTo(this.x + 5, this.y + h - 5);
+      gc.lineTo(this.x + size - 5, this.y + size - 5);
+      gc.moveTo(this.x + size - 5, this.y + 5);
+      gc.lineTo(this.x + 5, this.y + size - 5);
       gc.strokeStyle = "black";
       gc.lineWidth = 2;
       gc.stroke();
@@ -103,6 +119,6 @@ export class SKCheckbox extends SKElement {
   }
 
   public toString(): string {
-    return `SKCheckbox`;
+    return `SKSquare`;
   }
 }

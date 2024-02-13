@@ -1,9 +1,12 @@
+import { random } from "simplekit/utility";
 import { Subject } from "./observer";
+
 
 type Todo = {
   id: number;
   text: string;
   done: boolean;
+  hue: number;
 };
 
 // super simple "id generator"
@@ -28,7 +31,7 @@ export class Model extends Subject {
   create(task: string) {
     this.todos = [
       ...this.todos,
-      { id: uniqueId++, text: task, done: false },
+      { id: uniqueId++, text: task, done: false, hue: this.randomHue() },
     ];
     this.notifyObservers();
   }
@@ -45,7 +48,7 @@ export class Model extends Subject {
   }
 
   // Update
-  update(id: number, todo: { text?: string; done?: boolean }) {
+  update(id: number, todo: { text?: string; done?: boolean; hue?: number }) {
     this.todos = this.todos.map((t) =>
       // if todo matches id, then spread it and replace
       // with defined properties in todo object argument
@@ -71,5 +74,11 @@ export class Model extends Subject {
     // edge case if editing a todo that is deleted
     if (this._selectId === id) this._selectId = null;
     this.notifyObservers();
+  }
+
+  randomHue() {
+    let rand = Math.ceil(random(0, 359));
+    // console.log(rand);
+    return rand;
   }
 }
