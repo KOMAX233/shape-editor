@@ -17,8 +17,8 @@ export class SKSquare extends SKElement {
     super(elementProps);
     this.checked = checked;
     this.hue = hue;
-    this.width = Style.minElementSize - 10;
-    this.height = Style.minElementSize - 10;
+    this.width = 50;
+    this.height = 50;
     this.calculateBasis();
     this.doLayout();
   }
@@ -58,6 +58,7 @@ export class SKSquare extends SKElement {
   }
 
   draw(gc: CanvasRenderingContext2D) {
+    console.log(this.state)
     // to save typing "this" so much
 
     gc.save();
@@ -68,15 +69,6 @@ export class SKSquare extends SKElement {
     const size = 50;
 
     gc.translate(this.margin, this.margin);
-    gc.beginPath();
-    gc.fillStyle = `hsl(${this.hue}deg 100% 50%)`; 
-    console.log(this.hue);
-    gc.strokeStyle = "black";
-    gc.lineWidth = 1;
-    gc.rect(this.x, this.y, size, size);
-    gc.fill();
-    gc.stroke();
-
 
     // thick highlight rect
     if (this.state == "hover" || this.state == "down") {
@@ -89,28 +81,28 @@ export class SKSquare extends SKElement {
     }
 
     // normal background
-    // gc.beginPath();
-    // gc.rect(this.x, this.y, w, h);
-    // gc.fillStyle =
-    //   this.state == "down" ? Style.highlightColour : "whitesmoke";
-    // gc.strokeStyle = "black";
-    // // change fill to show down state
-    // gc.lineWidth = this.state == "down" ? 4 : 2;
-    // gc.fill();
-    // gc.stroke();
-    // gc.clip(); // clip text if it's wider than text area
+    gc.beginPath();
+    gc.rect(this.x, this.y, size, size);
+    gc.fillStyle =
+      this.state == "down" ? Style.highlightColour : `hsl(${this.hue}deg 100% 50%)`;
+    gc.strokeStyle = "black";
+    // change fill to show down state
+    gc.lineWidth = this.state == "down" ? 4 : 2;
+    gc.fill();
+    gc.stroke();
+    gc.clip(); // clip text if it's wider than text area
 
     // checked state
-    if (this.checked === true) {
-      gc.beginPath();
-      gc.moveTo(this.x + 5, this.y + 5);
-      gc.lineTo(this.x + size - 5, this.y + size - 5);
-      gc.moveTo(this.x + size - 5, this.y + 5);
-      gc.lineTo(this.x + 5, this.y + size - 5);
-      gc.strokeStyle = "black";
-      gc.lineWidth = 2;
-      gc.stroke();
-    }
+    // if (this.checked === true) {
+    //   gc.beginPath();
+    //   gc.moveTo(this.x + 5, this.y + 5);
+    //   gc.lineTo(this.x + size - 5, this.y + size - 5);
+    //   gc.moveTo(this.x + size - 5, this.y + 5);
+    //   gc.lineTo(this.x + 5, this.y + size - 5);
+    //   gc.strokeStyle = "black";
+    //   gc.lineWidth = 2;
+    //   gc.stroke();
+    // }
 
     gc.restore();
 

@@ -31,7 +31,7 @@ export class ListView extends SKContainer implements Observer {
     super();
 
     // setup the view design
-    this.padding = 5;
+    // this.padding = 5;
     this.fillWidth = 1;
     // this.height = 500;
     this.fillHeight = 1;
