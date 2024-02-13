@@ -18,7 +18,7 @@ import { SKSquare } from "./square";
 // data
 const model = new Model();
 for (let i = 0; i < 8; i++) {
-  model.create("!");
+  model.create("!", model.randomHue());
 }
 
 
@@ -66,3 +66,6 @@ setSKRoot(root);
 startSimpleKit();
 
 // Settings.debug = true;
+// TODO: step 6 20px gap between squares: Each square in the shape list fits in a 50px by 50px area. 
+// There is a 20px gap between squares and a 20px gap from the left and top of the shape list area. 
+// The shape list wraps to the next row if there is not enough room.

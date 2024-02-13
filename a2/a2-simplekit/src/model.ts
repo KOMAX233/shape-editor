@@ -28,10 +28,10 @@ export class Model extends Subject {
   // model "business logic" (CRUD)
 
   // Create
-  create(task: string) {
+  create(task: string, hue: number) {
     this.todos = [
       ...this.todos,
-      { id: uniqueId++, text: task, done: false, hue: this.randomHue() },
+      { id: uniqueId++, text: task, done: false, hue: hue},
     ];
     this.notifyObservers();
   }

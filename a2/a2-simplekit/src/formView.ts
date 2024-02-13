@@ -59,7 +59,7 @@ export class FormView extends SKContainer implements Observer {
       if (model.selectId !== null) {
         model.update(model.selectId, { text });
       } else {
-        model.create(text);
+        model.create(text, model.randomHue());
       }
       this.textfield.text = "";
     });

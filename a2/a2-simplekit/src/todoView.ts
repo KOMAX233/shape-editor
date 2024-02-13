@@ -17,6 +17,7 @@ export class TodoView extends SKContainer implements Observer {
     const todo = this.model.todo(this.todoId);
     if (!todo) return;
     this.square.checked = todo.done;
+    this.square.hue = todo.hue;
     // this.todoText.text = `${todo.text || "?"} (id#${todo.id})`;
   }
 
@@ -31,12 +32,13 @@ export class TodoView extends SKContainer implements Observer {
     super();
 
     // view design
-    this.padding = 5;
-    this.margin = 5;
+    // this.padding = 5;
+    // this.margin = 5;
     this.fillWidth = 1;
     this.height = 40;
     // this.border = "grey";
-    this.square.hue = this.model.randomHue();
+    const todo = this.model.todo(this.todoId);
+    if (todo) this.square.hue = todo?.hue;
 
     // setup the view
     this.layoutMethod = Layout.makeFillRowLayout({ gap: 0 });
@@ -50,7 +52,7 @@ export class TodoView extends SKContainer implements Observer {
 
     // controllers
     this.square.addEventListener("action", () => {
-      model.update(todoId, { done: this.square.checked });
+      model.update(todoId, { done: this.square.checked, hue: this.square.hue });
     });
     // this.delButton.addEventListener("action", () => {
     //   model.delete(todoId);
