@@ -5,7 +5,7 @@ import { Subject } from "./observer";
 type Todo = {
   id: number;
   text: string;
-  done: boolean;
+  selected: boolean;
   hue: number;
 };
 
@@ -21,8 +21,8 @@ export class Model extends Subject {
     return this.todos.length;
   }
 
-  get numDone() {
-    return this.todos.filter((t) => t.done).length;
+  get numSelected() {
+    return this.todos.filter((t) => t.selected).length;
   }
 
   // model "business logic" (CRUD)
@@ -31,7 +31,7 @@ export class Model extends Subject {
   create(task: string, hue: number) {
     this.todos = [
       ...this.todos,
-      { id: uniqueId++, text: task, done: false, hue: hue},
+      { id: uniqueId++, text: task, selected: false, hue: hue},
     ];
     this.notifyObservers();
   }
@@ -48,7 +48,7 @@ export class Model extends Subject {
   }
 
   // Update
-  update(id: number, todo: { text?: string; done?: boolean; hue?: number }) {
+  update(id: number, todo: { text?: string; selected?: boolean; hue?: number }) {
     this.todos = this.todos.map((t) =>
       // if todo matches id, then spread it and replace
       // with defined properties in todo object argument
@@ -78,7 +78,6 @@ export class Model extends Subject {
 
   randomHue() {
     let rand = Math.ceil(random(0, 359));
-    // console.log(rand);
     return rand;
   }
 }

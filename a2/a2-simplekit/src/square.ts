@@ -3,31 +3,37 @@ import {
   SKElementProps,
   SKEvent,
   SKMouseEvent,
+  SKResizeEvent,
   Style,
 } from "simplekit/imperative-mode";
 
-export type SKSquareProps = SKElementProps & { checked?: boolean } & {hue?: number};
+export type SKSquareProps = SKElementProps & { 
+  checked?: boolean;
+  hue?: number;
+  size?: number
+};
 
 export class SKSquare extends SKElement {
   constructor({
     checked = false,
     hue = 0,
+    size = 50,
     ...elementProps
   }: SKSquareProps = {}) {
     super(elementProps);
     this.checked = checked;
     this.hue = hue;
-    this.width = 50;
-    this.height = 50;
+    this.size = size;
+    this.width = size;
+    this.height = size;
     this.calculateBasis();
     this.doLayout();
   }
 
   state: "idle" | "hover" | "down" = "idle";
-
   checked: boolean;
-
   hue: number;
+  size: number;
 
   handleMouseEvent(me: SKMouseEvent) {
     switch (me.type) {
@@ -58,7 +64,6 @@ export class SKSquare extends SKElement {
   }
 
   draw(gc: CanvasRenderingContext2D) {
-    console.log(this.state)
     // to save typing "this" so much
 
     gc.save();
@@ -66,14 +71,13 @@ export class SKSquare extends SKElement {
 
     // const w = this.paddingBox.width;
     // const h = this.paddingBox.height;
-    const size = 50;
 
     gc.translate(this.margin, this.margin);
 
     // thick highlight rect
     if (this.state == "hover" || this.state == "down") {
       gc.beginPath();
-      gc.rect(this.x, this.y, size, size);
+      gc.rect(this.x, this.y, this.size, this.size);
       gc.strokeStyle = Style.highlightColour;
       gc.lineWidth = 8;
       gc.fill();
@@ -82,7 +86,7 @@ export class SKSquare extends SKElement {
 
     // normal background
     gc.beginPath();
-    gc.rect(this.x, this.y, size, size);
+    gc.rect(this.x, this.y, this.size, this.size);
     // gc.fillStyle =
     //   this.state == "down" ? Style.focusColour : `hsl(${this.hue}deg 100% 50%)`;
     gc.fillStyle = `hsl(${this.hue}deg 100% 50%)`;
@@ -96,9 +100,8 @@ export class SKSquare extends SKElement {
 
     // checked state
     if (this.checked) {
-      console.log(this.checked)
       gc.beginPath();
-      gc.rect(this.x-3, this.y-3, size+6, size+6);
+      gc.rect(this.x-3, this.y-3, this.size+6, this.size+6);
       // gc.moveTo(this.x + 5, this.y + 5);
       // gc.lineTo(this.x + size - 5, this.y + size - 5);
       // gc.moveTo(this.x + size - 5, this.y + 5);

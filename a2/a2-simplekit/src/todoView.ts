@@ -16,7 +16,7 @@ export class TodoView extends SKContainer implements Observer {
   update() {
     const todo = this.model.todo(this.todoId);
     if (!todo) return;
-    this.square.checked = todo.done;
+    this.square.checked = todo.selected;
     this.square.hue = todo.hue;
     // this.todoText.text = `${todo.text || "?"} (id#${todo.id})`;
   }
@@ -52,7 +52,8 @@ export class TodoView extends SKContainer implements Observer {
 
     // controllers
     this.square.addEventListener("action", () => {
-      model.update(todoId, { done: this.square.checked, hue: this.square.hue });
+      model.update(todoId, { selected: this.square.checked, hue: this.square.hue });
+      model.select(todoId);
     });
     // this.delButton.addEventListener("action", () => {
     //   model.delete(todoId);

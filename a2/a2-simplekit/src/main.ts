@@ -69,3 +69,14 @@ startSimpleKit();
 // TODO: step 6 20px gap between squares: Each square in the shape list fits in a 50px by 50px area. 
 // There is a 20px gap between squares and a 20px gap from the left and top of the shape list area. 
 // The shape list wraps to the next row if there is not enough room.
+
+// select a square unselect the last one
+
+// fix: have to do any action to make the infoview square show up
+
+// make hue label and textfield in center
+
+// resize infoview square
+
+// 13 The square is scaled to be as large as possible while preserving approximately a minium of 10px away from the editor and form borders.
+

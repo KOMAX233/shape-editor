@@ -40,6 +40,14 @@ export function stackColLayout(
 
     if (el.id === "status") {
       el.y = boundsHeight - 50;
+    } else if (el.id === "up") {
+      el.height = (boundsHeight - 10) * 2 / 3;
+      el.width = (boundsWidth);
+    } else if (el.id === "down") {
+      el.height = (boundsHeight - 10) / 3;
+      el.width = (boundsWidth);
+    } else if (el.id === "info") {
+      el.width = boundsWidth;
     }
 
     // next row

@@ -56,11 +56,11 @@ export class FormView extends SKContainer implements Observer {
     // create controller
     this.button_add.addEventListener("action", () => {
       const text = this.textfield.text;
-      if (model.selectId !== null) {
-        model.update(model.selectId, { text });
-      } else {
+      // if (model.selectId !== null) {
+      //   model.update(model.selectId, { text });
+      // } else {
         model.create(text, model.randomHue());
-      }
+      // }
       this.textfield.text = "";
     });
 
