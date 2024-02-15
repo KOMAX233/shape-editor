@@ -56,6 +56,7 @@ export class Model extends Subject {
     );
     this._selectId = null;
     this.notifyObservers();
+
   }
 
   // select a todo to edit

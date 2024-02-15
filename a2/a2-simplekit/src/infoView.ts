@@ -33,10 +33,15 @@ export class InfoView extends SKContainer implements Observer {
     //   // this.message.text = "no todos!";
     //   this.setEditorVisible(false);
     // } else 
-    if (this.model.selectId !== null && this.model.numSelected === 1) {
+    const id = this.model.selectId;
+    console.log(id)
+    if (id !== null && this.model.numSelected === 1) {
       // this.message.text = `edit id#${this.model.selectId}`;
-      const todo = this.model.todo(this.model.selectId);
-      if (todo) this.square.hue = todo?.hue;
+      const todo = this.model.todo(id);
+      if (todo) {
+        this.square.hue = todo?.hue;
+        this.fieldHue.text = String(this.model.todo(id)?.hue || "");
+      }
       if (this.width && this.height) {
         if (this.width < this.height) {
           this.square.width = this.up.width;
@@ -46,9 +51,11 @@ export class InfoView extends SKContainer implements Observer {
           this.square.height = this.up.height;
         }
       }
-      this.square.width = this.up.width;
-      this.square.height = this.up.height;
-      this.fieldHue.text = String(this.square.hue);
+      // if (this.fieldHue.text != String(this.square.hue)) {
+        // this.square.hue = Number(this.fieldHue.text);
+      // } else {
+        this.fieldHue.text = String(this.square.hue);
+      // }
       this.setEditorVisible(true);
       this.resizeSquare();
     } else {
@@ -70,7 +77,7 @@ export class InfoView extends SKContainer implements Observer {
   square = new SKSquare();
   hueEditor = new SKContainer();
   labelHue = new SKLabel({text: "Hue", align: "right"});
-  fieldHue = new SKTextfield({text: String(this.square.hue), width: 50});
+  fieldHue = new SKTextfield({text: "?", width: 50});
 
   constructor(private model: Model) {
     super();
@@ -106,8 +113,19 @@ export class InfoView extends SKContainer implements Observer {
     this.addChild(this.down);
     
 
-    this.setEditorVisible(false);
     this.resizeSquare();
+    this.setEditorVisible(false);
+
+    // create controller
+    this.fieldHue.addEventListener("textchanged", () => {
+      const text = this.fieldHue.text;
+      const hue = Number(text);
+      const id = model.selectId;
+      if (id !== null) {
+        model.update(id, { text, hue });      
+        model.select(id);
+      }
+    });
 
 
 
@@ -132,6 +150,8 @@ export class InfoView extends SKContainer implements Observer {
     }
     if (newSize > 0) {
       this.square.size = newSize;
+      this.square.width = newSize;
+      this.square.height = newSize;
     }
   }
 }
