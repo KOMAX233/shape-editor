@@ -80,3 +80,5 @@ startSimpleKit();
 
 // 13 The square is scaled to be as large as possible while preserving approximately a minium of 10px away from the editor and form borders.
 
+// 16 The hue textfield accepts any string input
+

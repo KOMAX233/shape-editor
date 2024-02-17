@@ -17,6 +17,8 @@ export class InfoView extends SKContainer implements Observer {
 
   update(): void {
     const num = this.model.num;
+    const id = this.model.selectId;
+
     // if (num === 0) {
       // this.message.text = "no todos!";
     // } else if (this.model.selectId !== null) {
@@ -29,14 +31,11 @@ export class InfoView extends SKContainer implements Observer {
 
       // this.message.text = text;
     // }
-    // if (num === 0) {
-    //   // this.message.text = "no todos!";
-    //   this.setEditorVisible(false);
-    // } else 
-    const id = this.model.selectId;
-    console.log(id)
-    if (id !== null && this.model.numSelected === 1) {
-      // this.message.text = `edit id#${this.model.selectId}`;
+    if (num === 0) {
+      this.message.text = "Select One";
+      this.setEditorVisible(false);
+    } else if (id !== null && this.model.numSelected === 1) {
+      this.message.text = `edit id#${this.model.selectId}`;
       const todo = this.model.todo(id);
       if (todo) {
         this.square.hue = todo?.hue;
@@ -71,7 +70,7 @@ export class InfoView extends SKContainer implements Observer {
 
   //#endregion
 
-  // message = new SKLabel({ text: "?" });
+  message = new SKLabel({ text: "Select One", align: "centre"});
   up = new SKContainer();
   down = new SKContainer();
   square = new SKSquare();
@@ -88,7 +87,7 @@ export class InfoView extends SKContainer implements Observer {
     // setup the view
     this.layoutMethod = makeStackColLayout();
 
-    // this.addChild(this.message);
+    this.addChild(this.message);
     // this.addChild(this.square);
     this.up.id = "up";
     // this.up.margin = 0;
@@ -119,11 +118,16 @@ export class InfoView extends SKContainer implements Observer {
     // create controller
     this.fieldHue.addEventListener("textchanged", () => {
       const text = this.fieldHue.text;
-      const hue = Number(text);
+      const hue = text;
+      const hueVal = Number(hue);
       const id = model.selectId;
       if (id !== null) {
-        model.update(id, { text, hue });      
+        model.update(id, { text });      
         model.select(id);
+        if (!isNaN(hueVal) && hueVal >= 0 && hueVal <= 360) {
+          model.update(id, { hue: hueVal });      
+          model.select(id);
+        }
       }
     });
 
