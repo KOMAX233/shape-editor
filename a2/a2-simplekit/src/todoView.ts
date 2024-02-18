@@ -11,6 +11,7 @@ import {
 import { Observer } from "./observer";
 import { Model } from "./model";
 import { SKSquare } from "./square";
+import { SKStar } from "./star";
 
 export class TodoView extends SKContainer implements Observer {
   //#region observer pattern
@@ -18,14 +19,25 @@ export class TodoView extends SKContainer implements Observer {
   update() {
     const todo = this.model.todo(this.todoId);
     if (!todo) return;
-    this.square.checked = todo.selected;
-    this.square.hue = todo.hue;
+    if (todo.shape == "square") {
+      this.square.checked = todo.selected;
+      this.square.hue = todo.hue;
+    } else if (todo.shape == "star") {
+      this.star.checked = todo.selected;
+      this.star.hue = todo.hue;
+      this.star.outer = todo.outer;
+      this.star.point = todo.point;
+    }
+
     // this.todoText.text = `${todo.text || "?"} (id#${todo.id})`;
   }
 
   //#endregion
 
   square = new SKSquare();
+  star = new SKStar();
+
+  
   // todoText = new SKLabel({ text: "?" });
   // selectButton = new SKButton({ text: " ", width: 18 });
   // delButton = new SKButton({ text: "X", width: 18 });
@@ -41,11 +53,21 @@ export class TodoView extends SKContainer implements Observer {
     this.height = 70;
     // this.border = "grey";
     const todo = this.model.todo(this.todoId);
-    if (todo) this.square.hue = todo?.hue;
-
+    if (todo) {
+      this.square.hue = todo.hue;
+      this.star.hue = todo.hue;
+      this.star.checked = todo.selected;
+      this.star.hue = todo.hue;
+      this.star.point = todo.point;
+      this.star.outer = todo.outer;
+    }
     // setup the view
     this.layoutMethod = Layout.makeFillRowLayout({ gap: 0 });
-    this.addChild(this.square);
+    if (todo?.shape == "square") {
+      this.addChild(this.square);
+    } else if (todo?.shape == "star") {
+      this.addChild(this.star);
+    }
     // this.square.margin = 0;
     // this.addChild(this.todoText);
     // this.addChild(this.selectButton);
@@ -56,6 +78,11 @@ export class TodoView extends SKContainer implements Observer {
     // controllers
     this.square.addEventListener("action", () => {
       model.update(todoId, { selected: this.square.checked, hue: this.square.hue });
+      model.select(todoId, model.shiftPressed);
+    });
+    
+    this.star.addEventListener("action", () => {
+      model.update(todoId, { selected: this.star.checked, hue: this.star.hue, outer: this.star.outer, point: this.star.point});
       model.select(todoId, model.shiftPressed);
     });
     // this.delButton.addEventListener("action", () => {

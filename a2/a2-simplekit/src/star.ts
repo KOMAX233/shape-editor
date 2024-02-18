@@ -11,15 +11,21 @@ export type SKSquareProps = SKElementProps & {
   checked?: boolean;
   hit?: boolean;
   hue?: number;
-  size?: number
+  size?: number;
+  inner?: number;
+  outer?: number;
+  point?: number;
 };
 
-export class SKSquare extends SKElement {
+export class SKStar extends SKElement {
   constructor({
     checked = false,
     hit = false,
     hue = 0,
     size = 50,
+    inner = 15, 
+    outer = 20,
+    point = 3,
     ...elementProps
   }: SKSquareProps = {}) {
     super(elementProps);
@@ -29,6 +35,9 @@ export class SKSquare extends SKElement {
     this.size = size;
     this.width = size;
     this.height = size;
+    this.inner = inner;
+    this.outer = outer;
+    this.point = point;
     this.calculateBasis();
     this.doLayout();
   }
@@ -38,6 +47,10 @@ export class SKSquare extends SKElement {
   hit: boolean;
   hue: number;
   size: number;
+  inner: number;
+  outer: number;
+  point: number;
+  
 
 
   handleMouseEvent(me: SKMouseEvent) {
@@ -97,6 +110,8 @@ export class SKSquare extends SKElement {
     // normal background
     gc.beginPath();
     gc.rect(this.x, this.y, this.size, this.size);
+    gc.fillStyle = "white";
+    gc.fill();
     // gc.fillStyle =
     //   this.state == "down" ? Style.focusColour : `hsl(${this.hue}deg 100% 50%)`;
     gc.fillStyle = `hsl(${this.hue}deg 100% 50%)`;
@@ -104,9 +119,34 @@ export class SKSquare extends SKElement {
     // change fill to show down state
     // gc.lineWidth = this.state == "down" ? 4 : 2;
     gc.lineWidth = 2;
-    gc.fill();
+    // gc.fill();
     gc.stroke();
     // gc.clip(); // clip text if it's wider than text area
+
+
+    const centerX = this.x + 50 / 2;
+    const centerY = this.y + 50 / 2;
+
+    gc.beginPath();
+    
+    for(var i = 1; i <= this.point * 2; i++) {
+      var angle = i * (Math.PI * 2) / (this.point * 2);
+      if(i % 2 == 0) {
+        var xDest = centerX + (this.outer * 2 * Math.sin(angle));
+        var yDest = centerY - (this.outer * 2 * Math.cos(angle));
+      } else {
+        var xDest = centerX + ((this.inner) * Math.sin(angle));
+        var yDest = centerY - ((this.inner) * Math.cos(angle));
+      }
+      gc.lineTo(xDest ,yDest);
+    }
+    gc.closePath();
+    
+    gc.fillStyle = `hsl(${this.hue}, 100%, 50%)`;
+    gc.fill();
+    gc.stroke();
+
+
 
     // checked state
     if (this.checked) {

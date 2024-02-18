@@ -2,6 +2,7 @@ import {
   SKContainer,
   SKLabel,
   Layout,
+  SKMouseEvent,
 } from "simplekit/imperative-mode";
 
 // local imports
@@ -40,6 +41,22 @@ export class ListView extends SKContainer implements Observer {
 
     // use a custom layout in this app
     this.layoutMethod = Layout.makeWrapRowLayout({gap: 0});
+
+    // this.addEventListener("action", (e) => {
+    //   let clicked = false
+    //   this.children.forEach((c) => {
+    //     if (c instanceof TodoView) {
+    //       console.log("clicked?", c.square.hit )
+    //       if (c.square.hit) {
+    //         // console.log("clicked?", c.square.hit )
+    //         clicked = true;
+    //       }
+    //     }
+    //   });
+    //   if (!clicked) {
+    //       // model.deselectAll();
+    //   }
+    // });
 
     // register with the model when we're ready
     this.model.addObserver(this);

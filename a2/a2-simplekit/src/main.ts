@@ -20,7 +20,7 @@ import { SKSquare } from "./square";
 // data
 const model = new Model();
 for (let i = 0; i < 8; i++) {
-  model.create("!", model.randomHue());
+  model.create("!", model.randomHue(), "square");
 }
 
 

@@ -7,6 +7,10 @@ type Todo = {
   text: string;
   selected: boolean;
   hue: number;
+  shape: string;
+  inner: number;
+  outer: number;
+  point: number;
 };
 
 // super simple "id generator"
@@ -30,10 +34,18 @@ export class Model extends Subject {
   // model "business logic" (CRUD)
 
   // Create
-  create(task: string, hue: number) {
+  create(task: string, hue: number, shape: string, inner?:number, outer?: number, point?: number) {
     this.todos = [
       ...this.todos,
-      { id: uniqueId++, text: task, selected: false, hue: hue},
+      { id: uniqueId++, 
+        text: task, 
+        selected: false, 
+        hue: hue, 
+        shape: shape,
+        inner: (inner)? inner: 15,
+        outer: (inner)? inner: 20,
+        point: (inner)? inner: 3,
+      },
     ];
     this.notifyObservers();
   }
@@ -50,7 +62,7 @@ export class Model extends Subject {
   }
 
   // Update
-  update(id: number, todo: { text?: string; selected?: boolean; hue?: number }) {
+  update(id: number, todo: { text?: string; selected?: boolean; hue?: number, inner?: number, outer?: number, point?: number }) {
     this.todos = this.todos.map((t) =>
       // if todo matches id, then spread it and replace
       // with defined properties in todo object argument
@@ -96,6 +108,16 @@ export class Model extends Subject {
 
   randomHue() {
     let rand = Math.ceil(random(0, 359));
+    return rand;
+  }
+
+  randomR() {
+    let rand = Math.ceil(random(20, 44));
+    return rand;
+  }
+
+  randomPoint() {
+    let rand = Math.ceil(random(3, 9));
     return rand;
   }
 

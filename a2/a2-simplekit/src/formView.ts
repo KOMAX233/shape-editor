@@ -65,7 +65,7 @@ export class FormView extends SKContainer implements Observer {
     // create controller
     this.button_add.addEventListener("action", () => {
       const text = this.textfield.text;
-          model.create(text, model.randomHue());
+          model.create(text, model.randomHue(), "square");
       this.textfield.text = "";
     });
 
@@ -76,7 +76,7 @@ export class FormView extends SKContainer implements Observer {
       //   model.update(model.selectId, { text });
       // } else {
         if (model.num < 20) {
-          model.create(text, model.randomHue());
+          model.create(text, model.randomHue(), "star", 15, model.randomR(), model.randomPoint());
         }
       // }
       this.textfield.text = "";

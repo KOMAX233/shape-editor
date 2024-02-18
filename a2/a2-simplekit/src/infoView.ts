@@ -11,6 +11,7 @@ import { Observer } from "./observer";
 import { Model } from "./model";
 import { SKSquare } from "./square";
 import { makeStackColLayout } from "./stackCol";
+import { SKStar } from "./star";
 
 export class InfoView extends SKContainer implements Observer {
   //#region observer pattern
@@ -60,7 +61,8 @@ export class InfoView extends SKContainer implements Observer {
   up = new SKContainer();
   down = new SKContainer();
   s = this.resizeSquare();
-  square = new SKSquare({"size": 140});
+  square = new SKSquare();
+  star = new SKStar();
   hueEditor = new SKContainer();
   labelHue = new SKLabel({text: "Hue", align: "right"});
   fieldHue = new SKTextfield({text: "?", width: 50});
@@ -132,14 +134,16 @@ export class InfoView extends SKContainer implements Observer {
       this.removeChild(this.up);
       this.removeChild(this.down);
     } else {
+      this.resizeSquare();
       this.addChild(this.up);
       this.addChild(this.down);
     }
   }
   resizeSquare() {
     let newSize = 0;
+    console.log(this.width, ", ", this.height)
     if (this.up.width && this.up.height) {
-      newSize = Math.min(this.up.width, this.up.height);
+      newSize = Math.min(this.up.width - 20, this.up.height - 20);
     }
     if (newSize > 0) {
       this.square.size = newSize;
