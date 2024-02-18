@@ -63,7 +63,7 @@ export class InfoView extends SKContainer implements Observer {
       // if (this.model.numSelected > 0) {
       //   text += ` (${this.model.numSelected} selected)`;
       // }
-      // this.message.text = text;
+      this.message.text = "Too Many Selected";
       this.setEditorVisible(false);
     }
     this.setTextVisible();
@@ -89,6 +89,8 @@ export class InfoView extends SKContainer implements Observer {
     // setup the view
     this.layoutMethod = makeStackColLayout();
 
+    this.message.fillWidth = 1;
+    this.message.fillHeight = 1;
     this.addChild(this.message);
     // this.addChild(this.square);
     this.up.id = "up";
@@ -162,10 +164,10 @@ export class InfoView extends SKContainer implements Observer {
   }
 
   setTextVisible() {
-    if (this.model.numSelected === 0) {
-      this.addChild(this.message);
-    } else {
+    if (this.model.numSelected === 1) {
       this.removeChild(this.message);
+    } else {
+      this.addChild(this.message);
     }
   }
 }

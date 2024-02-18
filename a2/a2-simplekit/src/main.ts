@@ -4,6 +4,8 @@ import {
   SKContainer,
   Layout,
   Settings,
+  setSKEventListener,
+  SKKeyboardEvent,
 } from "simplekit/imperative-mode";
 
 // local imports
@@ -59,7 +61,20 @@ right.layoutMethod = makeStackColLayout();
 right.border = "1px solid grey";
 right.addChild(new InfoView(model));
 root.addChild(right);
+console.log("shift:", model.shiftPressed)
 
+setSKEventListener((e) => {
+  const ke = e as SKKeyboardEvent;
+  if (ke.key === "Shift") {
+    if (e.type == "keydown") {
+      model.toggleShift();
+      console.log("shift:", model.shiftPressed)
+    } else if (e.type == "keyup") {
+      model.toggleShift();
+      console.log("shift:", model.shiftPressed)
+    }
+  }
+});
 
 setSKRoot(root);
 
@@ -81,4 +96,8 @@ startSimpleKit();
 // 13 The square is scaled to be as large as possible while preserving approximately a minium of 10px away from the editor and form borders.
 
 // 16 The hue textfield accepts any string input
+
+// pressing add button makes editor and message goes down??
+
+// 22 When the "Shift" key is held down, clicking on an unselected square selects that square, but does not deselect any other square. Clicking on a selected square deselects it, but does not deselect any other square.
 

@@ -24,11 +24,28 @@ export class StatusView extends SKContainer implements Observer {
     // }
     const numShape = this.model.num;
     this.label.text = numShape + ((numShape > 1)? " shapes" : " shape");
+    if (this.model.numSelected > 0) {
+      this.message.text = `selected ${this.model.numSelected}`;
+    } else {
+      this.message.text = "";
+    }
+      // let text = `${num} todo${num > 1 ? "s" : ""}`;
+      // if (this.model.numSelected > 0) {
+      //   text += ` (${this.model.numSelected} selected)`;
+      // }
+      // this.message.text = text;
+    if (!this.model.shiftPressed) {
+      this.shift.text = "";
+    } else {
+      this.shift.text = "SHIFT";
+    }
   }
 
   //#endregion
 
   label = new SKLabel({ text: "?", align: "left"});
+  message = new SKLabel({ text: "?", align: "right"}); 
+  shift = new SKLabel({ text: "SHIFT", align: "centre"}); 
 
   constructor(private model: Model) {
     super();
@@ -42,12 +59,14 @@ export class StatusView extends SKContainer implements Observer {
     this.fillWidth = 1;
     this.height = 50;
 
-    this.layoutMethod = Layout.makeFillRowLayout({ gap: 10 });
+    this.layoutMethod = Layout.makeFillRowLayout({ gap: 0 });
 
-    // add widgets to the view
-    // this.textfield.fillWidth = 1;
-    // this.addChild(this.textfield);
+    this.label.fillWidth = 1;
+    this.message.fillWidth = 1;
+    this.shift.fillWidth = 1;
     this.addChild(this.label);
+    this.addChild(this.shift);
+    this.addChild(this.message);
 
     // create controller
     // this.button_add.addEventListener("action", () => {

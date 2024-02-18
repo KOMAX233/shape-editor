@@ -15,6 +15,8 @@ let uniqueId = 1;
 export class Model extends Subject {
   // model data (i.e. model state)
   private todos: Todo[] = [];
+  
+  public shiftPressed: boolean = false;
 
   // information methods
   get num() {
@@ -64,8 +66,17 @@ export class Model extends Subject {
   get selectId() {
     return this._selectId;
   }
+
   select(id: number) {
     this._selectId = id;
+    const todo = this.todos.find((t) => t.id === id);
+    if (!todo) return;
+    if (this.shiftPressed) {
+      todo.selected = !todo.selected;
+    } else {
+      this.todos.forEach((t) => t.selected = false);
+      todo.selected = true;
+    }
     this.notifyObservers();
   }
 
@@ -86,5 +97,15 @@ export class Model extends Subject {
   randomHue() {
     let rand = Math.ceil(random(0, 359));
     return rand;
+  }
+
+  deselectAll() {
+    this.todos.forEach((t) => t.selected = false);
+    this.notifyObservers();
+  }
+
+  toggleShift() {
+    this.shiftPressed = !this.shiftPressed;
+    this.notifyObservers();
   }
 }

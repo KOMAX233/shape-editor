@@ -3,6 +3,8 @@ import {
   SKLabel,
   Layout,
   SKButton,
+  SKKeyboardEvent,
+  SKEvent,
 } from "simplekit/imperative-mode";
 
 // local imports
