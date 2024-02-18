@@ -8,6 +8,7 @@ import {
 // local imports
 import { Observer } from "./observer";
 import { Model } from "./model";
+import { ExtendedSKButton } from "./extBut";
 
 export class FormView extends SKContainer implements Observer {
   //#region observer pattern
@@ -21,14 +22,18 @@ export class FormView extends SKContainer implements Observer {
     //   this.button_add.text = "Add";
     //   this.textfield.text = "";
     // }
+    this.button_add.enabled = this.model.num < 20;
+    this.button_add_star.enabled = this.model.num < 20;
+    this.button_delete.enabled = this.model.numSelected !== 0;
+    this.button_clear.enabled = this.model.num !== 0;
   }
 
   //#endregion
 
-  button_add = new SKButton({ text: "Add", width: 80 });
-  button_add_star = new SKButton({ text: "Add Star", width: 80  });
-  button_delete = new SKButton({ text: "Delete", width: 80  });
-  button_clear = new SKButton({ text: "Clear", width: 80  });
+  button_add = new ExtendedSKButton({ text: "Add", width: 80 });
+  button_add_star = new ExtendedSKButton({ text: "Add Star", width: 80  });
+  button_delete = new ExtendedSKButton({ text: "Delete", width: 80  });
+  button_clear = new ExtendedSKButton({ text: "Clear", width: 80  });
   textfield = new SKTextfield({ text: "?" });
 
   constructor(private model: Model) {
@@ -48,6 +53,10 @@ export class FormView extends SKContainer implements Observer {
     // add widgets to the view
     this.textfield.fillWidth = 1;
     // this.addChild(this.textfield);
+    this.button_add.enabled = true;
+    this.button_add_star.enabled = true;
+    this.button_delete.enabled = true;
+    this.button_clear.enabled = true;
     this.addChild(this.button_add);
     this.addChild(this.button_add_star);
     this.addChild(this.button_delete);
@@ -55,6 +64,13 @@ export class FormView extends SKContainer implements Observer {
 
     // create controller
     this.button_add.addEventListener("action", () => {
+      const text = this.textfield.text;
+          model.create(text, model.randomHue());
+      this.textfield.text = "";
+    });
+
+    
+    this.button_add_star.addEventListener("action", () => {
       const text = this.textfield.text;
       // if (model.selectId !== null) {
       //   model.update(model.selectId, { text });

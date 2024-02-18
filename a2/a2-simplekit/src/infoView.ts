@@ -16,21 +16,8 @@ export class InfoView extends SKContainer implements Observer {
   //#region observer pattern
 
   update(): void {
-    const num = this.model.num;
     const id = this.model.selectId;
 
-    // if (num === 0) {
-      // this.message.text = "no todos!";
-    // } else if (this.model.selectId !== null) {
-    //   this.message.text = `edit id#${this.model.selectId}`;
-    // } else {
-      // let text = `${num} todo${num > 1 ? "s" : ""}`;
-      // if (this.model.numSelected > 0) {
-      //   text += ` (${this.model.numSelected} selected)`;
-      // }
-
-      // this.message.text = text;
-    // }
     if (this.model.numSelected === 0) {
       this.message.text = "Select One";
       this.setEditorVisible(false);
@@ -51,11 +38,8 @@ export class InfoView extends SKContainer implements Observer {
           this.square.height = this.up.height;
         }
       }
-      // if (this.fieldHue.text != String(this.square.hue)) {
-        // this.square.hue = Number(this.fieldHue.text);
-      // } else {
-        this.fieldHue.text = String(this.square.hue);
-      // }
+      this.fieldHue.text = String(this.square.hue);
+
       this.setEditorVisible(true);
       this.resizeSquare();
     } else {
@@ -75,7 +59,8 @@ export class InfoView extends SKContainer implements Observer {
   message = new SKLabel({ text: "Select One", align: "centre"});
   up = new SKContainer();
   down = new SKContainer();
-  square = new SKSquare();
+  s = this.resizeSquare();
+  square = new SKSquare({"size": 140});
   hueEditor = new SKContainer();
   labelHue = new SKLabel({text: "Hue", align: "right"});
   fieldHue = new SKTextfield({text: "?", width: 50});
@@ -161,6 +146,7 @@ export class InfoView extends SKContainer implements Observer {
       this.square.width = newSize;
       this.square.height = newSize;
     }
+    return newSize;
   }
 
   setTextVisible() {
