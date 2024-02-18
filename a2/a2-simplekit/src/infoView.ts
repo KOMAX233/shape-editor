@@ -31,11 +31,12 @@ export class InfoView extends SKContainer implements Observer {
 
       // this.message.text = text;
     // }
-    if (num === 0) {
+    if (this.model.numSelected === 0) {
       this.message.text = "Select One";
       this.setEditorVisible(false);
-    } else if (id !== null && this.model.numSelected === 1) {
-      this.message.text = `edit id#${this.model.selectId}`;
+    } else if (this.model.numSelected === 1) {
+      if (id === null) return;
+      // this.message.text = `edit id#${this.model.selectId}`;
       const todo = this.model.todo(id);
       if (todo) {
         this.square.hue = todo?.hue;
@@ -65,6 +66,7 @@ export class InfoView extends SKContainer implements Observer {
       // this.message.text = text;
       this.setEditorVisible(false);
     }
+    this.setTextVisible();
     this.resizeSquare();
   }
 
@@ -156,6 +158,14 @@ export class InfoView extends SKContainer implements Observer {
       this.square.size = newSize;
       this.square.width = newSize;
       this.square.height = newSize;
+    }
+  }
+
+  setTextVisible() {
+    if (this.model.numSelected === 0) {
+      this.addChild(this.message);
+    } else {
+      this.removeChild(this.message);
     }
   }
 }

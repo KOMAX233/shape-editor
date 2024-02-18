@@ -77,6 +77,12 @@ export class Model extends Subject {
     this.notifyObservers();
   }
 
+  clear() {
+    this.todos = [];
+    this._selectId = null;
+    this.notifyObservers();
+  }
+
   randomHue() {
     let rand = Math.ceil(random(0, 359));
     return rand;
