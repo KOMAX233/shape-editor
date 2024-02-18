@@ -81,11 +81,6 @@ setSKRoot(root);
 startSimpleKit();
 
 // Settings.debug = true;
-// TODO: step 6 20px gap between squares: Each square in the shape list fits in a 50px by 50px area. 
-// There is a 20px gap between squares and a 20px gap from the left and top of the shape list area. 
-// The shape list wraps to the next row if there is not enough room.
-
-// select a square unselect the last one
 
 // fix: have to do any action to make the infoview square show up
 

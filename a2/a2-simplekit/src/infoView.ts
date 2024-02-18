@@ -127,10 +127,10 @@ export class InfoView extends SKContainer implements Observer {
       const id = model.selectId;
       if (id !== null) {
         model.update(id, { text });      
-        model.select(id);
+        model.select(id, true);
         if (!isNaN(hueVal) && hueVal >= 0 && hueVal <= 360) {
           model.update(id, { hue: hueVal });      
-          model.select(id);
+          model.select(id, true);
         }
       }
     });

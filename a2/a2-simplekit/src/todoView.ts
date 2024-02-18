@@ -34,10 +34,11 @@ export class TodoView extends SKContainer implements Observer {
     super();
 
     // view design
-    // this.padding = 5;
-    // this.margin = 5;
+    this.padding = 20;
+    // this.margin = 10;
     this.fillWidth = 1;
-    this.height = 40;
+    this.width = 70;
+    this.height = 70;
     // this.border = "grey";
     const todo = this.model.todo(this.todoId);
     if (todo) this.square.hue = todo?.hue;
@@ -55,7 +56,7 @@ export class TodoView extends SKContainer implements Observer {
     // controllers
     this.square.addEventListener("action", () => {
       model.update(todoId, { selected: this.square.checked, hue: this.square.hue });
-      model.select(todoId);
+      model.select(todoId, model.shiftPressed);
     });
     // this.delButton.addEventListener("action", () => {
     //   model.delete(todoId);

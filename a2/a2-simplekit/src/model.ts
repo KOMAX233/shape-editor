@@ -67,11 +67,11 @@ export class Model extends Subject {
     return this._selectId;
   }
 
-  select(id: number) {
+  select(id: number, shift: boolean) {
     this._selectId = id;
     const todo = this.todos.find((t) => t.id === id);
     if (!todo) return;
-    if (this.shiftPressed) {
+    if (shift) {
       todo.selected = !todo.selected;
     } else {
       this.todos.forEach((t) => t.selected = false);
