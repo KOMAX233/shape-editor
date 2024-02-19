@@ -6,6 +6,7 @@ import {
   Settings,
   setSKEventListener,
   SKKeyboardEvent,
+  invalidateLayout,
 } from "simplekit/imperative-mode";
 
 // local imports
@@ -58,7 +59,8 @@ right.padding = 10;
 right.fill = "whitesmoke";
 right.fillWidth = 1;
 right.fillHeight = 1;
-right.layoutMethod = makeStackColLayout();
+right.layoutMethod = Layout.makeCentredLayout();
+
 right.border = "1px solid grey";
 right.addChild(new InfoView(model));
 root.addChild(right);
@@ -83,15 +85,9 @@ startSimpleKit();
 
 // Settings.debug = true;
 
-// fix: have to do any action to make the infoview square show up
-
 // make hue label and textfield in center
 
 // resize infoview square
 
 // 13 The square is scaled to be as large as possible while preserving approximately a minium of 10px away from the editor and form borders.
-
-// pressing add button makes editor and message goes down??
-
-// 22 When the "Shift" key is held down, clicking on an unselected square selects that square, but does not deselect any other square. Clicking on a selected square deselects it, but does not deselect any other square.
 

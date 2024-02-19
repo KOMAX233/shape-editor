@@ -48,6 +48,8 @@ export function stackColLayout(
       el.width = (boundsWidth);
     } else if (el.id === "info") {
       el.width = boundsWidth;
+    } else if (el.id === "message") {
+      el.width = boundsWidth;
     }
 
     // next row

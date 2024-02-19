@@ -19,6 +19,7 @@ let uniqueId = 1;
 export class Model extends Subject {
   // model data (i.e. model state)
   private todos: Todo[] = [];
+  public selected: Todo[] = [];
   
   public shiftPressed: boolean = false;
 
@@ -69,6 +70,7 @@ export class Model extends Subject {
       t.id === id ? { ...t, ...todo } : t
     );
     this._selectId = null;
+    this.selected = [];
     this.notifyObservers();
 
   }
@@ -80,14 +82,16 @@ export class Model extends Subject {
   }
 
   select(id: number, shift: boolean) {
-    this._selectId = id;
     const todo = this.todos.find((t) => t.id === id);
     if (!todo) return;
     if (shift) {
+      this.selected.push(todo);
       todo.selected = !todo.selected;
     } else {
+      this._selectId = id;
+      let tempv = todo.selected;
       this.todos.forEach((t) => t.selected = false);
-      todo.selected = true;
+      todo.selected = !tempv;      
     }
     this.notifyObservers();
   }
@@ -123,6 +127,7 @@ export class Model extends Subject {
 
   deselectAll() {
     this.todos.forEach((t) => t.selected = false);
+    this.selected = [];
     this.notifyObservers();
   }
 

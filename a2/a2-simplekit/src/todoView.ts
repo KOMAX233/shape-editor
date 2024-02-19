@@ -77,13 +77,20 @@ export class TodoView extends SKContainer implements Observer {
 
     // controllers
     this.square.addEventListener("action", () => {
-      model.update(todoId, { selected: this.square.checked, hue: this.square.hue });
-      model.select(todoId, model.shiftPressed);
+      console.log("selected", todo?.selected, this.square.checked)
+      // if (todo?.selected) {
+        model.update(todoId, { hue: this.square.hue });
+        model.select(todoId, model.shiftPressed);
+      // } else {
+
+      // }
+      
     });
     
     this.star.addEventListener("action", () => {
-      model.update(todoId, { selected: this.star.checked, hue: this.star.hue, outer: this.star.outer, point: this.star.point});
+      model.update(todoId, { hue: this.star.hue, outer: this.star.outer, point: this.star.point});
       model.select(todoId, model.shiftPressed);
+      // console.log("selected", this.square.checked)
     });
     // this.delButton.addEventListener("action", () => {
     //   model.delete(todoId);

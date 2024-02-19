@@ -4,6 +4,7 @@ import {
   Layout,
   SKTextfield,
   SKResizeEvent,
+  invalidateLayout,
 } from "simplekit/imperative-mode";
 
 // local imports
@@ -18,47 +19,48 @@ export class InfoView extends SKContainer implements Observer {
 
   update(): void {
     const id = this.model.selectId;
-
+    // this.setEditorVisible(false);
+    this.clearChildren();
     if (this.model.numSelected === 0) {
       this.message.text = "Select One";
-      this.setEditorVisible(false);
+      this.layoutMethod = Layout.makeCentredLayout();
+      // this.setEditorVisible(false);
+      this.addChild(this.message);
 
     } else if (this.model.numSelected === 1) {
-      if (id === null) return;
-      // this.message.text = `edit id#${this.model.selectId}`;
-      const todo = this.model.todo(id);
-      if (todo) {
-        this.square.hue = todo?.hue;
-        // this.fieldHue.text = String(todo.text || "");
+      this.layoutMethod = makeStackColLayout();
+      if (id !== null) {
+        // this.message.text = `edit id#${this.model.selectId}`;
+        const todo = this.model.todo(id);
+        if (todo) {
+          this.square.hue = todo.hue;
+          // this.fieldHue.text = String(todo.text || "");
+          
+          if (!isNaN(todo.hue) && todo.hue >= 0 && todo.hue <= 360) {
+            this.fieldHue.text = String(todo.hue);
+          } else {
+            this.fieldHue.text = todo.text;
+          }
+          this.addChild(this.up);
+          this.addChild(this.down);
+          this.resizeSquare();
+        }
         
-        if (!isNaN(todo.hue) && todo.hue >= 0 && todo.hue <= 360) {
-          this.fieldHue.text = String(todo.hue);
-        } else {
-          this.fieldHue.text = todo.text;
-        }
-      }
-      if (this.width && this.height) {
-        if (this.width < this.height) {
-          this.square.width = this.up.width;
-          this.square.height = this.up.width;
-        } else {
-          this.square.width = this.up.height;
-          this.square.height = this.up.height;
-        }
-      }
-      this.fieldHue.text = String(todo?.text);
+        this.fieldHue.text = String(todo?.text);
 
-      this.setEditorVisible(true);
-      this.resizeSquare();
+        // this.setEditorVisible(true);
+        // this.resizeSquare();
+      }
     } else {
       // let text = `${num} todo${num > 1 ? "s" : ""}`;
       // if (this.model.numSelected > 0) {
       //   text += ` (${this.model.numSelected} selected)`;
       // }
+      this.layoutMethod = Layout.makeCentredLayout();
       this.message.text = "Too Many Selected";
-      this.setEditorVisible(false);
+      this.addChild(this.message);
+      // this.setEditorVisible(false);
     }
-    this.setTextVisible();
     this.resizeSquare();
   }
 
@@ -80,11 +82,14 @@ export class InfoView extends SKContainer implements Observer {
     this.fillHeight = 1;
 
     // setup the view
-    this.layoutMethod = makeStackColLayout();
+    this.layoutMethod = Layout.makeCentredLayout();
 
+    this.message.id = "message";
     this.message.fillWidth = 1;
     this.message.fillHeight = 1;
-    this.addChild(this.message);
+    console.log("message:", this.message.x, this.message.y, this.message.width, this.message.height)
+    this.message.align = "centre";
+    // this.addChild(this.message);
     // this.addChild(this.square);
     this.up.id = "up";
     // this.up.margin = 0;
@@ -108,9 +113,7 @@ export class InfoView extends SKContainer implements Observer {
     this.down.addChild(this.hueEditor);
     this.addChild(this.down);
     
-
-    this.resizeSquare();
-    this.setEditorVisible(false);
+    // this.setEditorVisible(false);
 
     // create controller
     this.fieldHue.addEventListener("textchanged", () => {
@@ -139,8 +142,10 @@ export class InfoView extends SKContainer implements Observer {
     if (!visible) {
       this.removeChild(this.up);
       this.removeChild(this.down);
+      this.addChild(this.message);
     } else {
-      this.resizeSquare();
+      // this.resizeSquare();
+      this.removeChild(this.message);
       this.addChild(this.up);
       this.addChild(this.down);
     }
