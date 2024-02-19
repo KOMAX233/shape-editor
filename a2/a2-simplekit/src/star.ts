@@ -132,8 +132,8 @@ export class SKStar extends SKElement {
     for(var i = 1; i <= this.point * 2; i++) {
       var angle = i * (Math.PI * 2) / (this.point * 2);
       if(i % 2 == 0) {
-        var xDest = centerX + (this.outer * 2 * Math.sin(angle));
-        var yDest = centerY - (this.outer * 2 * Math.cos(angle));
+        var xDest = centerX + (this.outer * Math.sin(angle));
+        var yDest = centerY - (this.outer * Math.cos(angle));
       } else {
         var xDest = centerX + ((this.inner) * Math.sin(angle));
         var yDest = centerY - ((this.inner) * Math.cos(angle));

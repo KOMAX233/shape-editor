@@ -45,8 +45,8 @@ export class Model extends Subject {
         hue: hue, 
         shape: shape,
         inner: (inner)? inner: 15,
-        outer: (inner)? inner: 20,
-        point: (inner)? inner: 3,
+        outer: (outer)? outer: 20,
+        point: (point)? point: 3,
       },
     ];
     this.notifyObservers();
@@ -115,17 +115,17 @@ export class Model extends Subject {
   }
 
   randomHue() {
-    let rand = Math.ceil(random(0, 359));
+    let rand = Math.floor(random(0, 361));
     return rand;
   }
 
   randomR() {
-    let rand = Math.ceil(random(20, 44));
+    let rand = Math.floor(random(20, 46));
     return rand;
   }
 
   randomPoint() {
-    let rand = Math.ceil(random(3, 9));
+    let rand = 3 + Math.floor(random(0, 8));
     return rand;
   }
 
