@@ -22,13 +22,20 @@ export class InfoView extends SKContainer implements Observer {
     if (this.model.numSelected === 0) {
       this.message.text = "Select One";
       this.setEditorVisible(false);
+
     } else if (this.model.numSelected === 1) {
       if (id === null) return;
       // this.message.text = `edit id#${this.model.selectId}`;
       const todo = this.model.todo(id);
       if (todo) {
         this.square.hue = todo?.hue;
-        this.fieldHue.text = String(this.model.todo(id)?.hue || "");
+        // this.fieldHue.text = String(todo.text || "");
+        
+        if (!isNaN(todo.hue) && todo.hue >= 0 && todo.hue <= 360) {
+          this.fieldHue.text = String(todo.hue);
+        } else {
+          this.fieldHue.text = todo.text;
+        }
       }
       if (this.width && this.height) {
         if (this.width < this.height) {
@@ -39,7 +46,7 @@ export class InfoView extends SKContainer implements Observer {
           this.square.height = this.up.height;
         }
       }
-      this.fieldHue.text = String(this.square.hue);
+      this.fieldHue.text = String(todo?.text);
 
       this.setEditorVisible(true);
       this.resizeSquare();
@@ -60,7 +67,6 @@ export class InfoView extends SKContainer implements Observer {
   message = new SKLabel({ text: "Select One", align: "centre"});
   up = new SKContainer();
   down = new SKContainer();
-  s = this.resizeSquare();
   square = new SKSquare();
   star = new SKStar();
   hueEditor = new SKContainer();
@@ -116,9 +122,9 @@ export class InfoView extends SKContainer implements Observer {
         model.update(id, { text });      
         model.select(id, true);
         if (!isNaN(hueVal) && hueVal >= 0 && hueVal <= 360) {
-          model.update(id, { hue: hueVal });      
-          model.select(id, true);
-        }
+          model.update(id, { hue: hueVal });
+        }   
+        model.select(id, true);
       }
     });
 
