@@ -81,7 +81,7 @@ export class InfoView extends SKContainer implements Observer {
           }
           this.addChild(this.up);
           this.addChild(this.down);
-          this.resizeSquare();
+          // this.resizeSquare();
         this.fieldHue.text = todo.text;
         this.fieldHuer.text = todo.textOuter;
         this.fieldHuep.text = todo.textPoint;
@@ -89,7 +89,7 @@ export class InfoView extends SKContainer implements Observer {
         
 
         // this.setEditorVisible(true);
-        // this.resizeSquare();
+        this.resizeSquare();
       }
     } else {
       // let text = `${num} todo${num > 1 ? "s" : ""}`;
@@ -101,7 +101,7 @@ export class InfoView extends SKContainer implements Observer {
       this.addChild(this.message);
       // this.setEditorVisible(false);
     }
-    this.resizeSquare();
+    // this.resizeSquare();
   }
 
   //#endregion
@@ -126,6 +126,7 @@ export class InfoView extends SKContainer implements Observer {
     super();
     this.id = "info";
     this.fill = "whitesmoke";
+    this.fillWidth = 1;
     this.fillHeight = 1;
 
     // setup the view
@@ -139,6 +140,7 @@ export class InfoView extends SKContainer implements Observer {
     // this.up.margin = 0;
     this.up.padding = 10;
     // this.up.border = "1px solid grey";
+    this.up.fillWidth = 1;
     this.up.layoutMethod = Layout.makeCentredLayout();
     
     // this.up.addChild(this.square);
@@ -167,7 +169,8 @@ export class InfoView extends SKContainer implements Observer {
     // this.down.margin = 0;
     this.down.padding = 10;
     this.down.border = "1px solid grey";
-    this.down.layoutMethod = Layout.makeFillRowLayout();
+    this.down.fillWidth = 1;
+    this.down.layoutMethod = Layout.makeCentredLayout();
     this.down.addChild(this.hueEditor);
     // this.down.addChild(this.radiusEditor);
     // this.down.addChild(this.pointEditor);
@@ -220,6 +223,8 @@ export class InfoView extends SKContainer implements Observer {
         model.select(id, true);
       }
     });
+    
+  invalidateLayout();
 
 
 

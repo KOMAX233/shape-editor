@@ -42,10 +42,10 @@ export function stackColLayout(
       el.y = boundsHeight - 50;
     } else if (el.id === "up") {
       el.height = (boundsHeight - 10) * 2 / 3;
-      el.width = (boundsWidth);
+      // el.width = (boundsWidth);
     } else if (el.id === "down") {
       el.height = (boundsHeight - 10) / 3;
-      el.width = (boundsWidth);
+      // el.width = (boundsWidth);
     } else if (el.id === "info") {
       el.width = boundsWidth;
     } else if (el.id === "message") {
@@ -54,14 +54,17 @@ export function stackColLayout(
       el.height = (boundsHeight) / 3;
       el.width = (boundsWidth);
       el.y = 0;
+      el.x = (boundsWidth - el.width / 2) / 2;
     } else if (el.id === "radiusE") {
       el.height = (boundsHeight) / 3;
       el.width = (boundsWidth);
       el.y = (boundsHeight) / 3;
+      el.x = (boundsWidth - el.width / 2) / 2;
     } else if (el.id === "pointE") {
       el.height = (boundsHeight) / 3;
       el.width = (boundsWidth);
       el.y = (boundsHeight) / 3 * 2;
+      el.x = (boundsWidth - el.width / 2) / 2;
     }
 
     // next row

@@ -85,8 +85,6 @@ startSimpleKit();
 
 // Settings.debug = true;
 
-// make hue label and textfield in center
-
 // resize infoview square
 
 // 13 The square is scaled to be as large as possible while preserving approximately a minium of 10px away from the editor and form borders.
