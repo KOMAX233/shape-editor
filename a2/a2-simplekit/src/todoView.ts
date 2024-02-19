@@ -81,7 +81,8 @@ export class TodoView extends SKContainer implements Observer {
       // if (todo?.selected) {
         model.update(todoId, { hue: this.square.hue });
         model.select(todoId, model.shiftPressed);
-      // } else {
+        model.toggleClick(true);
+        // } else {
 
       // }
       
@@ -90,6 +91,7 @@ export class TodoView extends SKContainer implements Observer {
     this.star.addEventListener("action", () => {
       model.update(todoId, { hue: this.star.hue, outer: this.star.outer, point: this.star.point});
       model.select(todoId, model.shiftPressed);
+      model.toggleClick(true);
       // console.log("selected", this.square.checked)
     });
     // this.delButton.addEventListener("action", () => {

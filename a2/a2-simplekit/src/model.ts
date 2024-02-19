@@ -22,6 +22,7 @@ export class Model extends Subject {
   public selected: Todo[] = [];
   
   public shiftPressed: boolean = false;
+  public shapeClicked: boolean = false;
 
   // information methods
   get num() {
@@ -133,6 +134,11 @@ export class Model extends Subject {
 
   toggleShift() {
     this.shiftPressed = !this.shiftPressed;
+    this.notifyObservers();
+  }
+
+  toggleClick(v: boolean) {
+    this.shapeClicked = v;
     this.notifyObservers();
   }
 }
