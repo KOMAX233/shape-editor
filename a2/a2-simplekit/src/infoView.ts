@@ -110,7 +110,7 @@ export class InfoView extends SKContainer implements Observer {
   up = new SKContainer();
   down = new SKContainer();
   square = new SKSquare();
-  star = new SKStar();
+  star = new SKStar({back: false});
   hueEditor = new SKContainer();
   labelHue = new SKLabel({text: "Hue", align: "right"});
   fieldHue = new SKTextfield({text: "?", width: 50});
