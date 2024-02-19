@@ -50,6 +50,18 @@ export function stackColLayout(
       el.width = boundsWidth;
     } else if (el.id === "message") {
       el.width = boundsWidth;
+    } else if (el.id === "hueE") {
+      el.height = (boundsHeight) / 3;
+      el.width = (boundsWidth);
+      el.y = 0;
+    } else if (el.id === "radiusE") {
+      el.height = (boundsHeight) / 3;
+      el.width = (boundsWidth);
+      el.y = (boundsHeight) / 3;
+    } else if (el.id === "pointE") {
+      el.height = (boundsHeight) / 3;
+      el.width = (boundsWidth);
+      el.y = (boundsHeight) / 3 * 2;
     }
 
     // next row

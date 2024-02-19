@@ -9,7 +9,9 @@ type Todo = {
   hue: number;
   shape: string;
   inner: number;
+  textOuter: string;
   outer: number;
+  textPoint: string;
   point: number;
 };
 
@@ -36,7 +38,7 @@ export class Model extends Subject {
   // model "business logic" (CRUD)
 
   // Create
-  create(task: string, hue: number, shape: string, inner?:number, outer?: number, point?: number) {
+  create(task: string, hue: number, shape: string, inner?:number, outer?: number, point?: number, textOuter?: string, textPoint?: string) {
     this.todos = [
       ...this.todos,
       { id: uniqueId++, 
@@ -47,6 +49,8 @@ export class Model extends Subject {
         inner: (inner)? inner: 15,
         outer: (outer)? outer: 20,
         point: (point)? point: 3,
+        textOuter: (textOuter)? textOuter: "",
+        textPoint: (textPoint)? textPoint: ""
       },
     ];
     this.notifyObservers();
@@ -64,7 +68,7 @@ export class Model extends Subject {
   }
 
   // Update
-  update(id: number, todo: { text?: string; selected?: boolean; hue?: number, inner?: number, outer?: number, point?: number }) {
+  update(id: number, todo: { text?: string; selected?: boolean; hue?: number, inner?: number, outer?: number, point?: number, textOuter?: string, textPoint?: string }) {
     this.todos = this.todos.map((t) =>
       // if todo matches id, then spread it and replace
       // with defined properties in todo object argument
@@ -133,6 +137,8 @@ export class Model extends Subject {
     this.todos.forEach((t) => {
       t.selected = false;
       t.text = String(t.hue);
+      t.textOuter = String(t.outer);
+      t.textPoint = String(t.point);
     });
     this.selected = [];
     
