@@ -88,6 +88,9 @@ export class Model extends Subject {
     if (shift) {
       this.selected.push(todo);
       todo.selected = !todo.selected;
+      if (this.numSelected == 1) {
+        this._selectId = id;
+      }
     } else {
       this._selectId = id;
       let tempv = todo.selected;
@@ -127,8 +130,12 @@ export class Model extends Subject {
   }
 
   deselectAll() {
-    this.todos.forEach((t) => t.selected = false);
+    this.todos.forEach((t) => {
+      t.selected = false;
+      t.text = String(t.hue);
+    });
     this.selected = [];
+    
     this.notifyObservers();
   }
 
