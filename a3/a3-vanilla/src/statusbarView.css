@@ -1,0 +1,7 @@
+div#statusbar {
+    position: absolute;
+    bottom: 0;
+    height: 50px;
+    background-color: lightgrey;
+    display: flex;
+}
