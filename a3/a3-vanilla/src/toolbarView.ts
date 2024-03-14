@@ -28,6 +28,7 @@ export class toolbarView implements View {
   private buttonAdd: HTMLButtonElement;
   private buttonDelete: HTMLButtonElement;
   private buttonClear: HTMLButtonElement;
+  private select: HTMLSelectElement;
 
   constructor(private model: Model) {
     // setup the view root container
@@ -35,14 +36,13 @@ export class toolbarView implements View {
     this.container.id = "toolbar";
 
     // then setup the widgets in the container
-
     // button with controller
     this.buttonAdd = document.createElement("button");
-    this.buttonAdd.innerText = "?";
+    this.buttonAdd.innerText = "Add";
     this.buttonDelete = document.createElement("button");
-    this.buttonDelete.innerText = "?";
+    this.buttonDelete.innerText = "Delete";
     this.buttonClear = document.createElement("button");
-    this.buttonClear.innerText = "?";
+    this.buttonClear.innerText = "Clear";
     // create controller
     this.buttonAdd.addEventListener("click", () => {
     //   const text = this.textfield.value;
@@ -53,7 +53,18 @@ export class toolbarView implements View {
     //   }
     //   this.textfield.value = "";
     });
+    // dropdown
+    let options = ["Square", "Star", "Bullseye", "Cat"];
+    this.select = document.createElement("select");
+    for (let i = 0; i < options.length; i++) {
+        let option = document.createElement("option");
+        option.value = options[i];
+        option.text = options[i];
+        this.select.appendChild(option);
+    }
+
     this.container.appendChild(this.buttonAdd);
+    this.container.appendChild(this.select);
     this.container.appendChild(this.buttonDelete);
     this.container.appendChild(this.buttonClear);
 

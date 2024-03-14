@@ -34,7 +34,7 @@ export class statusbarView implements View {
 
     // then setup the widgets in the container
     this.count = document.createElement("label");
-    this.count.textContent = "?";
+    this.count.textContent = "shape";
     this.container.appendChild(this.count);
 
     // register with the model
