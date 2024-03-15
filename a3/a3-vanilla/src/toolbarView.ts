@@ -45,13 +45,16 @@ export class toolbarView implements View {
     this.buttonClear.innerText = "Clear";
     // create controller
     this.buttonAdd.addEventListener("click", () => {
-    //   const text = this.textfield.value;
-    //   if (model.selectId !== null) {
-    //     model.update(model.selectId, { text });
-    //   } else {
-    //     model.create(text);
-    //   }
-    //   this.textfield.value = "";
+      model.create("square", 0);
+    });
+    this.buttonDelete.addEventListener("click", () => {
+      if (model.selectID != null) {
+        model.delete(model.selectID);
+      }
+      
+    });
+    this.buttonClear.addEventListener("click", () => {
+      model.deleteAll();
     });
     // dropdown
     let options = ["Square", "Star", "Bullseye", "Cat"];

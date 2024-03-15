@@ -1,39 +1,37 @@
+import html from "html-template-tag";
+
 // local imports
-import View from "./view";
 import { Model } from "./model";
+import View from "./view";
 
 import "./shapelistView.css";
 
 export class shapelistView implements View {
   //#region observer pattern
+
   update(): void {
-    // const id = this.model.selectId;
-    // if (id !== null) {
-    //   this.button.innerText = "Update";
-    //   this.textfield.value = this.model.todo(id)?.text || "";
-    // } else {
-    //   this.button.innerText = "Add";
-    //   this.textfield.value = "";
-    // }
+    // re-build all child divs each update
+    let html = "";
+    [...Array(this.model.num).keys()].forEach((i) => {
+      html += `<div>${i + 1}</div>`;
+    });
+    console.log("shapelistView update", html);
+    this.container.innerHTML = html;
   }
 
   //#endregion
 
-  // the view root container
+  // the actual HTML element hosting this view
   private container: HTMLDivElement;
   get root(): HTMLDivElement {
     return this.container;
   }
 
   constructor(private model: Model) {
-    // setup the view root container
-    this.container = document.createElement("div");
-    this.container.id = "shapelist";
-
-    // then setup the widgets in the container
-    // this.count = document.createElement("label");
-    // this.count.textContent = "?";
-    // this.container.appendChild(this.count);
+    // create view container using a <template> and HTML tagged template
+    var temp = document.createElement("template");
+    temp.innerHTML = html` <div id="shapelist">???</div> `;
+    this.container = temp.content.firstElementChild as HTMLDivElement;
 
     // register with the model
     this.model.addObserver(this);
