@@ -10,13 +10,13 @@ export class shapelistView implements View {
   //#region observer pattern
 
   update(): void {
-    // re-build all child divs each update
-    let html = "";
-    [...Array(this.model.num).keys()].forEach((i) => {
-      html += `<div>${i + 1}</div>`;
-    });
-    console.log("shapelistView update", html);
-    this.container.innerHTML = html;
+    // // re-build all child divs each update
+    // let html = "";
+    // [...Array(this.model.num).keys()].forEach((i) => {
+    //   html += `<div>${i + 1}</div>`;
+    // });
+    // console.log("shapelistView update", html);
+    // this.container.innerHTML = html;
   }
 
   //#endregion
@@ -28,11 +28,14 @@ export class shapelistView implements View {
   }
 
   constructor(private model: Model) {
-    // create view container using a <template> and HTML tagged template
-    var temp = document.createElement("template");
-    temp.innerHTML = html` <div id="shapelist">???</div> `;
-    this.container = temp.content.firstElementChild as HTMLDivElement;
+    this.container = document.createElement("div");
+    this.container.id = "shapelist";
 
+    this.model.shapes.forEach((s) => {
+      const shape = document.createElement("div");
+      shape.style.backgroundColor = `hsl(${s.hue1}deg 100% 50%)`;
+      this.container.appendChild(shape);
+    })
     // register with the model
     this.model.addObserver(this);
   }

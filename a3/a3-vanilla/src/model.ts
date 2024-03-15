@@ -5,7 +5,7 @@ import { Shape } from "./shape";
 let uniqueID = 1;
 
 export class Model extends Subject {
-    private shapes: Shape[] = [];
+    shapes: Shape[] = [];
 
     constructor() {
         super();
