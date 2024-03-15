@@ -7,14 +7,7 @@ import "./statusbarView.css";
 export class statusbarView implements View {
   //#region observer pattern
   update(): void {
-    // const id = this.model.selectId;
-    // if (id !== null) {
-    //   this.button.innerText = "Update";
-    //   this.textfield.value = this.model.todo(id)?.text || "";
-    // } else {
-    //   this.button.innerText = "Add";
-    //   this.textfield.value = "";
-    // }
+    this.count.textContent = `${this.model.shapes.length} shape${(this.model.shapes.length > 1)? "s": ""}`;
   }
 
   //#endregion
@@ -34,7 +27,8 @@ export class statusbarView implements View {
 
     // then setup the widgets in the container
     this.count = document.createElement("label");
-    this.count.textContent = "shape";
+    this.count.id = "count";
+    this.count.textContent = `${this.model.shapes.length} shape${(this.model.shapes.length > 1)? "s": ""}`;
     this.container.appendChild(this.count);
 
     // register with the model

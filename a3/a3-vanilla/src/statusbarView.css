@@ -4,4 +4,9 @@ div#statusbar {
     height: 50px;
     background-color: lightgrey;
     display: flex;
+    align-items: center;
+}
+
+div#status > count {
+    left: 0%;
 }

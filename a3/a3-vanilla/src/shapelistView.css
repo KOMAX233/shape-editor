@@ -20,3 +20,7 @@ div#shapelist > div {
     border: 1px solid grey;
     flex: 0 0 auto;
 }
+
+div#shapelist > div:hover {
+    outline: 4px solid lightblue;
+}
