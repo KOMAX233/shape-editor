@@ -4,16 +4,6 @@ div#app {
     display: flex;
     height: 100vh;
   }
-  /* div#left {
-    width: 66.6%;
-    display: flex;
-    flex-direction: column;
-  }
-  div#right {
-    width: 33.3%;
-    display: flex;
-    flex-direction: column;
-  } */
 
   /* styles for LeftView */
 
@@ -34,8 +24,9 @@ div#right {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  padding: 10px;
 }
-div#right::before {
+/* div#right::before {
   position: absolute;
   border: 1px solid grey;
   left: 10px;
@@ -43,4 +34,4 @@ div#right::before {
   top: 10px;
   bottom: 10px;
   content: "";
-}
+} */

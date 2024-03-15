@@ -7,14 +7,6 @@ import "./toolbarView.css";
 export class toolbarView implements View {
   //#region observer pattern
   update(): void {
-    // const id = this.model.selectId;
-    // if (id !== null) {
-    //   this.button.innerText = "Update";
-    //   this.textfield.value = this.model.todo(id)?.text || "";
-    // } else {
-    //   this.button.innerText = "Add";
-    //   this.textfield.value = "";
-    // }
   }
 
   //#endregion

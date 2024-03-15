@@ -8,7 +8,7 @@ div#shapelist {
     flex-flow: row wrap;
     display: flex;
     align-content: flex-start;
-    overflow: scroll;
+    /* overflow: scroll; */
 }
 
 /* the blue number squares */

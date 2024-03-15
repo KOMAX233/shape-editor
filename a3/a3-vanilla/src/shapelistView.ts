@@ -1,5 +1,3 @@
-import html from "html-template-tag";
-
 // local imports
 import { Model } from "./model";
 import View from "./view";

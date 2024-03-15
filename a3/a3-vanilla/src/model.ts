@@ -27,13 +27,15 @@ export class Model extends Subject {
 
     // Create
     create(drawing: string, hue2?: number, rings?: number, point?: number, radius?: number, look?: string) {
+        const temphue = Math.floor(Math.random() * 361);
         this.shapes = [
             ...this.shapes,
             {
                 id: uniqueID++,
                 drawing: drawing,
                 selected: false,
-                hue1: Math.floor(Math.random() * 361),
+                hue1: temphue,
+                texthue1: String(temphue),
                 // (hue2)? hue2: hue2,
                 // rings: rings,
                 // point: point,
@@ -55,8 +57,10 @@ export class Model extends Subject {
         this.shapes.forEach((s) => {
             if (s.selected) {
                 s.selected = false;
+                this._selectID = null;
             } else {
                 s.selected = s.id === id;
+                this._selectID = id;
             }
         });
         this.notifyObservers();
@@ -65,6 +69,7 @@ export class Model extends Subject {
     update(id: number, shape: {
         selected?: boolean;
         hue1: number;
+        texthue1: string;
         hue2?: number;
         rings?: number;
         point?: number;

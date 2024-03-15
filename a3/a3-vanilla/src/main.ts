@@ -3,6 +3,8 @@ import { Model } from "./model";
 import { toolbarView } from "./toolbarView";
 import { shapelistView } from "./shapelistView";
 import { statusbarView } from "./statusbarView";
+import { displayView } from "./displayview";
+import { editorView } from "./editorview";
 
 const model = new Model();
 
@@ -24,6 +26,15 @@ const statusbar = new statusbarView(model);
 left.appendChild(toolbar.root);
 left.appendChild(shapelist.root);
 left.appendChild(statusbar.root);
+
+// create displayview and editor view
+const display = new displayView(model);
+const editor = new editorView(model);
+
+// add views to right
+right.appendChild(display.root);
+right.appendChild(editor.root);
+
 
 // add to root
 root.appendChild(left);
