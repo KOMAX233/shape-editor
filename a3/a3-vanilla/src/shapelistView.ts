@@ -14,6 +14,14 @@ export class shapelistView implements View {
     this.model.shapes.forEach((s) => {
       const shape = document.createElement("div");
       shape.style.backgroundColor = `hsl(${s.hue1}deg 100% 50%)`;
+      if (s.selected) {
+        shape.classList.add("selected");
+      } else {
+        shape.classList.remove("selected");
+      }
+      shape.addEventListener("click", () => {
+        this.model.select(s.id);
+      });
       this.container.appendChild(shape);
     });
   }
@@ -33,8 +41,13 @@ export class shapelistView implements View {
     this.model.shapes.forEach((s) => {
       const shape = document.createElement("div");
       shape.style.backgroundColor = `hsl(${s.hue1}deg 100% 50%)`;
+      shape.addEventListener("click", () => {
+        this.model.select(s.id);
+      });
       this.container.appendChild(shape);
     })
+    // controller of shapes
+
     // register with the model
     this.model.addObserver(this);
   }

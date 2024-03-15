@@ -51,8 +51,19 @@ export class Model extends Subject {
         // return a copy
         return [...this.shapes];
     }
+    select(id: number) {
+        this.shapes.forEach((s) => {
+            if (s.selected) {
+                s.selected = false;
+            } else {
+                s.selected = s.id === id;
+            }
+        });
+        this.notifyObservers();
+    }
     // update
     update(id: number, shape: {
+        selected?: boolean;
         hue1: number;
         hue2?: number;
         rings?: number;

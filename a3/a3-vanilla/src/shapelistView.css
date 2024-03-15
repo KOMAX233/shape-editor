@@ -24,3 +24,8 @@ div#shapelist > div {
 div#shapelist > div:hover {
     outline: 4px solid lightblue;
 }
+
+div#shapelist > div.selected {
+    outline: 1px solid blue;
+    outline-offset: 2px;
+}
