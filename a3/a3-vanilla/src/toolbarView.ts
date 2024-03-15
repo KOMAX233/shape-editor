@@ -45,6 +45,7 @@ export class toolbarView implements View {
     this.buttonClear.innerText = "Clear";
     // create controller
     this.buttonAdd.addEventListener("click", () => {
+      // const selectType = this.select.value;
       model.create("square", 0);
     });
     this.buttonDelete.addEventListener("click", () => {

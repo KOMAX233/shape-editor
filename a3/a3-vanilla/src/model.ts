@@ -26,14 +26,14 @@ export class Model extends Subject {
     // model "business logic" (CRUD)
 
     // Create
-    create(drawing: string, hue1: number, hue2?: number, rings?: number, point?: number, radius?: number, look?: string) {
+    create(drawing: string, hue2?: number, rings?: number, point?: number, radius?: number, look?: string) {
         this.shapes = [
             ...this.shapes,
             {
                 id: uniqueID++,
                 drawing: drawing,
                 selected: false,
-                hue1: hue1,
+                hue1: Math.floor(Math.random() * 361),
                 // (hue2)? hue2: hue2,
                 // rings: rings,
                 // point: point,

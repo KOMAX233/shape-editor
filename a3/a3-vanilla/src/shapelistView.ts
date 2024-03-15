@@ -10,13 +10,12 @@ export class shapelistView implements View {
   //#region observer pattern
 
   update(): void {
-    // // re-build all child divs each update
-    // let html = "";
-    // [...Array(this.model.num).keys()].forEach((i) => {
-    //   html += `<div>${i + 1}</div>`;
-    // });
-    // console.log("shapelistView update", html);
-    // this.container.innerHTML = html;
+    this.container.replaceChildren();
+    this.model.shapes.forEach((s) => {
+      const shape = document.createElement("div");
+      shape.style.backgroundColor = `hsl(${s.hue1}deg 100% 50%)`;
+      this.container.appendChild(shape);
+    });
   }
 
   //#endregion
