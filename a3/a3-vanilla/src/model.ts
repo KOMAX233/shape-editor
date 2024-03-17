@@ -6,6 +6,9 @@ let uniqueID = 1;
 
 export class Model extends Subject {
     shapes: Shape[] = [];
+    selected: Shape[] = [];
+    public shiftPressed: boolean = false;
+
 
     get num() {
         return this.shapes.length;
@@ -46,18 +49,25 @@ export class Model extends Subject {
         return [...this.shapes];
     }
     select(id: number) {
-        this._selectID = null
-        this.shapes.forEach((s) => {
-            if (s.id === id) {
-                s.selected = !s.selected;
-                if (s.selected) {
-                    this._selectID = s.id;
-                }
-            } else {
-                s.selected = false;
+        const shape = this.shapes.find((s) => s.id === id);
+        if (!shape) return;
+        if (this.shiftPressed) {
+            this.selected.push(shape);
+            shape.selected = !shape.selected;
+            if (this.numSelected == 1) {
+                this._selectID = id;
             }
-        });
-
+        } else {
+            this._selectID = id;
+            let tempv = shape.selected;
+            this.shapes.forEach((s) => s.selected = false);
+            shape.selected = !tempv;
+        }
+        this.notifyObservers();
+    }
+    deselectAll() {
+        this.shapes.forEach((s) => s.selected = false);
+        this._selectID = null;
         this.notifyObservers();
     }
     // update
@@ -95,6 +105,12 @@ export class Model extends Subject {
     deleteAll() {
         this.shapes = [];
         this._selectID = null;
+        this.selected = [];
+        this.notifyObservers();
+    }
+    
+    toggleShift() {
+        this.shiftPressed = !this.shiftPressed;
         this.notifyObservers();
     }
 }

@@ -8,6 +8,7 @@ export class statusbarView implements View {
   //#region observer pattern
   update(): void {
     this.count.textContent = `${this.model.shapes.length} shape${(this.model.shapes.length > 1)? "s": ""}`;
+    this.key.textContent = (this.model.shiftPressed)? "SHIFT": "";
   }
 
   //#endregion
@@ -18,7 +19,8 @@ export class statusbarView implements View {
     return this.container;
   }
 
-  private count: HTMLLabelElement;
+  private count: HTMLDivElement;
+  private key: HTMLDivElement;
 
   constructor(private model: Model) {
     // setup the view root container
@@ -26,10 +28,15 @@ export class statusbarView implements View {
     this.container.id = "toolbar";
 
     // then setup the widgets in the container
-    this.count = document.createElement("label");
-    this.count.id = "count";
+    this.count = document.createElement("div");
+    this.count.classList.add("count");
     this.count.textContent = `${this.model.shapes.length} shape${(this.model.shapes.length > 1)? "s": ""}`;
     this.container.appendChild(this.count);
+
+    this.key = document.createElement("div");
+    this.key.classList.add("key");
+    this.key.textContent = (this.model.shiftPressed)? "SHIFT": "";
+    this.container.appendChild(this.key);
 
     // register with the model
     this.model.addObserver(this);

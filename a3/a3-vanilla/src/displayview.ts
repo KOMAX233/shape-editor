@@ -9,7 +9,8 @@ export class displayView implements View {
   update(): void {
     const id = this.model.selectID;
     console.log(id);
-    if (id != null) {
+    if (this.model.numSelected === 1) {
+      if (!id) return;
         const shape = this.model.shape(id);
         if (shape != null) {
           if (this.container.clientWidth !== 0 && this.container.clientHeight !== 0) {

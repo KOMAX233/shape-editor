@@ -8,7 +8,8 @@ export class editorView implements View {
   //#region observer pattern
   update(): void {
     const id = this.model.selectID;
-    if (id != null) {
+    if (this.model.numSelected === 1) {
+      if (!id) return;
         const shape = this.model.shape(id);
         if (shape != null) {
             this.textHue.value = this.model.shape(id)?.texthue1 || "";

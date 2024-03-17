@@ -46,4 +46,13 @@ right.root.appendChild(editor.root);
 // add to root
 root.appendChild(left);
 root.appendChild(right.root);
-console.log("todo");
+window.addEventListener("keydown", (e) => {
+    if (e.key === "Shift" && model.shiftPressed == false) {
+        model.toggleShift();
+    }
+});
+window.addEventListener("keyup", (e) => {
+    if (e.key === "Shift" && model.shiftPressed == true) {
+        model.toggleShift();
+    }
+});

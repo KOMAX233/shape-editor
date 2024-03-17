@@ -7,6 +7,6 @@ div#statusbar {
     align-items: center;
 }
 
-div#status > count {
-    left: 0%;
+div#status > .count,
+div#status > .key {
 }
