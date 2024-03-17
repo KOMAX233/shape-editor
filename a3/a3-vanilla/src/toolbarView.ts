@@ -7,6 +7,7 @@ import "./toolbarView.css";
 export class toolbarView implements View {
   //#region observer pattern
   update(): void {
+    this.buttonAdd.disabled = this.model.shapes.length >= 25;
   }
 
   //#endregion
