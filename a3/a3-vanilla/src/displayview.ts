@@ -1,46 +1,59 @@
 // local imports
-import { Model } from "./model";
 import View from "./view";
+import { Model } from "./model";
 
 import "./displayview.css";
 
 export class displayView implements View {
   //#region observer pattern
-
   update(): void {
-    // this.container.removeChild(this.displayshape);
-    if (this.model.numSelected == 1 && this.model.selectID) {
-        const shape = this.model.shape(this.model.selectID);
-        if (shape) {
-            this.displayshape.style.backgroundColor = `hsl(${shape.hue1}deg 100% 50%)`;
-            this.displayshape.style.width = this.displayshape.style.height;
-            this.container.style.display = "flex";
+    const id = this.model.selectID;
+    console.log(id);
+    if (id != null) {
+        const shape = this.model.shape(id);
+        console.log(shape);
+        if (shape != null) {
+          if (this.container.clientWidth !== 0 && this.container.clientHeight !== 0) {
+            const size = Math.min(this.container.clientWidth, this.container.clientHeight);
+            this.displayshape.style.width = `${size}px`;
+            this.displayshape.style.height = `${size}px`;
+          }
+          this.displayshape.style.backgroundColor = `hsl(${shape.hue1}, 100%, 50%)`;
+          this.container.style.display = "block";
         }
     } else {
-        this.container.style.display = "none";
+      this.container.style.display = "none";
     }
   }
 
   //#endregion
 
-  // the actual HTML element hosting this view
+  // the view root container
   private container: HTMLDivElement;
   get root(): HTMLDivElement {
     return this.container;
   }
   private displayshape: HTMLDivElement;
 
+//   private select: HTMLSelectElement;
+
   constructor(private model: Model) {
+    // setup the view root container
     this.container = document.createElement("div");
     this.container.id = "display";
+    this.container.style.display = "none";
+
+    // then setup the widgets in the container
     this.displayshape = document.createElement("div");
     this.displayshape.id = "displayshape";
-    if (!this.model.selectID) return;
-    let hue1 = this.model.shape(this.model.selectID)?.hue1;
-    this.displayshape.style.backgroundColor = `hsl(${hue1}deg 100% 50%)`;
-    this.displayshape.style.width = this.displayshape.style.height;
+    
     this.container.appendChild(this.displayshape);
+    // this.container.appendChild(this.select);
+
     // register with the model
     this.model.addObserver(this);
+    this.update();
+    window.addEventListener('load', () => this.update());
+    window.addEventListener('resize', () => this.update());
   }
 }
