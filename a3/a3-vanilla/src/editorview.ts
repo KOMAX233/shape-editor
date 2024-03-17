@@ -8,7 +8,6 @@ export class editorView implements View {
   //#region observer pattern
   update(): void {
     const id = this.model.selectID;
-    // console.log(id);
     if (id != null) {
         const shape = this.model.shape(id);
         if (shape != null) {

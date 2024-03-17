@@ -11,7 +11,6 @@ export class displayView implements View {
     console.log(id);
     if (id != null) {
         const shape = this.model.shape(id);
-        console.log(shape);
         if (shape != null) {
           if (this.container.clientWidth !== 0 && this.container.clientHeight !== 0) {
             const size = Math.min(this.container.clientWidth, this.container.clientHeight);

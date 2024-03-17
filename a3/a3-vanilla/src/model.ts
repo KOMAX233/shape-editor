@@ -54,15 +54,18 @@ export class Model extends Subject {
         return [...this.shapes];
     }
     select(id: number) {
+        this._selectID = null
         this.shapes.forEach((s) => {
-            if (s.selected) {
-                s.selected = false;
-                this._selectID = null;
+            if (s.id === id) {
+                s.selected = !s.selected;
+                if (s.selected) {
+                    this._selectID = s.id;
+                }
             } else {
-                s.selected = s.id === id;
-                this._selectID = id;
+                s.selected = false;
             }
         });
+
         this.notifyObservers();
     }
     // update
