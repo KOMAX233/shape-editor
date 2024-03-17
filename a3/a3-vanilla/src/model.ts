@@ -34,8 +34,8 @@ export class Model extends Subject {
                 texthue1: String(temphue),
                 // (hue2)? hue2: hue2,
                 // rings: rings,
-                // point: point,
-                // radius: radius,
+                point: point,
+                radius: radius,
                 // look: look
             },
         ];

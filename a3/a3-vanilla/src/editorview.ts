@@ -53,16 +53,6 @@ export class editorView implements View {
     this.textHue.type = "number";
     this.textHue.value = "?";
     // create controller
-    // this.textHue.addEventListener("change", this.huechange.bind(this));
-    // dropdown
-    // let options = ["Square", "Star", "Bullseye", "Cat"];
-    // this.select = document.createElement("select");
-    // for (let i = 0; i < options.length; i++) {
-    //     let option = document.createElement("option");
-    //     option.value = options[i];
-    //     option.text = options[i];
-    //     this.select.appendChild(option);
-    // }
     this.formHue.appendChild(this.labelHue);
     this.formHue.appendChild(this.textHue);
     this.container.appendChild(this.formHue);
@@ -72,7 +62,6 @@ export class editorView implements View {
     this.model.addObserver(this);
     this.textHue.addEventListener('change', (e) => {
       if (e.target instanceof HTMLInputElement) {
-        console.log(e.target.value);
         const newHue = parseInt(e.target.value, 10);
         if (!isNaN(newHue) && newHue >= 0 && newHue <= 360) {
           const id = this.model.selectID;

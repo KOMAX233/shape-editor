@@ -9,7 +9,7 @@ import { rightView } from "./rightview";
 
 const model = new Model();
 for (let i = 0; i < 8; i++) {
-    model.create("square");
+    model.create("Square");
 }
 
 // root container (already in index.html)

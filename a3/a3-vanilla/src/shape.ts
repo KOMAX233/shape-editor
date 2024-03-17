@@ -12,11 +12,13 @@ export class Shape {
 
   private static uniqueID = 1;
 
-  constructor(hue1: number, drawing = 'square', selected = false) {
+  constructor(hue1: number, drawing: string, selected = false, point: number, radius: number) {
     this.id = Shape.uniqueID++;
     this.drawing = drawing;
     this.selected = selected;
     this.hue1 = hue1;
     this.texthue1 = String(hue1);
+    this.point = point;
+    this.radius = radius;
   }
 }

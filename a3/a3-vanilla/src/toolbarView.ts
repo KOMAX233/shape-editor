@@ -39,10 +39,6 @@ export class toolbarView implements View {
     this.buttonClear = document.createElement("button");
     this.buttonClear.innerText = "Clear";
     // create controller
-    this.buttonAdd.addEventListener("click", () => {
-      // const selectType = this.select.value;
-      model.create("square", 0);
-    });
     this.buttonDelete.addEventListener("click", () => {
       if (model.selectID != null) {
         model.delete(model.selectID);
@@ -55,13 +51,21 @@ export class toolbarView implements View {
     // dropdown
     let options = ["Square", "Star", "Bullseye", "Cat"];
     this.select = document.createElement("select");
+    this.select.id = "select";
     for (let i = 0; i < options.length; i++) {
         let option = document.createElement("option");
         option.value = options[i];
         option.text = options[i];
         this.select.appendChild(option);
     }
-
+    this.select.addEventListener("change", () => {
+      console.log("selected", this.select.options[this.select.selectedIndex].text);
+    });
+    this.buttonAdd.addEventListener("click", () => {
+      const draw = this.select.options[this.select.selectedIndex].text;
+      this.model.create(draw, Math.floor(Math.random() * 361), 2 + Math.floor(Math.random() * 3), 3 + Math.floor(Math.random() * 8), 20 + Math.floor(Math.random() * 25), "");
+      // console.log(draw, Math.floor(Math.random() * 361), 2 + Math.floor(Math.random() * 3), 3 + Math.floor(Math.random() * 7), 20 + Math.floor(Math.random() * 25), "");
+    });
     this.container.appendChild(this.buttonAdd);
     this.container.appendChild(this.select);
     this.container.appendChild(this.buttonDelete);

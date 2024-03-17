@@ -8,7 +8,7 @@ export class displayView implements View {
   //#region observer pattern
   update(): void {
     const id = this.model.selectID;
-    console.log(id);
+    // console.log(id);
     if (this.model.numSelected === 1) {
       if (!id) return;
         const shape = this.model.shape(id);

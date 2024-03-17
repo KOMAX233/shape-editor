@@ -12,20 +12,19 @@ div#shapelist {
 }
 
 /* the blue number squares */
-div#shapelist > div {
+div#shapelist > canvas {
     width: 50px;
     height: 50px;
     margin: 10px;
-    padding: 10px;
     border: 1px solid grey;
     flex: 0 0 auto;
 }
 
-div#shapelist > div:hover {
+div#shapelist > canvas:hover {
     outline: 4px solid lightblue;
 }
 
-div#shapelist > div.selected {
+div#shapelist > canvas.selected {
     outline: 1px solid blue;
     outline-offset: 2px;
 }
