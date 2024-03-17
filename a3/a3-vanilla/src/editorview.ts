@@ -69,13 +69,17 @@ export class editorView implements View {
 
     // register with the model
     this.model.addObserver(this);
-  }
-
-  huechange() {
-    const hue = Number(this.textHue.value);
-    if (hue > 360 || hue < 0) {
-        // red outline, 
-        // "value must be in a range of 0 to 360"
-    }
+    this.textHue.addEventListener('change', (e) => {
+      if (e.target instanceof HTMLInputElement) {
+        console.log(e.target.value);
+        const newHue = parseInt(e.target.value, 10);
+        if (!isNaN(newHue) && newHue >= 0 && newHue <= 360) {
+          const id = this.model.selectID;
+          if (id !== null) {
+              this.model.update(id, { hue1: newHue, texthue1: String(newHue) });
+          }
+        }
+      }
+    });
   }
 }

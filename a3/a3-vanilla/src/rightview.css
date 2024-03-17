@@ -1,0 +1,12 @@
+div#right {
+    position: relative;
+    background-color: whitesmoke;
+    width: 33.3%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 15px;
+    border: 1px solid grey;
+    margin: 10px;
+  }

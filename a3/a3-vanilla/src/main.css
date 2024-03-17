@@ -8,30 +8,9 @@ div#app {
   /* styles for LeftView */
 
 div#left {
+  background-color: white;
   width: 66.6%;
   display: flex;
   position: relative;
   flex-direction: column;
 }
-
-  /* styles for RightView */
-
-div#right {
-  position: relative;
-  background-color: whitesmoke;
-  width: 33.3%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding: 10px;
-}
-/* div#right::before {
-  position: absolute;
-  border: 1px solid grey;
-  left: 10px;
-  right: 10px;
-  top: 10px;
-  bottom: 10px;
-  content: "";
-} */

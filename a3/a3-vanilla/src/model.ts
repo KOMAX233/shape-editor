@@ -7,14 +7,6 @@ let uniqueID = 1;
 export class Model extends Subject {
     shapes: Shape[] = [];
 
-    constructor() {
-        super();
-        for (let i = 0; i < 8; i++) {
-            const hue = Math.floor(Math.random() * 361);
-            this.shapes.push(new Shape(hue));
-        }
-    }
-
     get num() {
         return this.shapes.length;
     }
@@ -103,5 +95,6 @@ export class Model extends Subject {
     deleteAll() {
         this.shapes = [];
         this._selectID = null;
+        this.notifyObservers();
     }
 }
