@@ -8,6 +8,8 @@ export class toolbarView implements View {
   //#region observer pattern
   update(): void {
     this.buttonAdd.disabled = this.model.shapes.length >= 25;
+    this.buttonDelete.disabled = this.model.numSelected === 0;
+    this.buttonClear.disabled = this.model.shapes.length === 0;
   }
 
   //#endregion
