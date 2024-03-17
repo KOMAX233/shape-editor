@@ -8,6 +8,7 @@ export class Model extends Subject {
     shapes: Shape[] = [];
     selected: Shape[] = [];
     public shiftPressed: boolean = false;
+    public shapeClicked: boolean = false;
 
 
     get num() {
@@ -68,6 +69,7 @@ export class Model extends Subject {
     deselectAll() {
         this.shapes.forEach((s) => s.selected = false);
         this._selectID = null;
+        this.selected = [];
         this.notifyObservers();
     }
     // update
@@ -112,5 +114,10 @@ export class Model extends Subject {
     toggleShift() {
         this.shiftPressed = !this.shiftPressed;
         this.notifyObservers();
-    }
+    }  
+    
+    toggleClick(v: boolean) {
+        this.shapeClicked = v;
+        this.notifyObservers();
+      }
 }

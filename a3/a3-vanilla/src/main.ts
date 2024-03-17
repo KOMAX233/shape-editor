@@ -56,3 +56,6 @@ window.addEventListener("keyup", (e) => {
         model.toggleShift();
     }
 });
+
+// todo
+// 15, 16 hue
