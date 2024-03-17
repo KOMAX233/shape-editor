@@ -1,12 +1,14 @@
 // local imports
 import View from "./view";
 import { Model } from "./model";
+import { shapelistView } from "./shapelistView";
 
 import "./displayview.css";
 
 export class displayView implements View {
   //#region observer pattern
   update(): void {
+    this.container.replaceChildren();
     const id = this.model.selectID;
     // console.log(id);
     if (this.model.numSelected === 1) {
@@ -15,10 +17,22 @@ export class displayView implements View {
         if (shape != null) {
           if (this.container.clientWidth !== 0 && this.container.clientHeight !== 0) {
             const size = Math.min(this.container.clientWidth, this.container.clientHeight);
-            this.displayshape.style.width = `${size}px`;
-            this.displayshape.style.height = `${size}px`;
+            this.displayshape.width = size;
+            this.displayshape.height = size;
           }
-          this.displayshape.style.backgroundColor = `hsl(${shape.hue1}, 100%, 50%)`;
+          // this.displayshape.width = 100;
+          // this.displayshape.height = 100;
+          if (shape.drawing === "Square") {
+            shapelistView.drawSquare(this.displayshape, shape);
+          } else if (shape.drawing === "Star") {
+            shapelistView.drawStar(this.displayshape, shape);
+          } else if (shape.drawing === "Bullseye") {
+            shapelistView.drawBull(this.displayshape, shape);
+          } else if (shape.drawing === "Cat") {
+            shapelistView.drawCat(this.displayshape, shape);
+          }
+          // this.displayshape.style.backgroundColor = `hsl(${shape.hue1}, 100%, 50%)`;
+          this.container.appendChild(this.displayshape);
           this.container.style.display = "block";
         }
     } else {
@@ -33,7 +47,7 @@ export class displayView implements View {
   get root(): HTMLDivElement {
     return this.container;
   }
-  private displayshape: HTMLDivElement;
+  private displayshape: HTMLCanvasElement;
 
 //   private select: HTMLSelectElement;
 
@@ -44,9 +58,8 @@ export class displayView implements View {
     this.container.style.display = "none";
 
     // then setup the widgets in the container
-    this.displayshape = document.createElement("div");
+    this.displayshape = document.createElement("canvas");
     this.displayshape.id = "displayshape";
-    
     this.container.appendChild(this.displayshape);
     // this.container.appendChild(this.select);
 

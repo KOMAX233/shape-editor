@@ -32,10 +32,14 @@ export class Model extends Subject {
                 selected: false,
                 hue1: temphue,
                 texthue1: String(temphue),
-                // (hue2)? hue2: hue2,
-                // rings: rings,
+                hue2: hue2,
+                texthue2: String(hue2),
+                rings: rings,
+                textRing: String(rings),
                 point: point,
+                textPoint: String(point),
                 radius: radius,
+                textR: String(radius),
                 // look: look
             },
         ];

@@ -15,13 +15,13 @@ export class shapelistView implements View {
       canvas.width = 100;
       canvas.height = 100;
       if (s.drawing === "Square") {
-        this.drawSquare(canvas, s);
+        shapelistView.drawSquare(canvas, s);
       } else if (s.drawing === "Star") {
-        this.drawStar(canvas, s);
+        shapelistView.drawStar(canvas, s);
       } else if (s.drawing === "Bullseye") {
-        this.drawBull(canvas, s);
+        shapelistView.drawBull(canvas, s);
       } else if (s.drawing === "Cat") {
-        this.drawCat(canvas, s);
+        shapelistView.drawCat(canvas, s);
       }
       
       // s.drawing;
@@ -58,13 +58,13 @@ export class shapelistView implements View {
       canvas.width = 100;
       canvas.height = 100;
       if (s.drawing === "Square") {
-        this.drawSquare(canvas, s);
+        shapelistView.drawSquare(canvas, s);
       } else if (s.drawing === "Star") {
-        this.drawStar(canvas, s);
+        shapelistView.drawStar(canvas, s);
       } else if (s.drawing === "Bullseye") {
-        this.drawBull(canvas, s);
+        shapelistView.drawBull(canvas, s);
       } else if (s.drawing === "Cat") {
-        this.drawCat(canvas, s);
+        shapelistView.drawCat(canvas, s);
       }
 
       // const shape = document.createElement("div");
@@ -87,24 +87,23 @@ export class shapelistView implements View {
     this.model.addObserver(this);
   }
 
-  drawSquare(canvas: HTMLCanvasElement, s: Shape) {
+  static drawSquare(canvas: HTMLCanvasElement, s: Shape) {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
+    ctx.save();
     ctx.fillStyle = `hsl(${s.hue1}deg 100% 50%)`;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    // const shape = document.createElement("div");
-    // shape.style.backgroundColor = `hsl(${s.hue1}deg 100% 50%)`;
+    ctx.restore();
   }
-  drawStar(canvas: HTMLCanvasElement, s: Shape) {
+  static drawStar(canvas: HTMLCanvasElement, s: Shape) {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
     if (!s.point || !s.radius) return;
+    ctx.save();
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
-    let tempouter = s.radius;
-    let tempinner = 15;
-    tempouter = s.radius;
+    let tempouter = s.radius / 100 * canvas.width;
+    let tempinner = 15 / 100 * canvas.width;
     ctx.beginPath();
     
     for(var i = 1; i <= s.point * 2; i++) {
@@ -123,12 +122,35 @@ export class shapelistView implements View {
     ctx.fillStyle = `hsl(${s.hue1}, 100%, 50%)`;
     ctx.fill();
     ctx.stroke();
+    ctx.restore();
   }
-  drawBull(canvas: HTMLCanvasElement, s: Shape) {
+  static drawBull(canvas: HTMLCanvasElement, s: Shape) {
     const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    if (!s.rings || !s.hue2) return;
+    ctx.save();
 
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+
+    ctx.strokeStyle = "1px solid grey";
+    ctx.lineWidth = 5;
+
+    for (let i = 0; i < s.rings; i++) {
+      const size = canvas.width / 2 - 3;
+      ctx.fillStyle = `hsl(${(i % 2)? s.hue1: s.hue2}, 100%, 50%)`;
+      // outline
+      ctx.beginPath();
+      ctx.arc(0, 0, size - size / s.rings * i, 0, 2 * Math.PI);
+      ctx.stroke();
+      // fill
+      ctx.beginPath();
+      ctx.arc(0, 0, size - size / s.rings * i, 0, 2 * Math.PI);
+      ctx.fill();
+    }
+
+    ctx.restore();
   }
-  drawCat(canvas: HTMLCanvasElement, s: Shape) {
+  static drawCat(canvas: HTMLCanvasElement, s: Shape) {
     const ctx = canvas.getContext("2d");
 
   }
