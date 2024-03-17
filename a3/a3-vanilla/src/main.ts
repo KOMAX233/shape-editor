@@ -58,7 +58,8 @@ window.addEventListener("keyup", (e) => {
 });
 
 // todo
-// 15, 16 hue
-// 30 change radius, points value, center
+// 15, 16 hue (0-360)
+// 30 change radius(20-45), points(3-10) value, center
 // overlap display shape
-// 32 change hue2, rings
+// 32 change hue2(0-360), rings(2-5)
+

@@ -12,11 +12,11 @@ export class Shape {
   public point?: number;
   public textR?: string;
   public radius?: number;
-  public look?: string;
+  public look?: number;
 
   private static uniqueID = 1;
 
-  constructor(hue1: number, drawing: string, selected = false, point: number, radius: number, hue2: number, rings: number) {
+  constructor(hue1: number, drawing: string, selected = false, point: number, radius: number, hue2: number, rings: number, look: number) {
     this.id = Shape.uniqueID++;
     this.drawing = drawing;
     this.selected = selected;
@@ -30,5 +30,6 @@ export class Shape {
     this.texthue2 = String(hue2);
     this.rings = rings;
     this.textRing = String(rings);
+    this.look = look;
   }
 }

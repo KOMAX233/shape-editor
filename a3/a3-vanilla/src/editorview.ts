@@ -14,6 +14,7 @@ export class editorView implements View {
         if (shape != null) {
             this.textHue.value = this.model.shape(id)?.texthue1 || "";
             this.container.style.display = "block";
+            this.formHue.style.display = "block";
             if (shape.drawing === "Star") {
               this.textR.value = this.model.shape(id)?.textR || "";
               this.formR.style.display = "block";
@@ -24,9 +25,14 @@ export class editorView implements View {
               this.formHue2.style.display = "block";
               this.textRing.value = this.model.shape(id)?.textRing || "";
               this.formRing.style.display = "block";
+            } else if (shape.drawing === "Cat") {
+              this.formLook.style.display = "block";
             } else {
               this.formR.style.display = "none";
               this.formPoint.style.display = "none";
+              this.formHue2.style.display = "none";
+              this.formRing.style.display = "none";
+              this.formLook.style.display = "none";
             }
         }
     } else {
@@ -61,6 +67,10 @@ export class editorView implements View {
   private labelHue2: HTMLLabelElement;
   private textHue2: HTMLInputElement;
 
+  private formLook: HTMLFormElement;
+  private labelLook: HTMLLabelElement;
+  private select: HTMLSelectElement;
+
 //   private select: HTMLSelectElement;
 
   constructor(private model: Model) {
@@ -72,79 +82,104 @@ export class editorView implements View {
     // then setup the widgets in the container
     // hue
     this.formHue = document.createElement("form");
-    this.formHue.className = "form";
-    // this.formHue.style.display = "none";
+    this.formHue.classList.add("form");
+    this.formHue.style.display = "none";
 
     this.labelHue = document.createElement("label");
-    this.labelHue.className = "label";
+    this.labelHue.classList.add("label");
     this.labelHue.textContent = "Hue 1";
 
 
     this.textHue = document.createElement("input");
-    this.textHue.className = "input"
+    this.textHue.classList.add("input");
     this.textHue.type = "number";
     this.textHue.value = "?";
     
 
     // radius
     this.formR = document.createElement("form");
-    this.formR.className = "form";
+    this.formR.classList.add("form");
     this.formR.style.display = "none";
 
     this.labelR = document.createElement("label");
-    this.labelR.className = "label";
+    this.labelR.classList.add("label");
     this.labelR.textContent = "Radius";
 
 
     this.textR = document.createElement("input");
-    this.textR.className = "input"
+    this.textR.classList.add("input");
     this.textR.type = "number";
     this.textR.value = "?";
 
     // point
     this.formPoint = document.createElement("form");
-    this.formPoint.className = "form";
+    this.formPoint.classList.add("form");
     this.formPoint.style.display = "none";
 
     this.labelPoint = document.createElement("label");
-    this.labelPoint.className = "label";
+    this.labelPoint.classList.add("label");
     this.labelPoint.textContent = "Point";
 
 
     this.textPoint = document.createElement("input");
-    this.textPoint.className = "input"
+    this.textPoint.classList.add("input");
     this.textPoint.type = "number";
     this.textPoint.value = "?";
     
     // ring
     this.formRing = document.createElement("form");
-    this.formRing.className = "form";
+    this.formRing.classList.add("form");
     this.formRing.style.display = "none";
 
     this.labelRing = document.createElement("label");
-    this.labelRing.className = "label";
+    this.labelRing.classList.add("label");
     this.labelRing.textContent = "Rings";
 
 
     this.textRing = document.createElement("input");
-    this.textRing.className = "input"
+    this.textRing.classList.add("input");
     this.textRing.type = "number";
     this.textRing.value = "?";
 
     // hue2
     this.formHue2 = document.createElement("form");
-    this.formHue2.className = "form";
+    this.formHue2.classList.add("form");
     this.formHue2.style.display = "none";
 
     this.labelHue2 = document.createElement("label");
-    this.labelHue2.className = "label";
+    this.labelHue2.classList.add("label");
     this.labelHue2.textContent = "Hue 2";
 
 
     this.textHue2 = document.createElement("input");
-    this.textHue2.className = "input"
+    this.textHue2.classList.add("input");
     this.textHue2.type = "number";
     this.textHue2.value = "?";
+    
+    // look form and label
+    this.formLook = document.createElement("form");
+    this.formLook.classList.add("form");
+    this.formLook.style.display = "none";
+
+    this.labelLook = document.createElement("label");
+    this.labelLook.classList.add("label");
+    this.labelLook.textContent = "Look";
+
+    // look
+    // dropdown
+    let options = ["left", "centre", "right"];
+    this.select = document.createElement("select");
+    this.select.id = "select";
+    for (let i = 0; i < options.length; i++) {
+        let option = document.createElement("option");
+        option.value = `${i}`;
+        option.text = options[i];
+        this.select.appendChild(option);
+    }
+    this.select.addEventListener("change", () => {
+      console.log("selected", this.select.options[this.select.selectedIndex].text);
+    });
+    
     
     // create controller
     this.formHue.appendChild(this.labelHue);
@@ -162,10 +197,14 @@ export class editorView implements View {
     this.formHue2.appendChild(this.labelHue2);
     this.formHue2.appendChild(this.textHue2);
     this.container.appendChild(this.formHue2);
-    
+
     this.formRing.appendChild(this.labelRing);
     this.formRing.appendChild(this.textRing);
     this.container.appendChild(this.formRing);
+    
+    this.formLook.appendChild(this.labelLook);
+    this.formLook.appendChild(this.select);
+    this.container.appendChild(this.formLook);
     
     // this.container.appendChild(this.select);
 

@@ -63,8 +63,7 @@ export class toolbarView implements View {
     });
     this.buttonAdd.addEventListener("click", () => {
       const draw = this.select.options[this.select.selectedIndex].text;
-      this.model.create(draw, Math.floor(Math.random() * 361), 2 + Math.floor(Math.random() * 4), 3 + Math.floor(Math.random() * 8), 20 + Math.floor(Math.random() * 25), "");
-      // console.log(draw, Math.floor(Math.random() * 361), 2 + Math.floor(Math.random() * 3), 3 + Math.floor(Math.random() * 7), 20 + Math.floor(Math.random() * 25), "");
+      this.model.create(draw, Math.floor(Math.random() * 361), 2 + Math.floor(Math.random() * 4), 3 + Math.floor(Math.random() * 8), 20 + Math.floor(Math.random() * 26), Math.floor(Math.random() * 3));
     });
     this.container.appendChild(this.buttonAdd);
     this.container.appendChild(this.select);

@@ -22,7 +22,7 @@ export class Model extends Subject {
     // model "business logic" (CRUD)
 
     // Create
-    create(drawing: string, hue2?: number, rings?: number, point?: number, radius?: number, look?: string) {
+    create(drawing: string, hue2?: number, rings?: number, point?: number, radius?: number, look?: number) {
         const temphue = Math.floor(Math.random() * 361);
         this.shapes = [
             ...this.shapes,
@@ -40,7 +40,7 @@ export class Model extends Subject {
                 textPoint: String(point),
                 radius: radius,
                 textR: String(radius),
-                // look: look
+                look: look
             },
         ];
         this.notifyObservers();
@@ -85,7 +85,7 @@ export class Model extends Subject {
         rings?: number;
         point?: number;
         radius?: number;
-        look?: string
+        look?: number
     }) {
         this.shapes = this.shapes.map((s) =>
             s.id === id? {...s, ...shape} : s

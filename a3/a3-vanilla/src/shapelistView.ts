@@ -21,6 +21,7 @@ export class shapelistView implements View {
       } else if (s.drawing === "Bullseye") {
         shapelistView.drawBull(canvas, s);
       } else if (s.drawing === "Cat") {
+        console.log(s.look)
         shapelistView.drawCat(canvas, s);
       }
       
@@ -152,6 +153,89 @@ export class shapelistView implements View {
   }
   static drawCat(canvas: HTMLCanvasElement, s: Shape) {
     const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    if (!(s.look === 0 || s.look === 1 || s.look === 2)) return;
+    ctx.save();
 
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+
+    ctx.fillStyle = `hsl(${s.hue1}, 100%, 50%)`;
+    ctx.strokeStyle = "white";
+    ctx.lineWidth = 8;
+
+    // head white outline
+    ctx.beginPath();
+    ctx.arc(0, 0, 40, 0, 2 * Math.PI);
+    ctx.stroke();
+
+    // ears
+    ctx.beginPath();
+    // left
+    ctx.moveTo(-40, -48);
+    ctx.lineTo(-8, -36);
+    ctx.lineTo(-35, -14);
+    ctx.closePath();
+    // right
+    ctx.moveTo(40, -48);
+    ctx.lineTo(8, -36);
+    ctx.lineTo(35, -14);
+    ctx.closePath();
+    ctx.stroke();
+    ctx.fill();
+
+    // head
+    ctx.beginPath();
+    ctx.arc(0, 0, 40, 0, 2 * Math.PI);
+    ctx.fill();
+
+    // whites of eyes
+    ctx.strokeStyle = "black";
+    ctx.fillStyle = "white";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    // left
+    ctx.ellipse(-16, -9, 8, 14, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    // right
+    ctx.beginPath();
+    ctx.ellipse(16, -9, 8, 14, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    this.drawEyeBalls(ctx, s.look);
+
+    ctx.restore();
+
+  }
+
+  static drawEyeBalls(ctx: CanvasRenderingContext2D, look: number) {
+    // eyeballs
+    ctx.fillStyle = "black";
+    ctx.beginPath();
+    if (look === 1) {
+      // left
+      ctx.arc(-16, -9, 5, 0, Math.PI * 2);
+      ctx.fill();
+      // right
+      ctx.beginPath();
+      ctx.arc(16, -9, 5, 0, Math.PI * 2);
+      ctx.fill();
+    } else if (look === 0) {
+      // left
+      ctx.arc(-16-3, -9, 5, 0, Math.PI * 2);
+      ctx.fill();
+      // right
+      ctx.beginPath();
+      ctx.arc(16-3, -9, 5, 0, Math.PI * 2);
+      ctx.fill();
+    } else if (look === 2) {
+      // left
+      ctx.arc(-16+3, -9, 5, 0, Math.PI * 2);
+      ctx.fill();
+      // right
+      ctx.beginPath();
+      ctx.arc(16+3, -9, 5, 0, Math.PI * 2);
+      ctx.fill();
+    }
   }
 }
