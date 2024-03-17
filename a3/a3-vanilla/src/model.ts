@@ -90,7 +90,8 @@ export class Model extends Subject {
         this.shapes = this.shapes.map((s) =>
             s.id === id? {...s, ...shape} : s
         );
-        // this._selectID = null;
+        this._selectID = null;
+        this.selected = [];
         this.notifyObservers();
     }
 

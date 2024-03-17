@@ -59,7 +59,7 @@ window.addEventListener("keyup", (e) => {
 
 // todo
 // 15, 16 hue (0-360)
-// 30 change radius(20-45), points(3-10) value, center
+// 30 change radius(20-45), points(3-10) value
 // overlap display shape
 // 32 change hue2(0-360), rings(2-5)
-
+// 34 change look(0-2), select

@@ -65,6 +65,9 @@ export class displayView implements View {
 
     // register with the model
     this.model.addObserver(this);
+    document.body.appendChild(this.container);
+    this.displayshape.width = 150;
+    this.displayshape.height = 150;
     this.update();
     window.addEventListener('load', () => this.update());
     window.addEventListener('resize', () => this.update());
