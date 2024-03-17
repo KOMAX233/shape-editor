@@ -9,6 +9,7 @@ export class statusbarView implements View {
   update(): void {
     this.count.textContent = `${this.model.shapes.length} shape${(this.model.shapes.length > 1)? "s": ""}`;
     this.key.textContent = (this.model.shiftPressed)? "SHIFT": "";
+    this.selectednum.textContent = String(`selected ${this.model.numSelected}`);
   }
 
   //#endregion
@@ -19,8 +20,9 @@ export class statusbarView implements View {
     return this.container;
   }
 
-  private count: HTMLDivElement;
-  private key: HTMLDivElement;
+  private count: HTMLLabelElement;
+  private key: HTMLLabelElement;
+  private selectednum: HTMLLabelElement;
 
   constructor(private model: Model) {
     // setup the view root container
@@ -28,15 +30,20 @@ export class statusbarView implements View {
     this.container.id = "toolbar";
 
     // then setup the widgets in the container
-    this.count = document.createElement("div");
+    this.count = document.createElement("label");
     this.count.classList.add("count");
     this.count.textContent = `${this.model.shapes.length} shape${(this.model.shapes.length > 1)? "s": ""}`;
     this.container.appendChild(this.count);
 
-    this.key = document.createElement("div");
+    this.key = document.createElement("label");
     this.key.classList.add("key");
     this.key.textContent = (this.model.shiftPressed)? "SHIFT": "";
     this.container.appendChild(this.key);
+    
+    this.selectednum = document.createElement("label");
+    this.selectednum.classList.add("selectednum");
+    this.selectednum.textContent = String(`selected ${this.model.numSelected}`);
+    this.container.appendChild(this.selectednum);
 
     // register with the model
     this.model.addObserver(this);

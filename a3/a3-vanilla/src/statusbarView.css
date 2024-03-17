@@ -7,6 +7,17 @@ div#statusbar {
     align-items: center;
 }
 
-div#status > .count,
-div#status > .key {
+.count {
+    margin-left: 10px;
+    position: absolute;
+    left: 0px;
+}
+.key {
+    margin: auto;
+    width: 50%;
+}
+.selectednum {
+    margin-right: 10px;
+    position: absolute;
+    right: 0px;
 }
