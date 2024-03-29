@@ -27,6 +27,11 @@ export class editorView implements View {
               this.formRing.style.display = "block";
             } else if (shape.drawing === "Cat") {
               this.formLook.style.display = "block";
+              this.select.addEventListener("change", () => {
+                console.log("selected", this.select.options[this.select.selectedIndex].value);
+                const newv = Number(this.select.options[this.select.selectedIndex].value);
+                this.model.update(id, {look: newv});
+              });
             } else {
               this.formR.style.display = "none";
               this.formPoint.style.display = "none";
