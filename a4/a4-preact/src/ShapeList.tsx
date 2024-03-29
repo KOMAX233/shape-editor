@@ -32,7 +32,7 @@ type NumberBoxProps = {
 function NumberBox({ num, colour }: NumberBoxProps) {
   return (
     <div
-      class="w-[50px] h-[50px] flex-none hover:cursor-pointer text-black hover:text-red-500"
+      class="w-[50px] h-[50px] flex-none hover:cursor-pointer text-black hover:outline outline-[lightblue] outline-[4px]"
       style={{ background: colour }}>
       {num}
     </div>
