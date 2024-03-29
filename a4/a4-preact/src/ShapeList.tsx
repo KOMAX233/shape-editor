@@ -8,10 +8,16 @@ type ShapeListProps = {
 export default function ShapeList({
   colour = "grey",
 }: ShapeListProps) {
+    const randomHue = () => {
+        const hue = Math.floor(Math.random() * 361);
+        const saturation = 100;
+        const luminance  = 50;
+        return `hsl(${hue}, ${saturation}%, ${luminance}%)`;
+    };
   return (
-    <div class="p-[10px] flex-1 bg-[white] flex flex-wrap">
+    <div class="p-[10px] flex-1 bg-[white] flex flex-wrap gap-x-[10px] gap-y-[10px]">
       {[...Array(count.value)].map((_, i) => (
-        <NumberBox num={i + 1} colour={colour} />
+        <NumberBox num={i + 1} colour={randomHue()} />
       ))}
     </div>
   );
@@ -26,9 +32,8 @@ type NumberBoxProps = {
 function NumberBox({ num, colour }: NumberBoxProps) {
   return (
     <div
-      class="m-1 p-[10px] flex-none hover:cursor-pointer text-black hover:text-red-500"
-      style={{ background: colour }}
-    >
+      class="w-[50px] h-[50px] flex-none hover:cursor-pointer text-black hover:text-red-500"
+      style={{ background: colour }}>
       {num}
     </div>
   );

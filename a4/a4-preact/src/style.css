@@ -10,4 +10,9 @@
            border border-gray-600 rounded  
            hover:bg-gray-300 active:bg-gray-200;
   }
+  select {
+    @apply py-0.5
+           border border-gray-600 rounded  
+           hover:bg-gray-300 active:bg-gray-200;
+  }
 }
