@@ -15,19 +15,21 @@ export default function Shape({ shape }: ShapeProps) {
             if (gc) drawShape(gc, shape.props);
         }
     }, [shape]);
-    const selected = (shape.id === State.selectedShapeId.value)? 'ring-blue-600 ring-offset-[2px] ring-[1px]': '';
+    const selected = (shape.selected)? 'ring-blue-600 ring-offset-[2px] ring-[1px]': '';
     return (
         <canvas class={`border-gray-500 border 
         w-[50px] h-[50px] 
         flex-none cursor-pointer text-black 
-        hover:ring outline-[lightblue] outline-[4px]
+        hover:outline outline-[lightblue] outline-[4px]
         ${selected}`}
         width="100"
         height="100"
         ref={canvasRef}
         key={shape.id}
-        onClick={() => {
-            State.selectedShapeId.value = shape.id;
+        onClick={(e) => {
+            State.select(shape.id, e.shiftKey);
+            // e.stopPropagation();
+            console.log("clicked shape");
         }}
         // style={{
         //     outline: shape.selected? '1px solid blue': 'none',

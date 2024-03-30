@@ -47,7 +47,6 @@ export type Shape = {
 export const shapes = signal<Shape[]>([]);
 
 export const num = computed(() => shapes.value.length);
-export let editingID = signal<number | null>(null);
 export const numSelected = computed(() => shapes.value.filter((s) => s.selected).length);
 
 // selected shape ID (for editing)
@@ -93,7 +92,7 @@ export const addShape = (type: ShapeType = "Square") => {
     createRandomShape(type)
   ];
 
-  selectedShapeId.value = null;
+  // selectedShapeId.value = null;
 };
 
 export const createRandomShape = (type: ShapeType): Shape => {
@@ -152,14 +151,51 @@ export const createRandomShape = (type: ShapeType): Shape => {
 // Update
 export const updateShape = (
   id: number,
-  shape: { type?: string; hue?: number; done?: boolean }
+  newProps: Partial<ShapePropsType>
 ) => {
-  shapes.value = shapes.value.map((s) =>
-    // if shape matches id, then spread it and replace
-    // with defined properties in shape object argument
-    s.id === id ? { ...s, ...shape } : s
+  shapes.value = shapes.value.map((s) => {
+    if (s.id === id) {
+      switch (s.props.type){
+        case "Square":
+          return {
+            ...s,
+            props: {
+              ...s.props,
+              ...newProps as Partial<SquareProps>,
+            }
+          };
+        case "Star":
+          return {
+            ...s,
+            props: {
+              ...s.props,
+              ...newProps as Partial<StarProps>,
+            }
+          };
+          
+        case "Bullseye":
+          return {
+            ...s,
+            props: {
+              ...s.props,
+              ...newProps as Partial<BullseyeProps>,
+            }
+          };
+          
+        case "Cat":
+          return {
+            ...s,
+            props: {
+              ...s.props,
+              ...newProps as Partial<CatProps>,
+            }
+          };
+      }
+    }
+    return s;
+  }
   );
-  selectedShapeId.value = null;
+  // selectedShapeId.value = null;
 };
 
 // Delete
@@ -184,12 +220,22 @@ export const deSelectAllBut = (shape?: Shape) => {
   shapes.value.filter((s) => s.id !== shape?.id).forEach((s) => (s.selected = false));
 }
 
-export const select = (id: number = -1) => {
+export const select = (id: number = -1, multiSelectMode: boolean = false) => {
   const shape = shapes.value.find((s) => (s.id === id));
+  let firstSelect = -1;
   if (!shape) return;
-  // if (!multiSelectMode) deSelectAllBut(shape);
-  shape.selected = true;
-  editingID.value = numSelected.value === 1? shape.id : null;
+  if (!multiSelectMode) deSelectAllBut(shape);
+  shapes.value = shapes.value.map((s) => {
+    if (s.id === id) {
+      firstSelect = id;
+      return {
+        ...s,
+        selected: !s.selected,
+      }
+    }
+    return s;
+  })
+  selectedShapeId.value = numSelected.value === 1? id : firstSelect;
 }
 
 export const deSelect = (id: number = -1) => {
@@ -200,16 +246,17 @@ export const deSelect = (id: number = -1) => {
   if (numSelected.value === 1) {
     const editShape = shapes.value.find((s) => s.selected);
     if (editShape) {
-      editingID.value = editShape?.id;
+      selectedShapeId.value = editShape?.id;
     } else {
-      editingID.value = null;
+      selectedShapeId.value = null;
     }
   }
 }
 
 export const deSelectAll = () => {
   shapes.value.forEach((s) => s.selected = false);
-  editingID.value = null;
+  selectedShapeId.value = null;
+  console.log("cleared")
 }
 
 for (let i = 0; i < 8; i++) {

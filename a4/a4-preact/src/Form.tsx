@@ -1,29 +1,41 @@
+import { useState } from "react";
 import * as State from "./state";
-import { useRef } from "preact/hooks";
+import { useRef, useEffect } from "preact/hooks";
 
-type FormProps = {
-    editId: number | null;
-    initialValue?: string;
-};
+export default function Form() {
+    const [hue, setHue] = useState('');
+    const id = State.selectedShapeId.value;
 
-export default function Form({ editId, initialValue }: FormProps) {
-    // reference hook for input element
-    const inputRef = useRef<HTMLInputElement>(null);
-    
-    function handleChange(e: Event) {
-        const inputValue = inputRef.current?.value;
-        if (inputValue === undefined) return;
+    useEffect(() => {
+        if (id) {
+            const selectedShape = State.getShape(id);
+            if (selectedShape && selectedShape.props.type === "Square") {
+                setHue(selectedShape.props.hue?.toString() || '');
+            }
+        }
+    }, [id]);
 
-        if (editId) {
-            State.updateShape(editId, {hue: Number(inputValue)});
+    function handleHueChange(e) {
+        const newHue = e.target.value;
+        setHue(newHue);
+        const HueNum = Number(newHue);
+
+        if (newHue && !isNaN(HueNum) && HueNum >= 0 && HueNum <= 360 && id) {
+            State.updateShape(id, {hue: HueNum});
         }
     }
 
+    const validHue = hue && !isNaN(Number(hue)) && Number(hue) >= 0 && Number(hue) <= 360;
+
     return (
         <div class="h-1/3 p-[10px] flex flex-1 flex-col items-center border border-gray-500" >
-            <form class="">
+            <form class="flex items-center gap-x-[5px]">
                 <label>Hue</label>
-                <input ref={inputRef} type="number" onChange={handleChange}></input>
+                <input type="number" 
+                onChange={handleHueChange}
+                value={hue}
+                class={`w-[50px] outline ${!validHue? 'outline outline-red-500 outline-[2px]': 'outline-none'}`}
+                ></input>
             </form>
         </div>
     );
