@@ -9,7 +9,7 @@ export default function Form() {
     useEffect(() => {
         if (id) {
             const selectedShape = State.getShape(id);
-            if (selectedShape && selectedShape.props.type === "Square") {
+            if (selectedShape) {
                 setHue(selectedShape.props.hue?.toString() || '');
             }
         }

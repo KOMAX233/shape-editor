@@ -48,6 +48,7 @@ export const shapes = signal<Shape[]>([]);
 
 export const num = computed(() => shapes.value.length);
 export const numSelected = computed(() => shapes.value.filter((s) => s.selected).length);
+// export const selectShapes: Shape[] = [];
 
 // selected shape ID (for editing)
 export const selectedShapeId = signal<number | null>(null);
@@ -222,12 +223,10 @@ export const deSelectAllBut = (shape?: Shape) => {
 
 export const select = (id: number = -1, multiSelectMode: boolean = false) => {
   const shape = shapes.value.find((s) => (s.id === id));
-  let firstSelect = -1;
   if (!shape) return;
   if (!multiSelectMode) deSelectAllBut(shape);
   shapes.value = shapes.value.map((s) => {
     if (s.id === id) {
-      firstSelect = id;
       return {
         ...s,
         selected: !s.selected,
@@ -235,7 +234,13 @@ export const select = (id: number = -1, multiSelectMode: boolean = false) => {
     }
     return s;
   })
-  selectedShapeId.value = numSelected.value === 1? id : firstSelect;
+  if (numSelected.value === 1) {
+    selectedShapeId.value = id;
+  // } else if (numSelected.value > 1) {
+  //   selectedShapeId.value = selectShapes[0].id;
+  } else {
+    selectedShapeId.value = null;
+  }
 }
 
 export const deSelect = (id: number = -1) => {

@@ -40,7 +40,7 @@ export default function Shape({ shape }: ShapeProps) {
     );
 }
 
-const drawShape = (gc: CanvasRenderingContext2D, props: State.ShapePropsType) => {
+export const drawShape = (gc: CanvasRenderingContext2D, props: State.ShapePropsType) => {
     gc.clearRect(0, 0, gc.canvas.width, gc.canvas.height);
     gc.save();
     // move 0,0 to canvas center

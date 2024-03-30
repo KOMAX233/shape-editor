@@ -16,6 +16,7 @@ export default function Editor() {
       <div class="p-[10px] w-full h-[calc(100%-10px)] items-center justify-center flex">
         <label>Too Many Selected</label>
       </div>
+
     );
   } else {
     return (
