@@ -1,4 +1,5 @@
 // app state
+import Editor from "./Editor";
 import { num } from "./state";
 
 type RightViewProps = {
@@ -11,9 +12,9 @@ export default function RightView({
   return (
     <div class="w-1/3 p-3 bg-[whitesmoke] flex flex-wrap content-start">
       <div class="w-full h-full p-3 border-gray-500 bg-[whitesmoke] border flex flex-wrap content-start">
-        {/* {[...Array(count.value)].map((_, i) => (
-          <NumberBox num={i + 1} colour={colour} />
-        ))} */}
+        {
+          <Editor></Editor>
+        }
       </div>
     </div>
   );
