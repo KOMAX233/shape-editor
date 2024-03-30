@@ -5,7 +5,11 @@ import * as State from "./state";
 export default function Editor() {
   const hasSelected = State.selectedShapeId.value;
   if (!hasSelected) {
-    return null;
+    return (
+      <div class="p-[10px] w-full h-[calc(100%-10px)] items-center justify-center flex">
+          <label>Select One</label>
+      </div>
+    );
   } else {
     return (
       <div class="p-[10px] w-full h-[calc(100%-10px)] items-center">

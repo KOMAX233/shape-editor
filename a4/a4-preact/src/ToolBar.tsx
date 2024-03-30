@@ -1,6 +1,7 @@
 // app state
 import { useState } from "preact/hooks";
 import * as State from "./state";
+import type { ShapeType } from "./state";
 
 export default function ToolBar() {
     const addDisabled = State.num.value >= 25;
@@ -8,15 +9,24 @@ export default function ToolBar() {
     const clearDisabled = State.num.value <= 0;
 
     // selected shape type
-    const [selectedShape, setSelectedShape] = useState('Square');
+    const [selectedShape, setSelectedShape] = useState<ShapeType>("Square");
     // add selected shape type
     const handleAddClick = () => {
-        State.addShape(selectedShape, State.randomHue());
+        State.addShape(selectedShape);
         console.log(selectedShape);
+    };
+    const handleDeleteClick = () => {
+        if (State.selectedShapeId.value) {
+            State.deleteShape(State.selectedShapeId.value);
+        }
+    };
+    const handleClearClick = () => {
+        State.clearShape();
     };
     // update
     const handleShapeChange = (event) => {
         setSelectedShape(event.target.value);
+        // console.log(event.target.value)
     };
 
     return (
@@ -32,12 +42,12 @@ export default function ToolBar() {
                 <option value="Bullseye">Bullseye</option>
                 <option value="Cat">Cat</option>
             </select>
-            <button class="min-w-[80px]" onClick={() => {State.deleteShape(State.selectedShapeId.value)}}
+            <button class="min-w-[80px]" onClick={handleDeleteClick}
             disabled={deleteDisabled}
             >
                 Delete
             </button>
-            <button class="min-w-[80px]" onClick={() => State.clearShape()}
+            <button class="min-w-[80px]" onClick={handleClearClick}
             disabled={clearDisabled}
             >
                 Clear

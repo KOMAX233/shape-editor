@@ -28,7 +28,7 @@ export default function Display() {
     return (
     <div ref={displayRef} class="h-2/3 flex flex-1 flex-col items-center justify-center mb-[10px] ">
         <svg class="flex-none" style={{ width: `${size.width}px`, height: `${size.height}px` }}>
-            <rect width="100%" height="100%" fill={`hsl(${shape?.hue}, 100%, 50%)`} />
+            <rect width="100%" height="100%" fill={`hsl(${shape?.props.hue}, 100%, 50%)`} />
         </svg>
     </div>
     );

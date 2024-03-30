@@ -7,10 +7,10 @@ import * as State from "./state";
 
 // global styles (e.g. reset)
 import "./style.css";
+import { useState } from "react";
 
 export default function App() {
   const id = State.selectedShapeId.value;
-  const value = id && State.getShape(id)?.hue;
   return (
     // app "root"
     <div class="h-screen flex justify-center">
@@ -27,5 +27,3 @@ export default function App() {
 render(<App />, document.querySelector("div#app") as HTMLElement);
 
 // todo: 
-// 9 Pressing the "Add" button creates a square, bullseye, star, or cat with properties displays it at the end of the shape list.
-// only add square now
