@@ -11,7 +11,7 @@ export default function RightView({
 }: RightViewProps) {
   return (
     <div class="w-1/3 p-[10px] bg-[whitesmoke] flex flex-wrap content-start">
-      <div class="w-full h-full p-[10px] border-gray-500 bg-[whitesmoke] border flex flex-wrap content-start">
+      <div class="w-full h-full border-gray-500 bg-[whitesmoke] border flex">
         {
           <Editor></Editor>
         }

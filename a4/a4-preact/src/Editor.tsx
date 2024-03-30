@@ -4,7 +4,7 @@ import { num } from "./state";
 
 export default function Editor() {
   return (
-    <div class="w-full h-full bg-gray-200 items-center">
+    <div class="p-[10px] w-full h-[calc(100%-10px)] items-center">
         <Display></Display>
         <Form></Form>
     </div>

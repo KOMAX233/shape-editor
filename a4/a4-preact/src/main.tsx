@@ -29,4 +29,3 @@ render(<App />, document.querySelector("div#app") as HTMLElement);
 // todo: 
 // 9 Pressing the "Add" button creates a square, bullseye, star, or cat with properties displays it at the end of the shape list.
 // only add square now
-
