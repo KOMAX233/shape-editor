@@ -3,17 +3,19 @@ import { render } from "preact";
 import LeftView from "./Left";
 import RightView from "./Right";
 
+import * as State from "./state";
+
 // global styles (e.g. reset)
 import "./style.css";
 
-console.log("style-module");
-
 export default function App() {
+  const id = State.selectedShapeId.value;
+  const value = id && State.getShape(id)?.hue;
   return (
     // app "root"
     <div class="h-screen flex justify-center">
       {/* container */}
-      <div class="flex-auto flex flex-col sm:flex-row items-stretch">
+      <div class="flex-auto flex sm:flex-row items-stretch">
         {/* views */}
         <LeftView />
         <RightView colour="lightblue" />
@@ -25,4 +27,6 @@ export default function App() {
 render(<App />, document.querySelector("div#app") as HTMLElement);
 
 // todo: 
-// rightview bg whitesmoke
+// 9 Pressing the "Add" button creates a square, bullseye, star, or cat with properties displays it at the end of the shape list.
+// only add square now
+

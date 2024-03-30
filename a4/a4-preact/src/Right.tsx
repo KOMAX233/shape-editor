@@ -1,5 +1,5 @@
 // app state
-import { count } from "./state";
+import { num } from "./state";
 
 type RightViewProps = {
   colour?: string;

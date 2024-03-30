@@ -9,6 +9,12 @@
     @apply py-0.5 bg-gray-200
            border border-gray-600 rounded  
            hover:bg-gray-300 active:bg-gray-200;
+    &:disabled {
+      @apply bg-gray-100 text-gray-400 border-gray-400 cursor-not-allowed;
+      &:hover, &:active {
+        @apply bg-gray-100;
+      }
+    }
   }
   select {
     @apply py-0.5
