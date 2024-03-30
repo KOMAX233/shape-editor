@@ -5,9 +5,18 @@ type ShapeProps = {
 };
 
 export default function Shape({ shape }: ShapeProps) {
+    const isSelected = State.selectedShapeId.value === shape.id;
     return (
     <svg class="w-[50px] h-[50px] flex-none hover:cursor-pointer text-black hover:outline outline-[lightblue] outline-[4px]"
-    key={shape.id}>
+    key={shape.id}
+    onClick={() => {
+        State.selectedShapeId.value = shape.id;
+    }}
+    style={{
+        outline: isSelected? '1px solid blue': 'none',
+        outlineOffset: '2px'
+    }}
+    >
         {drawShape(shape)}
     </svg>
     );
