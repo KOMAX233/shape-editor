@@ -72,12 +72,14 @@ export const updateShape = (
 };
 
 // Delete
-export const deleteShape = (id: number) => {
+export const deleteShape = (id: number | null) => {
   // GOOD: assigns new array, signal will know
-  shapes.value = shapes.value.filter((s) => s.id !== id);
-  // edge case if editing a shape that is deleted
-  if (selectedShapeId.value === id) {
-    selectedShapeId.value = null;
+  if (id != null) {
+    shapes.value = shapes.value.filter((s) => s.id !== id);
+    // edge case if editing a shape that is deleted
+    if (selectedShapeId.value === id) {
+      selectedShapeId.value = null;
+    }
   }
 };
 

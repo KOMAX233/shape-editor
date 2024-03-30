@@ -32,7 +32,7 @@ export default function ToolBar() {
                 <option value="Bullseye">Bullseye</option>
                 <option value="Cat">Cat</option>
             </select>
-            <button class="min-w-[80px]" onClick={() => State.deleteShape()}
+            <button class="min-w-[80px]" onClick={() => {State.deleteShape(State.selectedShapeId.value)}}
             disabled={deleteDisabled}
             >
                 Delete
