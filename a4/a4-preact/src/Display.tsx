@@ -40,7 +40,7 @@ export default function Display() {
         }
         resize();
         window.addEventListener('resize', resize);
-    }, [id]);
+    }, [id, State.shapes]);
 
     return (
     <div ref={displayRef} class="h-2/3 flex flex-1 flex-col items-center justify-center mb-[10px] ">

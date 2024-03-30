@@ -27,3 +27,4 @@ export default function App() {
 render(<App />, document.querySelector("div#app") as HTMLElement);
 
 // todo: 
+// display not changed as form and shapelist change

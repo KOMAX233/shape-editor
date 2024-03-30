@@ -14,7 +14,7 @@ export default function Shape({ shape }: ShapeProps) {
             const gc = canvas.getContext('2d');
             if (gc) drawShape(gc, shape.props);
         }
-    }, [shape]);
+    }, [shape, shape.props]);
     const selected = (shape.selected)? 'ring-blue-600 ring-offset-[2px] ring-[1px]': '';
     return (
         <canvas class={`border-gray-500 border 

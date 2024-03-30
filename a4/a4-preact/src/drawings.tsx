@@ -101,27 +101,27 @@ export const cat = (gc: CanvasRenderingContext2D, props: CatProps) => {
     gc.beginPath();
     if (props.look === "left") {
         // left
-        gc.arc(-16, -9, 5, 0, Math.PI * 2);
-        gc.fill();
-        // right
-        gc.beginPath();
-        gc.arc(16, -9, 5, 0, Math.PI * 2);
-        gc.fill();
-    } else if (props.look === "right") {
-        // left
         gc.arc(-16-3, -9, 5, 0, Math.PI * 2);
         gc.fill();
         // right
         gc.beginPath();
         gc.arc(16-3, -9, 5, 0, Math.PI * 2);
         gc.fill();
-    } else if (props.look === "center") {
+    } else if (props.look === "right") {
         // left
         gc.arc(-16+3, -9, 5, 0, Math.PI * 2);
         gc.fill();
         // right
         gc.beginPath();
         gc.arc(16+3, -9, 5, 0, Math.PI * 2);
+        gc.fill();
+    } else if (props.look === "center") {
+        // left
+        gc.arc(-16, -9, 5, 0, Math.PI * 2);
+        gc.fill();
+        // right
+        gc.beginPath();
+        gc.arc(16, -9, 5, 0, Math.PI * 2);
         gc.fill();
     }
 
