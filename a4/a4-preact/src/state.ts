@@ -1,5 +1,7 @@
 import { computed, signal } from "@preact/signals";
+import { Command, UndoManager } from "./UndoManager";
 
+export const undoManager = new UndoManager();
 // shape properties
 export type SquareProps = {
   type: "Square";
@@ -88,6 +90,7 @@ let uniqueId = 0;
 // Create
 export const addShape = (type: ShapeType = "Square") => {
   // GOOD: assigns new array, signal will know
+  undom
   shapes.value = [
     ...shapes.value,
     createRandomShape(type)

@@ -1,7 +1,34 @@
 // app state
-import { num, numSelected } from "./state";
+import { num, numSelected, updateShape } from "./state";
+import { useState, useEffect } from "preact/hooks";
+import { UndoManager } from "./UndoManager";
+
+const undoManager = new UndoManager();
 
 export default function StatusBar() {
+  const [canUndo, setCanUndo] = useState(undoManager.canUndo);
+  const [canRedo, setCanRedo] = useState(undoManager.canRedo);
+
+  const handleUndo = () => {
+    undoManager.undo();
+    updateState();
+  };
+
+  const handleRedo = () => {
+    undoManager.redo();
+    updateState();
+  };
+  
+  const updateState = () => {
+    setCanUndo(undoManager.canUndo);
+    setCanRedo(undoManager.canRedo);
+  };
+
+  // Ensure the buttons are correctly enabled/disabled when the component mounts
+  useEffect(() => {
+    updateState();
+  }, []);
+
   return (
     <div class="h-[50px] bg-gray-200 flex items-center justify-between">
       <span class="min-w-[80px] py-0.5 px-2">
@@ -9,14 +36,14 @@ export default function StatusBar() {
       </span>
       <span class="space-x-[10px]">
         <button class="min-w-[80px]" 
-        // onClick={handleUndoClick}
-        // disabled={undoDisabled}
+        onClick={handleUndo}
+        disabled={!canUndo}
         >
             Undo
         </button>
         <button class="min-w-[80px]" 
-        // onClick={handleRedoClick}
-        // disabled={redoDisabled}
+        onClick={handleRedo}
+        disabled={!canRedo}
         >
             Redo
         </button>
