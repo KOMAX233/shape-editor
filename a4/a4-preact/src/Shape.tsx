@@ -28,7 +28,7 @@ export default function Shape({ shape }: ShapeProps) {
         key={shape.id}
         onClick={(e) => {
             State.select(shape.id, e.shiftKey);
-            // e.stopPropagation();
+            e.stopPropagation();
             console.log("clicked shape");
         }}
         // style={{

@@ -341,9 +341,11 @@ export const deSelect = (id: number = -1) => {
 }
 
 export const deSelectAll = () => {
+  console.log(numSelected.value)
   shapes.value.forEach((s) => s.selected = false);
   selectedShapeId.value = null;
-  console.log("cleared")
+  shapes.value = [...shapes.value];
+  console.log(numSelected.value)
 }
 
 for (let i = 0; i < 8; i++) {
