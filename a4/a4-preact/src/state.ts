@@ -62,6 +62,10 @@ export const getEditingShape = computed(() => {
   return null;
 })
 
+// canUndo and canRedo signals
+export const canUndo = signal(undoManager.canUndo);
+export const canRedo = signal(undoManager.canRedo);
+
 // // selected shape (just a shortcut, not used in demo)
 // export const selectedShape = computed(() => {
 //   return selectedShapeId.value
@@ -90,13 +94,27 @@ let uniqueId = 0;
 // Create
 export const addShape = (type: ShapeType = "Square") => {
   // GOOD: assigns new array, signal will know
-  undom
-  shapes.value = [
-    ...shapes.value,
-    createRandomShape(type)
-  ];
+  const newShape = createRandomShape(type);
 
-  // selectedShapeId.value = null;
+  // shapes.value = [
+  //   ...shapes.value,
+  //   newShape
+  // ];
+
+  undoManager.execute({
+    do: () => {
+      shapes.value = [
+        ...shapes.value,
+        newShape
+      ];
+    },
+    undo: () => {
+      shapes.value = shapes.value.filter((s) => (s.id !== newShape.id));
+    },
+  });
+  selectedShapeId.value = null;
+  canUndo.value = undoManager.canUndo;
+  canRedo.value = undoManager.canRedo;
 };
 
 export const createRandomShape = (type: ShapeType): Shape => {
@@ -204,20 +222,60 @@ export const updateShape = (
 
 // Delete
 export const deleteShape = (id: number | null) => {
-  // GOOD: assigns new array, signal will know
+  const index = shapes.value.findIndex((s) => s.id === id);
+  if (index === -1) return;
+  const deletedShape = shapes.value[index];
   if (id != null) {
-    shapes.value = shapes.value.filter((s) => s.id !== id);
-    // edge case if editing a shape that is deleted
-    if (selectedShapeId.value === id) {
-      selectedShapeId.value = null;
-    }
+    // shapes.value = shapes.value.filter((s) => s.id !== id);
+    // // edge case if editing a shape that is deleted
+    // if (selectedShapeId.value === id) {
+    //   selectedShapeId.value = null;
+    // }
+
+    undoManager.execute({
+      do: () => {
+        shapes.value = shapes.value.filter((s) => s.id !== id);
+        // edge case if editing a shape that is deleted
+        if (selectedShapeId.value === id) {
+          selectedShapeId.value = null;
+        }
+      },
+      undo: () => {
+        shapes.value = [
+          ...shapes.value.slice(0, index),
+          deletedShape,
+          ...shapes.value.slice(index)
+        ]
+        if (!selectedShapeId.value) {
+          selectedShapeId.value = id;
+        }
+      },
+    } as Command);
   }
+  // console.log(shapes.value)
+  canUndo.value = undoManager.canUndo;
+  canRedo.value = undoManager.canRedo;
 };
 
 // Clear
 export const clearShape = () => {
-  shapes.value = []
-  selectedShapeId.value = null;
+  const deletedShapes = shapes.value;
+  const deletedID = selectedShapeId.value;
+  undoManager.execute({
+    do: () => {
+      shapes.value = []
+      selectedShapeId.value = null;
+    },
+    undo: () => {
+      shapes.value = deletedShapes
+      if (deletedID) {
+        selectedShapeId.value = deletedID;
+      }
+    },
+  } as Command);
+  // console.log(shapes.value)
+  canUndo.value = undoManager.canUndo;
+  canRedo.value = undoManager.canRedo;
 };
 
 export const deSelectAllBut = (shape?: Shape) => {

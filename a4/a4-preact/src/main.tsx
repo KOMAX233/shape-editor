@@ -28,3 +28,4 @@ render(<App />, document.querySelector("div#app") as HTMLElement);
 
 // todo: 
 // display not changed as form and shapelist change
+// when undo stack len=0, button not disabled

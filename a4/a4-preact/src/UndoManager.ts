@@ -2,7 +2,7 @@ export interface Command {
   do(): void;
   undo(): void;
 }
-  
+
 export class UndoManager {
   private undoStack: Command[] = [];
   private redoStack: Command[] = [];
@@ -10,6 +10,7 @@ export class UndoManager {
   constructor() {}
 
   execute(command: Command) {
+    command.do();
     this.undoStack.push(command);
     this.redoStack = [];
     console.log(this.toString());
