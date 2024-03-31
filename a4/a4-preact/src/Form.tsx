@@ -13,7 +13,7 @@ export default function Form() {
     const [rings, setRings] = useState('');
     const [look, setLook] = useState('');
     const id = State.selectedShapeId.value;
-    const selectedShape = State.getShape(id);
+    const selectedShape = State.shapes.value.find((s) => s.id === id);
 
     useEffect(() => {
         if (id) {
@@ -32,8 +32,15 @@ export default function Form() {
                 }
             }
         }
-    }, [id]);
+    }, [State.shapes.value, 
+        selectedShape?.props
+    ]);
 
+    function handleKeyDown(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault(); // This will prevent the default action when Enter is pressed
+        }
+    }
     function handleHueChange(e) {
         const newHue = e.target.value;
         setHue(newHue);
@@ -105,8 +112,11 @@ export default function Form() {
             <form class="flex items-center gap-x-[5px]">
                 <label>Hue</label>
                 <input type="number" 
-                onChange={handleHueChange}
+                onChange={(e) => handleHueChange(e)}
+                onKeyDown={handleKeyDown}
                 value={hue}
+                min={0}
+                max={360}
                 class={`w-[50px] outline ${!validHue? 'outline outline-red-500 outline-[2px]': 'outline-none'}`}
                 ></input>
             </form>
@@ -116,7 +126,10 @@ export default function Form() {
                     <label>Radius</label>
                     <input type="number" 
                     onChange={handleR2Change}
+                    onKeyDown={handleKeyDown}
                     value={r2}
+                    min={20}
+                    max={45}
                     class={`w-[50px] outline ${!validR2? 'outline outline-red-500 outline-[2px]': 'outline-none'}`}
                     ></input>
                 </form>
@@ -126,7 +139,10 @@ export default function Form() {
                     <label>Points</label>
                     <input type="number" 
                     onChange={handleNChange}
+                    onKeyDown={handleKeyDown}
                     value={n}
+                    min={3}
+                    max={10}
                     class={`w-[50px] outline ${!validN? 'outline outline-red-500 outline-[2px]': 'outline-none'}`}
                     ></input>
                 </form>
@@ -136,8 +152,11 @@ export default function Form() {
                 <form class="flex items-center gap-x-[5px]">
                     <label>Hue2</label>
                     <input type="number" 
-                    onChange={handleHue2Change}
+                    onChange={(e) => handleHue2Change(e)}
+                    onKeyDown={handleKeyDown}
                     value={hue2}
+                    min={0}
+                    max={360}
                     class={`w-[50px] outline ${!validHue2? 'outline outline-red-500 outline-[2px]': 'outline-none'}`}
                     ></input>
                 </form>
@@ -147,7 +166,10 @@ export default function Form() {
                     <label>Rings</label>
                     <input type="number" 
                     onChange={handleRingsChange}
+                    onKeyDown={handleKeyDown}
                     value={rings}
+                    min={2}
+                    max={5}
                     class={`w-[50px] outline ${!validRings? 'outline outline-red-500 outline-[2px]': 'outline-none'}`}
                     ></input>
                 </form>

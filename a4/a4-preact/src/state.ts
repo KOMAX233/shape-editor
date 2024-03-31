@@ -237,7 +237,7 @@ export const updateShape = (
   // console.log(shapes.value)
   canUndo.value = undoManager.canUndo;
   canRedo.value = undoManager.canRedo;
-
+  shapes.value = [...shapes.value];
   // selectedShapeId.value = null;
 };
 

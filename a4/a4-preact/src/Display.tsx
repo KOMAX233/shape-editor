@@ -8,9 +8,9 @@ export default function Display() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [size, setSize] = useState({ width: 100, height: 100});
     const id = State.selectedShapeId.value;
+    const shape = id? State.shapes.value.find((s) => s.id === id) : null;
 
     useEffect(() => {
-        const shape = id? State.getShape(id) : null;
         // console.log("no shape")
         if (!shape) return;
         const canvas = canvasRef.current;
@@ -41,7 +41,7 @@ export default function Display() {
         resize();
         window.addEventListener('resize', resize);
         return () => window.removeEventListener('resize', resize);
-    }, [id, State.shapes]);
+    }, [State.shapes.value, shape?.props]);
 
     return (
     <div ref={displayRef} class="h-2/3 flex flex-1 flex-col items-center justify-center mb-[10px] ">
