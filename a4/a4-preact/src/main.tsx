@@ -7,10 +7,24 @@ import * as State from "./state";
 
 // global styles (e.g. reset)
 import "./style.css";
-import { useState } from "react";
+import { useEffect } from "preact/hooks";
 
 export default function App() {
-  const id = State.selectedShapeId.value;
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      // console.log(e.ctrlKey, e.shiftKey, e.key)
+      if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "z") {
+        State.undoManager.redo();
+        console.log("redo")
+      } else if (e.ctrlKey && e.key.toLowerCase() === "z") {
+        State.undoManager.undo();
+        console.log("undo")
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   return (
     // app "root"
     <div class="h-screen flex justify-center">
