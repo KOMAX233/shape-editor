@@ -1,6 +1,5 @@
-import { useState } from "react";
 import * as State from "./state";
-import { useRef, useEffect } from "preact/hooks";
+import { useRef, useEffect, useState } from "preact/hooks";
 
 // square - hue
 // star: radius r2, point n
