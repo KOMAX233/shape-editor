@@ -77,7 +77,7 @@ export default function Form() {
         const Hue2Num = Number(newHue2);
 
         if (newHue2 && !isNaN(Hue2Num) && Hue2Num >= 0 && Hue2Num <= 360 && id) {
-            State.updateShape(id, {r2: Hue2Num});
+            State.updateShape(id, {hue2: Hue2Num});
         }
     }
 
@@ -112,7 +112,7 @@ export default function Form() {
             <form class="flex items-center gap-x-[5px]">
                 <label>Hue</label>
                 <input type="number" 
-                onChange={(e) => handleHueChange(e)}
+                onInput={(e) => handleHueChange(e)}
                 onKeyDown={handleKeyDown}
                 value={hue}
                 min={0}
@@ -125,7 +125,7 @@ export default function Form() {
                 <form class="flex items-center gap-x-[5px]">
                     <label>Radius</label>
                     <input type="number" 
-                    onChange={handleR2Change}
+                    onInput={handleR2Change}
                     onKeyDown={handleKeyDown}
                     value={r2}
                     min={20}
@@ -138,7 +138,7 @@ export default function Form() {
                 <form class="flex items-center gap-x-[5px]">
                     <label>Points</label>
                     <input type="number" 
-                    onChange={handleNChange}
+                    onInput={handleNChange}
                     onKeyDown={handleKeyDown}
                     value={n}
                     min={3}
@@ -152,7 +152,7 @@ export default function Form() {
                 <form class="flex items-center gap-x-[5px]">
                     <label>Hue2</label>
                     <input type="number" 
-                    onChange={(e) => handleHue2Change(e)}
+                    onInput={(e) => handleHue2Change(e)}
                     onKeyDown={handleKeyDown}
                     value={hue2}
                     min={0}
@@ -165,7 +165,7 @@ export default function Form() {
                 <form class="flex items-center gap-x-[5px]">
                     <label>Rings</label>
                     <input type="number" 
-                    onChange={handleRingsChange}
+                    onInput={handleRingsChange}
                     onKeyDown={handleKeyDown}
                     value={rings}
                     min={2}
