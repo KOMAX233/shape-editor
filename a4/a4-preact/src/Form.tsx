@@ -14,10 +14,10 @@ export default function Form() {
     const [rings, setRings] = useState('');
     const [look, setLook] = useState('');
     const id = State.selectedShapeId.value;
+    const selectedShape = State.getShape(id);
 
     useEffect(() => {
         if (id) {
-            const selectedShape = State.getShape(id);
             if (selectedShape) {
                 setHue(selectedShape.props.hue?.toString() || '');
                 if (selectedShape.props.type === "Star") {
@@ -111,38 +111,50 @@ export default function Form() {
                 class={`w-[50px] outline ${!validHue? 'outline outline-red-500 outline-[2px]': 'outline-none'}`}
                 ></input>
             </form>
-            <form class="flex items-center gap-x-[5px]">
-                <label>Radius</label>
-                <input type="number" 
-                onChange={handleR2Change}
-                value={r2}
-                class={`w-[50px] outline ${!validR2? 'outline outline-red-500 outline-[2px]': 'outline-none'}`}
-                ></input>
-            </form>
-            <form class="flex items-center gap-x-[5px]">
-                <label>Points</label>
-                <input type="number" 
-                onChange={handleNChange}
-                value={n}
-                class={`w-[50px] outline ${!validR2? 'outline outline-red-500 outline-[2px]': 'outline-none'}`}
-                ></input>
-            </form>
-            <form class="flex items-center gap-x-[5px]">
-                <label>Hue2</label>
-                <input type="number" 
-                onChange={handleHue2Change}
-                value={hue2}
-                class={`w-[50px] outline ${!validHue? 'outline outline-red-500 outline-[2px]': 'outline-none'}`}
-                ></input>
-            </form>
-            <form class="flex items-center gap-x-[5px]">
-                <label>Rings</label>
-                <input type="number" 
-                onChange={handleRingsChange}
-                value={rings}
-                class={`w-[50px] outline ${!validHue? 'outline outline-red-500 outline-[2px]': 'outline-none'}`}
-                ></input>
-            </form>
+            {/* star */}
+            {selectedShape?.props.type === "Star" && (
+                <form class="flex items-center gap-x-[5px]">
+                    <label>Radius</label>
+                    <input type="number" 
+                    onChange={handleR2Change}
+                    value={r2}
+                    class={`w-[50px] outline ${!validR2? 'outline outline-red-500 outline-[2px]': 'outline-none'}`}
+                    ></input>
+                </form>
+            )}
+            {selectedShape?.props.type === "Star" && (
+                <form class="flex items-center gap-x-[5px]">
+                    <label>Points</label>
+                    <input type="number" 
+                    onChange={handleNChange}
+                    value={n}
+                    class={`w-[50px] outline ${!validN? 'outline outline-red-500 outline-[2px]': 'outline-none'}`}
+                    ></input>
+                </form>
+            )}
+            {/* bullseye */}
+            {selectedShape?.props.type === "Bullseye" && (
+                <form class="flex items-center gap-x-[5px]">
+                    <label>Hue2</label>
+                    <input type="number" 
+                    onChange={handleHue2Change}
+                    value={hue2}
+                    class={`w-[50px] outline ${!validHue2? 'outline outline-red-500 outline-[2px]': 'outline-none'}`}
+                    ></input>
+                </form>
+            )}
+            {selectedShape?.props.type === "Bullseye" && (
+                <form class="flex items-center gap-x-[5px]">
+                    <label>Rings</label>
+                    <input type="number" 
+                    onChange={handleRingsChange}
+                    value={rings}
+                    class={`w-[50px] outline ${!validRings? 'outline outline-red-500 outline-[2px]': 'outline-none'}`}
+                    ></input>
+                </form>
+            )}
+            {/* cat */}
+            {selectedShape?.props.type === "Cat" && (
             <form class="flex items-center gap-x-[5px]">
                 <label>Look</label>
                 <select class="min-w-[85px]" 
@@ -155,6 +167,7 @@ export default function Form() {
                     <option value="right">right</option>
                 </select>
             </form>
+            )}
         </div>
     );
 }

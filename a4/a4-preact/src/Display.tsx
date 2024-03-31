@@ -40,6 +40,7 @@ export default function Display() {
         }
         resize();
         window.addEventListener('resize', resize);
+        return () => window.removeEventListener('resize', resize);
     }, [id, State.shapes]);
 
     return (
