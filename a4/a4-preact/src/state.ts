@@ -175,48 +175,69 @@ export const updateShape = (
   id: number,
   newProps: Partial<ShapePropsType>
 ) => {
-  shapes.value = shapes.value.map((s) => {
-    if (s.id === id) {
-      switch (s.props.type){
-        case "Square":
+  const oldShape = shapes.value.find((s) => s.id === id);
+  if (!oldShape) return;
+  const oldProps = oldShape.props;
+  undoManager.execute({
+    do: () => {
+      shapes.value = shapes.value.map((s) => {
+        if (s.id === id) {
+          switch (s.props.type){
+            case "Square":
+              return {
+                ...s,
+                props: {
+                  ...s.props,
+                  ...newProps as Partial<SquareProps>,
+                }
+              };
+            case "Star":
+              return {
+                ...s,
+                props: {
+                  ...s.props,
+                  ...newProps as Partial<StarProps>,
+                }
+              };
+              
+            case "Bullseye":
+              return {
+                ...s,
+                props: {
+                  ...s.props,
+                  ...newProps as Partial<BullseyeProps>,
+                }
+              };
+              
+            case "Cat":
+              return {
+                ...s,
+                props: {
+                  ...s.props,
+                  ...newProps as Partial<CatProps>,
+                }
+              };
+          }
+        }
+        return s;
+      });
+    },
+    undo: () => {
+      shapes.value = shapes.value.map((s) => {
+        if (s.id === id) {
           return {
             ...s,
-            props: {
-              ...s.props,
-              ...newProps as Partial<SquareProps>,
-            }
-          };
-        case "Star":
-          return {
-            ...s,
-            props: {
-              ...s.props,
-              ...newProps as Partial<StarProps>,
-            }
-          };
-          
-        case "Bullseye":
-          return {
-            ...s,
-            props: {
-              ...s.props,
-              ...newProps as Partial<BullseyeProps>,
-            }
-          };
-          
-        case "Cat":
-          return {
-            ...s,
-            props: {
-              ...s.props,
-              ...newProps as Partial<CatProps>,
-            }
-          };
-      }
-    }
-    return s;
-  }
-  );
+            props: oldProps
+          }
+        }
+        return s;
+      });
+    },
+  } as Command);
+  // console.log(shapes.value)
+  canUndo.value = undoManager.canUndo;
+  canRedo.value = undoManager.canRedo;
+
   // selectedShapeId.value = null;
 };
 
