@@ -5,7 +5,7 @@ This project is a responsive web app that allows users to add, delete, select mu
 It applies MVC design pattern and supports undo and redo actions. 
 
 
-![screenshot](https://github.com/your-username/your-repo-name/blob/main/images/logo.png)
+![screenshot](https://github.com/KOMAX233/shape-editor/blob/master/image.png)
 
 <!-- ## Features
 
